@@ -1,0 +1,10 @@
+.counterButton {
+    padding: 10px;
+    border-color: aquamarine;
+    width : 100px;
+    border-radius : 10px ;
+    background-color: aquamarine;
+}
+.count {
+     font-size: 150px;
+}
