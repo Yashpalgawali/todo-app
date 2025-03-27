@@ -96,7 +96,7 @@ export default function TodoComponent() {
                                 <Field type="text" className="form-control" name="description"></Field>
                             </fieldset>
                             <fieldset className="form-group">
-                                <label htmlFor="">Target Date</label>
+                                <label htmlFor="targetDate">Target Date</label>
                                 <Field type="date" className="form-control" name="targetDate"></Field>
                             </fieldset>
                             <div>
