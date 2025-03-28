@@ -10,7 +10,7 @@ export default function CompanyComponent () {
     const [comp_id ,setCompId] = useState('')
     const navigate = useNavigate()
     
-    const [btnValue, setBtnValue] = useState('')
+    const [btnValue, setBtnValue] = useState('Add Company')
     
     useEffect(()=> getCompanyById() , [id])
    
@@ -24,9 +24,7 @@ export default function CompanyComponent () {
                 setCompId(response.data.comp_id)
             })
         }
-        else {
-            setBtnValue('Add Company')
-        }
+         
     }
 
       function onSubmit(values) {
@@ -45,7 +43,6 @@ export default function CompanyComponent () {
                     .catch((error) => alert('error is '+error)) 
             }
             else {
-                
                 updateCompany(company)
                     .then((response)=> {
                            sessionStorage.setItem('response',company.comp_name+' is UPDATED successfully')

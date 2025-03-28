@@ -11,6 +11,7 @@ export default function HeaderComponent() {
                         <ul className="navbar-nav">
                              <li className="nav-item fs-5"><Link className="nav-link" to="/viewcompanies">Company</Link></li>
                              <li className="nav-item fs-5"><Link className="nav-link" to="/viewdepartments">Department</Link></li>
+                             <li className="nav-item fs-5"><Link className="nav-link" to="/viewassettypes">Asset type</Link></li>
                         </ul>
                     </div>
                     <ul className="navbar-nav">
