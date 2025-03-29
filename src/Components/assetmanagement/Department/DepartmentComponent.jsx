@@ -22,11 +22,14 @@ export default function DepartmentComponent() {
 
     useEffect(() => retrieveDepartmentById() ,[id] )
     
-    function retrieveDepartmentById(){ 
+    function retrieveDepartmentById() { 
+        retrieveAllCompanies().then((response) => { setCompanies(response.data) 
+                                                    
+                                                })
         if(id != -1)
         {
             setBtnValue('Update Department')            
-            retrieveAllCompanies().then((response) => { setCompanies(response.data) })
+           
 
             getDepartmentById(id)
             .then((response) => {
@@ -47,7 +50,7 @@ export default function DepartmentComponent() {
 
     function validate(values) {
         let errors ={}
-console.log('validate '+values.toString())
+        console.log('validate '+values.toString())
         // if(values.department.dept_name=='' || values.department.dept_name==null) {
         //     errors.dept_name = 'Please Enter valid department name'
         // }
@@ -81,12 +84,12 @@ console.log('validate '+values.toString())
                                 <fieldset>
                                     <label>Department</label>
                                     <Field type="text" name="department.dept_name" className="form-control" ></Field>
-                                    <ErrorMessage component="div" name="department.dept_name" className="alert alert-warning" /> 
+                                    <ErrorMessage component="div" name="dept_name" className="alert alert-warning" /> 
                                 </fieldset>
 
                                 <fieldset>
                                     <label>Company</label>
-                                    <Field as="select" name="department.company" id="department.company" className="form-control"   >
+                                    <Field as="select" name="company" id="company" className="form-control"   >
                                         <option >Please Select Company</option>
                                         {
                                            companies.map(

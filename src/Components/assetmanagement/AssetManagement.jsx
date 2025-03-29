@@ -6,6 +6,8 @@ import ViewDepartmentComponent from "./Department/ViewDepartmentComponent";
 import DepartmentComponent from "./Department/DepartmentComponent";
 import AssetTypeComponent from "./AssetType/AssetTypeComponent";
 import ViewAssettypeComponent from "./AssetType/ViewAssettypeComopnent";
+import ViewAssetComponent from "./Assets/ViewAssetComponent";
+import AssetComponent from "./Assets/AssetComponent";
  
 export default function AssetManagement() {
     return(
@@ -19,6 +21,8 @@ export default function AssetManagement() {
                     <Route path="/department/:id" element= { <DepartmentComponent />}></Route>
                     <Route path="/assettype/:id" element= { <AssetTypeComponent />}></Route>
                     <Route path="/viewassettypes" element= { < ViewAssettypeComponent/>}></Route>
+                    <Route path="/viewassets" element= { < ViewAssetComponent/>}></Route>
+                    <Route path="/asset/:id" element= { < AssetComponent/>}></Route>
                 </Routes>
            </BrowserRouter>
         </div>
