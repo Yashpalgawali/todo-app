@@ -39,11 +39,11 @@ export default function LoginComponent() {
            {showSuccessMessage && <div className='successMessage'>Authenticated Successfully</div> }
            {showErrorMessage && <div className='errorMessage alert alert-danger'>Authenticated Failed.Please Check Credentials</div>}
             <div className="LoginForm">
-            <div className="username">
+                <div className="username">
                     <label htmlFor="username">Username</label>
                     <input type="text" name="username" value={username} onChange={handleUsernameChange} placeholder="Enter username "/>
                 </div>
-                <div className="username">
+                <div className="password">
                     <label htmlFor="password">Password</label>
                     <input type="password" name="password" value={password} onChange={handlePasswordChange} placeholder="Enter Password "/>
                 </div>

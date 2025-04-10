@@ -58,12 +58,10 @@ export default function AuthProvider({ children }) {
     //    logout()
     //     return false
     //   }
-
     // }
 
     async function login(username, password) {
-
-        
+                
         try{
         const response = await executeJwtAuthenticationService(username,password)
             

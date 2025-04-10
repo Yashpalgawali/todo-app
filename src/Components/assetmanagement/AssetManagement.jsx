@@ -15,7 +15,8 @@ import DesignationComponent from "./Designation/DesignationComponent";
 import ViewAssignedAssets from "./AssignedAssets/ViewAssignedAssets";
 import ViewAssignedAssetHistory from "./AssignedAssets/ViewAssignedAssetHistory";
 import EmployeeComponent from "./Employee/EmployeeComponent";
- 
+import LoginComponent from "./LoginComponent";
+  
 export default function AssetManagement() {
     return(
         <div className="AssetManagement">
@@ -35,7 +36,10 @@ export default function AssetManagement() {
                     <Route path="/designation/:id" element= { < DesignationComponent />}></Route>
                     <Route path="/viewassignedassets" element= { < ViewAssignedAssets />}></Route>
                     <Route path="/viewassetassignhistory/:id" element= { < ViewAssignedAssetHistory />}></Route>
-                   
+                    
+                    <Route path='/' element={ <LoginComponent/> }></Route>
+                    <Route path='/login' element={ <LoginComponent />}></Route>
+
                     <Route path="/employee/:id" element= { < EmployeeComponent />}></Route>
                     <Route path="/viewemployees" element= { < ViewEmployeeComponent />}></Route>
                    
