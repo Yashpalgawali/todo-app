@@ -1,8 +1,8 @@
 import { Field, Form, Formik } from "formik";
 import { useEffect, useState } from "react";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getCovCenterById, saveCovCenter, updateCovCenter } from "../api/CovCenterApiService";
-import { apiClient } from "../api/ApiClient";
+
 
 export default function AddCovCenter() {
 
@@ -15,10 +15,10 @@ export default function AddCovCenter() {
     const navigate = useNavigate()
 
     useEffect(
-        () => retrieveCovCenterById , [id]
+        () => retrieveCovCenterById 
     )
 
-    function retrieveCovCenterById() {
+    function retrieveCovCenterById( ) {
        
         if(id != -1) {
             
@@ -26,11 +26,13 @@ export default function AddCovCenter() {
             getCovCenterById(id).then((response) => {
                 setCovcenterId(response.data.covcenter_id)
                 setCovcenterName(response.data.covcenter_name)
+            }).catch((error)=>{
+                sessionStorage.setItem('reserr',error.response.data.errorMessage)
+                navigate('/covcenters')
             })
         }
-        
-         
     }
+
 function validate(values) {
     let errors= {}
     if(values.covcenter_name.length<3){
@@ -44,16 +46,25 @@ function onSubmit(values) {
    console.log(values)
     if(id == -1) {
         saveCovCenter(values).then((response)=>{
-            sessionStorage.setItem('response','COv center is saved successfully')
+            sessionStorage.setItem('response','Cov center is saved successfully')
+            navigate(`/covcenters`)
+        }).catch((error) => {
+            sessionStorage.setItem('reserr','Cov center is not saved')
             navigate(`/covcenters`)
         })
     }
-    // else {
-    //     updateCovCenter(values).then((response)=>{
-    //         sessionStorage.setItem('response','Cov center is updated successfully')
-    //         navigate(`/covcenters`)
-    //     })
-    // }
+    else {
+        let covcenter = {
+            covcenter_id : id , covcenter_name : values.covcenter_name
+        }
+        updateCovCenter(covcenter).then((response)=>{
+            sessionStorage.setItem('response','Cov center '+covcenter_name+' is updated to '+covcenter.covcenter_name+' successfully')
+            navigate(`/covcenters`)
+        }).catch((error) => {
+            sessionStorage.setItem('reserr','Cov center '+covcenter_name+' is not updated ')
+            navigate(`/covcenters`)
+        })
+    }
 
 }
     return(

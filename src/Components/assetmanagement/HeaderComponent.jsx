@@ -9,9 +9,15 @@ export default function HeaderComponent() {
                     <a className="navbar-brand ms-2 fs-2 fw-bold text-black" href="https://www.in28minutes.com">page</a>
                     <div className="collapse navbar-collapse">
                         <ul className="navbar-nav">
-                             <li className="nav-item fs-5"><Link className="nav-link" to="/covcenters">Cov Centers</Link></li>                             
-                             {/* <li className="nav-item fs-5"><Link className="nav-link" to="/covcenter">Department</Link></li> */}
-                            
+                             <li className="nav-item fs-5"><Link className="nav-link" to="/viewcompanies">Company</Link></li>
+                             
+                             <li className="nav-item fs-5"><Link className="nav-link" to="/viewdepartments">Department</Link></li>
+                             <li className="nav-item fs-5"><Link className="nav-link" to="/viewdesignations">Designation</Link></li>
+                             <li className="nav-item fs-5"><Link className="nav-link" to="/viewassettypes">Asset type</Link></li>
+                             <li className="nav-item fs-5"><Link className="nav-link" to="/viewassets">Assets</Link></li>
+                             <li className="nav-item fs-5"><Link className="nav-link" to="/activities">Activities</Link></li>
+                             <li className="nav-item fs-5"><Link className="nav-link" to="/viewemployees">Employees</Link></li>
+                             <li className="nav-item fs-5"><Link className="nav-link" to="/viewassignedassets">Assigned Assets</Link></li>
                              
                         </ul>
                     </div>

@@ -22,8 +22,7 @@ export default function DepartmentComponent() {
     
     function retrieveDepartmentById() { 
         retrieveAllCompanies().then((response)=>{
-            setCompanies(response.data)
-            
+            setCompanies(response.data)            
         })
         if(id != -1)
         {
