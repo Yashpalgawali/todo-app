@@ -1,7 +1,7 @@
 import { apiClient } from "./ApiClient";
 
 
-export const saveCovCenDepartment = (department) => apiClient.get(`covcendept/`,department)
+export const saveCovCenDepartment = (department) => apiClient.post(`covcendept/`,department)
 
 export const getAllCovCenDepartments = () => apiClient.get(`covcendept/`)
 

@@ -1,8 +1,8 @@
 import { ErrorMessage, Field, Form, Formik } from "formik"
 import { useEffect, useState } from "react"
 import { Navigate, useNavigate, useParams } from "react-router-dom"
-import { getCovCenDepartmentById } from "../api/CovCenterDepartmentApiService"
-import { getAllCovCenters } from "../api/CovCenterApiService"
+import { getCovCenDepartmentById, saveCovCenDepartment, updateCovCenDepartment } from "../api/CovCenterDepartmentApiService"
+import { getAllCovCenters, getCovCenterById } from "../api/CovCenterApiService"
 
 export default function AddCovCenDepartment() {
 
@@ -12,11 +12,13 @@ export default function AddCovCenDepartment() {
     const [covcendept_name,setCovCenDeptName] = useState('')
     const navigate = useNavigate()
     const [covcenter, setCovcenter] = useState('');
-
+    const [selected,setSelected] = useState( { 
+            covcenter_id : '' , covcenter_name :''
+    })
     useEffect(
         () => {
             retrieveCovCenDeptByid()
-        } ,[id]
+        } ,[]
     )
 
     function retrieveCovCenDeptByid() {
@@ -27,9 +29,10 @@ export default function AddCovCenDepartment() {
         if(id != -1) {
             setBtnValue('Update Department')
             getCovCenDepartmentById(id).then((response)=> {
+               
                setCovCenDeptName(response.data.covcendept_name)
                setCovcenter(response.data.covcenter)
-                
+               setSelected(response.data.covcenter) 
             })
             .catch((error) =>{
                 console.log(error)
@@ -40,17 +43,46 @@ export default function AddCovCenDepartment() {
     }
 
     function validate(values) {
-        let errors={}
+        let errors= { }
         
         return errors
+    }
+    
+    function onSubmit(values) {         
+        let dept = {
+                covcendept_name : values.covcendept_name , covcendept_id : id , 
+                covcenter : { 
+                    covcenter_id : values.covcenter
+                }
+        }
+        if(id == -1 )
+        {
+            saveCovCenDepartment(dept).then((response)=> {
+                sessionStorage.setItem('response','Department '+dept.covcendept_name+' is saved successfully')
+                navigate(`/covcendepts`)
+            }).catch((error)=> {
+                sessionStorage.setItem('reserr','Department '+dept.covcendept_name+' is not saved')
+                navigate(`/covcendepts`)
+            })
+        }
+        else {
+            updateCovCenDepartment(dept).then((response)=> {
+                sessionStorage.setItem('response','Department '+dept.covcendept_name+' is updated successfully')
+                navigate(`/covcendepts`)
+            }).catch((error)=> {
+                sessionStorage.setItem('reserr','Department '+dept.covcendept_name+' is not updated')
+                navigate(`/covcendepts`)
+            })
+        }
     }
 
     return(
         <div className="container">
             <Formik
                 enableReinitialize={true}
-                initialValues={ { covcendept_name,covcenter } }
+                initialValues={ { covcendept_name, covcenter } }
                 validate={validate}
+                onSubmit={onSubmit}
             >
                 {
                     (props) => (
@@ -58,11 +90,11 @@ export default function AddCovCenDepartment() {
                             <fieldset>
                                 <label>Select Center </label>
                                 <Field className="form-control" name="covcenter" as="select" >
-                                <option>Please Select Center</option>
+                                <option >Please Select Center</option>
                                 {
                                  covcenlist.map(
                                     (center) =>( 
-                                        <option key={center.covcenter_id} value={center.covcenter}>{center.covcenter_name}</option>
+                                        <option key={center.covcenter_id} value={center.covcenter_id}>{center.covcenter_name}</option>
                                     )
                                  )   
                                 }

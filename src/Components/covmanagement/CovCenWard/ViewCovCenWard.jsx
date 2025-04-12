@@ -1,6 +1,10 @@
 import { useEffect, useRef, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { getAllCovCenWards } from "../api/CovCenWardApiService"
+
+import AddBoxIcon from '@mui/icons-material/AddBox';
+import EditCalendarIcon from '@mui/icons-material/EditCalendar';
+
 import $ from 'jquery'; // jQuery is required for DataTables to work
 
 import 'datatables.net-dt/css/dataTables.dataTables.css'; // DataTables CSS styles
@@ -25,7 +29,25 @@ export default function ViewCovCenWard() {
         },[covcenwardlist]
     )
 
-    useEffect(() => retrieveAllCovCenWards , [])
+    useEffect(() => {
+         retrieveAllCovCenWards() 
+         if(sessionStorage.getItem('response')!=''){
+            setSuccessMessage(sessionStorage.getItem('response'))
+            setTimeout(() => {
+                setSuccessMessage('')
+                sessionStorage.removeItem('response')
+            }, 2000);
+         }
+         if(sessionStorage.getItem('reserr')!=''){
+            setErrorMessage(sessionStorage.getItem('reserr'))
+            setTimeout(() => {
+                setErrorMessage('')
+                sessionStorage.removeItem('reserr')
+            }, 2000);
+         }    
+        }
+     , []
+    )
 
     function retrieveAllCovCenWards() {
         getAllCovCenWards().then((response)=>{
@@ -43,7 +65,7 @@ export default function ViewCovCenWard() {
 
     return(
         <div className="container">
-            <h1 className="text-center">View CovCenWards <button type="submit" className="btn btn-success" onClick={addNewCovCenWard}>Add Ward</button></h1>
+            <h1 className="text-center">View CovCenWards <button type="submit" className="btn btn-success" onClick={addNewCovCenWard}><AddBoxIcon /> Add Ward</button></h1>
             { successMessage && <div className="alert alert-success">{ successMessage }</div> }
             { errorMessage && <div className="alert alert-warning">{ errorMessage }</div> }
             <table className="table table-hover table-striped" ref={tableRef}>
@@ -64,7 +86,7 @@ export default function ViewCovCenWard() {
                                     <td>{ward.covcenward_id}</td>
                                     <td>{ward.covcenward_wardtype.covcenward_type}</td>
                                     <td>{ward.covcenward_num}</td>
-                                    <td><button type="submit" className="btn btn-success" onClick={()=>updateCovCenWard(ward.covcenward_id)}>Update</button></td>
+                                    <td><button type="submit" className="btn btn-success" onClick={()=>updateCovCenWard(ward.covcenward_id)}><EditCalendarIcon /> Update</button></td>
                                 </tr>
                             )
                         )

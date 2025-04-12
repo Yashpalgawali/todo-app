@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { getAllCovCenters } from "../api/CovCenterApiService"
+import EditCalendarIcon from '@mui/icons-material/EditCalendar';
+import AddBoxIcon from '@mui/icons-material/AddBox';
 import $ from 'jquery'; // jQuery is required for DataTables to work
 
 import 'datatables.net-dt/css/dataTables.dataTables.css'; // DataTables CSS styles
@@ -63,7 +65,7 @@ export default function ViewCovCenters() {
     }
     return(
         <div className="container">
-            <h1 className="text-center">View Cov Centers <button type="submit" className="btn btn-primary" onClick={addNewCovCenter}>Add CovCenter</button></h1>
+            <h1 className="text-center">View Cov Centers <button type="submit" className="btn btn-primary" onClick={addNewCovCenter}> <AddBoxIcon />  Add CovCenter</button></h1>
             
             { successMessage && <div className="alert alert-success">{ successMessage }</div> }
             { errorMessage && <div className="alert alert-warning">{ errorMessage }</div> }
@@ -83,7 +85,7 @@ export default function ViewCovCenters() {
                                     <td>{covcen.covcenter_id}</td>
                                     <td>{covcen.covcenter_name}</td>
                                     <td>
-                                    <button type="submit" className="btn btn-success" onClick={()=>updateCovCenter(covcen.covcenter_id)}>Update</button> &nbsp;
+                                    <button type="submit" className="btn btn-success" onClick={()=>updateCovCenter(covcen.covcenter_id)}><EditCalendarIcon /> Update</button> &nbsp;
                                     <button type="submit" className="btn btn-primary" onClick={()=>getAllCovCenterdepartments(covcen.covcenter_id)}>Get All Departments</button> 
                                     </td>
                                 </tr>

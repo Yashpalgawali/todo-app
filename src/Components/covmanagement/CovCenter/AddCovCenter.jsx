@@ -18,7 +18,7 @@ export default function AddCovCenter() {
         () => retrieveCovCenterById 
     )
 
-    function retrieveCovCenterById( ) {
+    function retrieveCovCenterById() {
        
         if(id != -1) {
             

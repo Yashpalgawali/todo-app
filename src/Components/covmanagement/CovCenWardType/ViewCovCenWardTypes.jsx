@@ -2,7 +2,10 @@ import { useEffect, useRef } from "react"
 import { useState } from "react"
 import { getAllCovCenWardTypes } from "../api/CovCenWardTypeApiService"
 import { useNavigate } from "react-router-dom";
- 
+
+import AddBoxIcon from '@mui/icons-material/AddBox';
+import EditCalendarIcon from '@mui/icons-material/EditCalendar';
+
 import 'datatables.net-dt/css/dataTables.dataTables.css'; // DataTables CSS styles
 import 'datatables.net'; // DataTables core functionality
 import $ from 'jquery'; // jQuery is required for DataTables to work
@@ -21,6 +24,20 @@ export  default function ViewCovCenWardTypes() {
 
     useEffect(
         () => {
+            if(sessionStorage.getItem('response')!=''){
+                setSuccessMessage(sessionStorage.getItem('response'))
+                setTimeout(() => {
+                    setSuccessMessage('')
+                    sessionStorage.removeItem('response')
+                }, 2000);
+             }
+             if(sessionStorage.getItem('reserr')!=''){
+                setErrorMessage(sessionStorage.getItem('reserr'))
+                setTimeout(() => {
+                    setErrorMessage('')
+                    sessionStorage.removeItem('reserr')
+                }, 2000);
+             }    
             if(tableRef.current && covcenwardtypelist.length>0) {
                 $(tableRef.current).DataTable()
             }
@@ -45,7 +62,7 @@ export  default function ViewCovCenWardTypes() {
 
     return(
         <div className="container">
-            <h1 className="text-center">View Ward Types <button type="submit" className="btn btn-primary" onClick={addNewWardtype}>Add Ward Type</button> </h1>
+            <h1 className="text-center">View Ward Types <button type="submit" className="btn btn-primary" onClick={addNewWardtype}><AddBoxIcon /> Add Ward Type</button> </h1>
             { successMessage && <div className="alert alert-success">{ successMessage }</div> }
             { errorMessage && <div className="alert alert-warning">{ errorMessage }</div> }
            
@@ -64,7 +81,7 @@ export  default function ViewCovCenWardTypes() {
                                     <tr key={type.covcenwardtype_id}>
                                         <td>{type.covcenwardtype_id}</td>
                                         <td>{type.covcenward_type}</td>
-                                        <td><button type="submit" className="btn btn-success m-3" onClick={()=>updateWardTypebyId(type.covcenwardtype_id)} >Update</button></td>
+                                        <td><button type="submit" className="btn btn-success m-3" onClick={()=>updateWardTypebyId(type.covcenwardtype_id)} ><EditCalendarIcon /> Update</button></td>
                                     </tr>
                                 )
                             )
