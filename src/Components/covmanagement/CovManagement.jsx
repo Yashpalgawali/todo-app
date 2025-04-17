@@ -8,6 +8,8 @@ import HeaderComponent from "./HeaderComponent";
 import ViewCovCenWardTypes from "./CovCenWardType/ViewCovCenWardTypes";
 import CovCenWardComponent from "./CovCenWard/CovCenWardComponent";
 import ViewCovCenWard from "./CovCenWard/ViewCovCenWard";
+import ViewCovCenDoctorComponent from "./CovCenDoctor/ViewCovCenDoctorComponent";
+import CovCenDoctorComponent from "./CovCenDoctor/CovCenDoctorComponent";
 
 export default function CovManagement() {
     return(
@@ -23,6 +25,8 @@ export default function CovManagement() {
                     <Route path="/covcenwardtypes" element= { <ViewCovCenWardTypes />}></Route>
                     <Route path="/covcenward/:id" element={ <CovCenWardComponent /> }></Route>
                     <Route path="/covcenwards" element= { <ViewCovCenWard />}></Route>
+                    <Route path="/covcendoc/:id" element ={ <CovCenDoctorComponent />} > </Route>
+                    <Route path="/covcendocs" element ={  < ViewCovCenDoctorComponent />} > </Route>
                 </Routes>
             </BrowserRouter>
         </div>

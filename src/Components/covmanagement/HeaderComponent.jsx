@@ -14,6 +14,7 @@ export default function HeaderComponent() {
                             <li className="nav-item fs-5"><Link className="nav-link" to="/covcendepts">Departments</Link></li>
                             <li className="nav-item fs-5"><Link className="nav-link" to="/covcenwardtypes">Ward Types</Link></li>
                             <li className="nav-item fs-5"><Link className="nav-link" to="/covcenwards">Wards</Link></li>
+                            <li className="nav-item fs-5"><Link className="nav-link" to="/covcendocs">Docs</Link></li>
                         </ul>
                     </div>
                     <ul className="navbar-nav">

@@ -79,7 +79,7 @@ export default function CovCenWardType() {
                             <Form>
                                 <fieldset>
                                     <label htmlFor="covcenward_type">Ward Type</label>
-                                    <Field type="text" name="covcenward_type" className="form-control" ></Field>
+                                    <Field type="text" name="covcenward_type" className="form-control"  placeholder="Enter Ward Type" ></Field>
                                      <ErrorMessage  name='covcenward_type' component="div" className="alert alert-warning" />
                                 </fieldset>
                                 <div><button type="submit" className="btn btn-success m-3">{btnValue}</button></div>
