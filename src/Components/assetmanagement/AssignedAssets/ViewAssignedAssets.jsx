@@ -4,13 +4,16 @@ import { viewAllAssignedAssets } from "../api/EmployeeApiService"
 import $ from  'jquery';
 import 'datatables.net-dt/css/dataTables.dataTables.css'; // DataTables CSS styles
 import 'datatables.net'; // DataTables core functionality
+import { useAuth } from "../Security/AuthContext";
 
 
-export default function ViewAssignedAssets (){
+export default function ViewAssignedAssets () {
+    const authContext = useAuth()
+
     const [assetlist,setAssetList] = useState([])
     const tableRef = useRef(null); // Ref for the table
     useEffect(
-        () => retrieveAllAssignedAssets() , [assetlist]
+        () => retrieveAllAssignedAssets() , []
     )
 
     useEffect(() => {
@@ -21,7 +24,8 @@ export default function ViewAssignedAssets (){
       }, [assetlist]); // Re-initialize DataTables when activities data changes
    
 
-    function  retrieveAllAssignedAssets(){
+    function  retrieveAllAssignedAssets() {
+        console.log('Logged in user is ',authContext.username)
         viewAllAssignedAssets().then((response) => {
             setAssetList(response.data)
         })        

@@ -11,8 +11,8 @@ function App() {
     <div className="App">
 
   {/* <LeadGenerationComponent /> */}
-      {/* <AssetManagement /> */}
-      <CovManagement />
+      <AssetManagement />
+      {/* <CovManagement /> */}
       {/* <TodoApp /> */}
       
       {/* <Counter /> */}
