@@ -17,12 +17,16 @@ import ViewAssignedAssetHistory from "./AssignedAssets/ViewAssignedAssetHistory"
 import EmployeeComponent from "./Employee/EmployeeComponent";
 import LoginComponent from "./LoginComponent";
 import AuthProvider, { useAuth } from "./Security/AuthContext";
+import RetriveAssets from "./Employee/RetriveAssets";
   
 function AuthenticatedRoute({children}){
     const authContext = useAuth()
     if(authContext.isAuthenticated)
-        return children
-    return <Navigate to="/" />
+       { return children }
+    else {
+        sessionStorage.setItem('reserr','You are not logged in. Please log in to continue!!')
+        return <Navigate to="/" />
+    }
 }
 
 export default function AssetManagement() {
@@ -60,7 +64,7 @@ export default function AssetManagement() {
 
                     <Route path="/employee/:id" element= { <AuthenticatedRoute>  < EmployeeComponent /> </AuthenticatedRoute>}></Route>
                     <Route path="/viewemployees" element= { <AuthenticatedRoute> < ViewEmployeeComponent />  </AuthenticatedRoute>}></Route>
-                   
+                    <Route path='/retriveAssets/:id' element= { <AuthenticatedRoute> <RetriveAssets /> </AuthenticatedRoute> } ></Route>
                 </Routes>
               </BrowserRouter>
            </AuthProvider>

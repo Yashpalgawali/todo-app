@@ -3,7 +3,7 @@
 // Create a Context
 
 import { createContext, useContext, useState } from "react";
-import { executeJwtAuthentication } from "../api/LoginApiService";
+import { executeJwtAuthentication, logoutFunction } from "../api/LoginApiService";
 import { apiClient } from "../api/ApiClient";
 
 export const AuthContext = createContext()
@@ -35,30 +35,42 @@ const [token ,setToken] = useState(null)
 async function login(username, password) {
 
     let basicToken = 'Basic '+btoa(username+':'+password)
-    
+  
     const response = await executeJwtAuthentication(basicToken)
-
+   
     if(response.status==200) { 
         const jwtToken = 'Bearer ' + response.data.token; // Important: use `.token` from response
         console.log(jwtToken)
         setAuthenticated(true);
         setUsername(username);
         setToken(jwtToken);
-  
+        localStorage.setItem('token',jwtToken)
         apiClient.interceptors.request.use((config) => {
+            
           config.headers.Authorization = jwtToken;
           return config;
-        });
+        }, (error) => {
+            
+            return Promise.reject(error);
+          });
+
         return true
      }
-     else{       
+     else {       
         return false
      }
 }
 
-function logout() {
+async function logout() {
+    
+    const response = await logoutFunction(token)
+    console.log(response.data.message)
+    sessionStorage.setItem('response',response.data.message)
     setAuthenticated(false)
     setUsername(null)
+    localStorage.clear()
+    
+    return true
 }
 
     return(

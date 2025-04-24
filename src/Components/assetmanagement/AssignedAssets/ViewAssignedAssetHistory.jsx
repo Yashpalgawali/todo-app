@@ -1,7 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { viewAssetAssignHistoryByEmployeeId } from "../api/EmployeeApiService";
-import { error } from "jquery";
+import $ from 'jquery'; // jQuery is required for DataTables to work
+ 
+import 'datatables.net-dt/css/dataTables.dataTables.css'; // DataTables CSS styles
+import 'datatables.net'; // DataTables core functionality
 
 export default function ViewAssignedAssetHistory() {
     const [assethistory,setAssetAssignHistory] = useState([])
@@ -9,7 +12,18 @@ export default function ViewAssignedAssetHistory() {
     const [company,setCompany] = useState('')
     const [designation,setDesignation] = useState('')
 
+    const tableRef= useRef(null)
+
     const {id} = useParams()
+
+    useEffect(
+        () => {
+            if(tableRef.current && assethistory.length>0) {
+                $(tableRef.current).DataTable()
+            }
+        } ,[assethistory]
+    ) 
+
     useEffect(
         () => retrieveAssetAssignHistoryByEmpId() , [id]
     )
@@ -30,12 +44,12 @@ export default function ViewAssignedAssetHistory() {
             <h1>View Asset Assign History</h1>
             <div className="form-group">
 							
-                <span><label><strong>Employee Name: </strong></label>&nbsp;{emp_name}</span> <span style={{float: "right"}}><label><strong>Designation: </strong></label>&nbsp;{designation}</span>
+                <span style={ { float : 'left'}}><label><strong>Employee Name: </strong></label>&nbsp;{emp_name}</span> <span style={{float: "right"}}><label><strong>Designation: </strong></label>&nbsp;{designation}</span>
                 <br />
-                <span><label><strong>Company: </strong>&nbsp;</label>{company}</span>
+                <span style={ { float : 'left',clear : 'right'}}><label><strong>Company: </strong>&nbsp;</label>{company}</span>
                 
             </div>
-            <table className="table table-hover table-striped">
+            <table className="table table-hover table-striped" ref={tableRef}>
                 <thead>
                     <tr>
                         <th>Sr</th>

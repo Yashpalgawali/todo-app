@@ -9,8 +9,14 @@ export default function HeaderComponent() {
     const isAuthenticated = authContext.isAuthenticated
     const navigate = useNavigate()
 
-    function logout() {
-        authContext.logout()
+    async function logout() {        
+       const res = await authContext.logout()
+       if(res) {
+            navigate('/')
+       }
+       else {
+        alert('logout failed')
+       }
     }
 
     return(
@@ -22,7 +28,6 @@ export default function HeaderComponent() {
                     <div className="collapse navbar-collapse">
                         <ul className="navbar-nav">
                         <li className="nav-item fs-5">{isAuthenticated &&  <Link className="nav-link" to="/viewcompanies">Company</Link>}</li>
-                             
                              
                              <li className="nav-item fs-5">{isAuthenticated && <Link className="nav-link" to="/viewdepartments">Department</Link>} </li>
                              <li className="nav-item fs-5">{isAuthenticated && <Link className="nav-link" to="/viewdesignations">Designation</Link> }</li>

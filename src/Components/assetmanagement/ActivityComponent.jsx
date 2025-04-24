@@ -42,23 +42,7 @@ export default function Activites() {
                 responsive: true
             }}
            />
-            {/* <DataTable
-                data={activities}
-                columns={[
-                    { title: 'ID', data: 'activity_id' },
-                    { title: 'Activity Name', data: 'activity' },
-                    { title: 'Date', data: 'operation_date' },
-                    { title: 'Time', data: 'operation_time' }
-                ]}
-                options={{
-                    searching: true,
-                    paging: true,
-                    ordering: true,
-                    info: true,
-                    responsive: true
-                }}
-            /> */}
-             
+                      
         </div>
     )
 }

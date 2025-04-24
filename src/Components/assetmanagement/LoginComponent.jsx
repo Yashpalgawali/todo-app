@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useAuth } from "./Security/AuthContext"
 import { useNavigate } from "react-router-dom"
 
@@ -9,8 +9,32 @@ export default function LoginComponent() {
     
     const authContext = useAuth()
     const [errorMessage,setErrorMessage] = useState('')
+    const [successMessage,setSuccessMessage] = useState('')
 
     const navigate = useNavigate()
+
+    useEffect(
+        () => {
+            if(sessionStorage.getItem('reserr')!='')
+                {
+                    setSuccessMessage('')
+                    setErrorMessage(sessionStorage.getItem('reserr'))
+                    setTimeout(() => {
+                        setErrorMessage('')
+                        sessionStorage.removeItem('reserr')
+                    }, 3000);
+                }
+                if(sessionStorage.getItem('response')!='')
+                {
+                    setErrorMessage('')
+                    setSuccessMessage(sessionStorage.getItem('response'))
+                    setTimeout(() => {
+                        setSuccessMessage('')
+                        sessionStorage.removeItem('response')
+                    }, 3000);
+                }
+        }
+    )
 
     function handleUsernameChange(event) {
         setUsername(event.target.value)
@@ -22,13 +46,10 @@ export default function LoginComponent() {
 
     async function handleLogin() {
          if(await authContext.login(username,password)) {
-            alert('success')
              navigate(`/viewassignedassets`)
-            
          }
-         else{
+         else {
             setErrorMessage('Invlid Credentials!!')
-           
          }
     }
 
@@ -36,6 +57,7 @@ export default function LoginComponent() {
         <div className="container">
             <h1 className="text-center">Time To Login</h1>
             { errorMessage && <div className="alert alert-warning">{errorMessage}</div> }
+            { successMessage && <div className="alert alert-success">{successMessage}</div> }
             <div>
                 <label htmlFor="username">Username</label>
                 <input type="text" name="username" id="username" onChange={handleUsernameChange} className="form-control" />
