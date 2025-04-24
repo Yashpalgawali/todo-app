@@ -34,19 +34,21 @@ const [token ,setToken] = useState(null)
 
 async function login(username, password) {
 
-    const response = await executeJwtAuthentication(username,password)
+    let basicToken = 'Basic '+btoa(username+':'+password)
+    
+    const response = await executeJwtAuthentication(basicToken)
 
-    if(response.status==200) {
-        const jwtToken = 'Bearer '+response.data
-        setAuthenticated(true)
-        setUsername(username)
-        setToken(jwtToken)
-        apiClient.interceptors.request.use(
-            (config) => {
-                config.headers.Authorization=jwtToken
-                return config
-            }
-        )
+    if(response.status==200) { 
+        const jwtToken = 'Bearer ' + response.data.token; // Important: use `.token` from response
+        console.log(jwtToken)
+        setAuthenticated(true);
+        setUsername(username);
+        setToken(jwtToken);
+  
+        apiClient.interceptors.request.use((config) => {
+          config.headers.Authorization = jwtToken;
+          return config;
+        });
         return true
      }
      else{       

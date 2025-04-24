@@ -22,6 +22,7 @@ export default function LoginComponent() {
 
     async function handleLogin() {
          if(await authContext.login(username,password)) {
+            alert('success')
              navigate(`/viewassignedassets`)
             
          }
