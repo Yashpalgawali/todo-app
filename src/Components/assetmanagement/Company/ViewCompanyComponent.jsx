@@ -46,7 +46,7 @@ export default function ViewCompanyComponent() {
         retrieveAllCompanies().then((response)=> {
             setCompList(response.data)
         })
-    }
+    }  
 
     function addNewCompany() {
         navigate(`/company/-1`)
