@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { getAllDepartments } from "../api/DepartmentApiService"
 import { useNavigate } from "react-router-dom"
-
+import EditSquareIcon from '@mui/icons-material/EditSquare';
 import $ from 'jquery'; // jQuery is required for DataTables to work
 import 'datatables.net-dt/css/dataTables.dataTables.css'; // DataTables CSS styles
 import 'datatables.net'; // DataTables core functionality
@@ -79,7 +79,7 @@ export default function ViewDepartmentComponent() {
                                     <td>{dept.dept_id}</td>
                                     <td>{dept.dept_name}</td>
                                     <td>{dept.company.comp_name}</td>
-                                    <td><button type="submit" className="btn btn-success" onClick={()=>updateDepartmentById(dept.dept_id)}>UPDATE</button> </td>
+                                    <td><button type="submit" className="btn btn-success" onClick={()=>updateDepartmentById(dept.dept_id)}><EditSquareIcon /> UPDATE</button> </td>
                                 </tr>
                             )
                         )

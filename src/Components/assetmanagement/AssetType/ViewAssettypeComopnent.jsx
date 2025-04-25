@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { getAllAssetTypes } from "../api/AssetTypeApiService"
 import { useNavigate } from "react-router-dom"
-
+import EditSquareIcon from '@mui/icons-material/EditSquare';
 import $ from 'jquery'; // jQuery is required for DataTables to work
 import 'datatables.net-dt/css/dataTables.dataTables.css'; // DataTables CSS styles
 import 'datatables.net'; // DataTables core functionality
@@ -41,7 +41,7 @@ export default function ViewAssettypeComponent() {
             }, 2000);
         }
         getAllAssetTypes().then((response) => {
-            console.log('Asset Types '+response.data)
+           
             setAssettypes(response.data)
         })
     }
@@ -74,7 +74,7 @@ export default function ViewAssettypeComponent() {
                                 <tr key={assettype.type_id}>
                                     <td>{assettype.type_id}</td>
                                     <td>{assettype.type_name}</td>
-                                    <td><button type="submit" className="btn btn-success" onClick={()=> updateAssetType(assettype.type_id)} >UPDATE</button> </td>
+                                    <td><button type="submit" className="btn btn-success" onClick={()=> updateAssetType(assettype.type_id)} ><EditSquareIcon />  UPDATE</button> </td>
                                 </tr>
                         ))
                     }

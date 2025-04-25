@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { retrieveAllCompanies } from "../api/CompanyApiService"
 import { useNavigate } from "react-router-dom"
+import EditSquareIcon from '@mui/icons-material/EditSquare';
 import $ from 'jquery'; // jQuery is required for DataTables to work
  
 import 'datatables.net-dt/css/dataTables.dataTables.css'; // DataTables CSS styles
@@ -45,7 +46,6 @@ export default function ViewCompanyComponent() {
         retrieveAllCompanies().then((response)=> {
             setCompList(response.data)
         })
-
     }
 
     function addNewCompany() {
@@ -93,7 +93,7 @@ export default function ViewCompanyComponent() {
                                 <tr key={comp.comp_id}>
                                     <td>{comp.comp_id}</td>
                                     <td>{comp.comp_name}</td>
-                                    <td> <button type="submit" className="btn btn-success" onClick= {()=>updateCompany(comp.comp_id)}>UPDATE</button> </td>
+                                    <td> <button type="submit" className="btn btn-success" onClick= {()=>updateCompany(comp.comp_id)}><EditSquareIcon /> UPDATE</button> </td>
                                 </tr>
                             )
                         )

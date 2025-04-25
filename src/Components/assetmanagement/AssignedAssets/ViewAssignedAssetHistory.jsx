@@ -25,7 +25,7 @@ export default function ViewAssignedAssetHistory() {
     ) 
 
     useEffect(
-        () => retrieveAssetAssignHistoryByEmpId() , [id]
+        () => retrieveAssetAssignHistoryByEmpId
     )
 
     function retrieveAssetAssignHistoryByEmpId() {
@@ -44,9 +44,9 @@ export default function ViewAssignedAssetHistory() {
             <h1>View Asset Assign History</h1>
             <div className="form-group">
 							
-                <span style={ { float : 'left'}}><label><strong>Employee Name: </strong></label>&nbsp;{emp_name}</span> <span style={{float: "right"}}><label><strong>Designation: </strong></label>&nbsp;{designation}</span>
+                <span style={ { float : 'left'}}><label><strong>Employee : </strong></label>&nbsp;{emp_name}</span> <span style={{float: "right"}}><label><strong>Designation: </strong></label>&nbsp;{designation}</span>
                 <br />
-                <span style={ { float : 'left',clear : 'right'}}><label><strong>Company: </strong>&nbsp;</label>{company}</span>
+                <span style={ { float : 'left',clear : 'right'}}><label><strong>Company : </strong>&nbsp;</label>{company}</span>
                 
             </div>
             <table className="table table-hover table-striped" ref={tableRef}>
@@ -73,7 +73,6 @@ export default function ViewAssignedAssetHistory() {
                             )
                         )
                     }
-                    
                 </tbody>
             </table>
         </div>

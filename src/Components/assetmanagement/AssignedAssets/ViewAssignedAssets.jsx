@@ -1,38 +1,52 @@
 import { useEffect, useRef, useState } from "react"
 import { viewAllAssignedAssets } from "../api/EmployeeApiService"
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
 
 import $ from  'jquery';
 import 'datatables.net-dt/css/dataTables.dataTables.css'; // DataTables CSS styles
 import 'datatables.net'; // DataTables core functionality
 import { useAuth } from "../Security/AuthContext";
+import { exportAssignAssets } from "../api/AssetAssignHistory";
 
 
 export default function ViewAssignedAssets () {
-    const authContext = useAuth()
-
     const [assetlist,setAssetList] = useState([])
     const tableRef = useRef(null); // Ref for the table
+
     useEffect(
-        () => retrieveAllAssignedAssets() , []
+        () => retrieveAllAssignedAssets ,[]
     )
 
     useEffect(() => {
         // Initialize DataTable only after the component has mounted
-        if (tableRef.current && assetlist.length >0 ) {
+        if (tableRef.current && assetlist.length > 0 ) {
           $(tableRef.current).DataTable(); // Initialize DataTables
         }
       }, [assetlist]); // Re-initialize DataTables when activities data changes
    
 
-    function  retrieveAllAssignedAssets() {
-        console.log('Logged in user is ',authContext.username)
+    function  retrieveAllAssignedAssets() {       
         viewAllAssignedAssets().then((response) => {
             setAssetList(response.data)
         })        
     }
+
+    function exportAssignedAssets() { 
+            exportAssignAssets().then((response)=>{
+              // Convert the array buffer to a Blob
+              const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+
+              // Create a link element to trigger download
+              const link = document.createElement('a');
+              link.href = URL.createObjectURL(blob);
+              link.download = 'Assets Assign List.xlsx';
+              link.click();
+        })
+    }
+
     return(
         <div className="container">
-            <h1>View Assigned Assets <button type="submit" className="btn btn-primary m-3"> Export Assigned Assets</button> </h1>
+            <h1>View Assigned Assets <button type="submit" className="btn btn-primary m-3" onClick={exportAssignedAssets} > <FileDownloadIcon /> Export Assigned Assets</button> </h1>
 
             <table className="table table-hover table-striped" ref={tableRef}>
                 <thead>
@@ -42,8 +56,7 @@ export default function ViewAssignedAssets () {
                         <th>Employee</th>
                         <th>Designation</th>
                         <th>Department</th>
-                        <th>Company</th>
-                        
+                        <th>Company</th>                        
                     </tr>
                 </thead>
                 <tbody>
@@ -60,8 +73,7 @@ export default function ViewAssignedAssets () {
                                 </tr>
                             )
                         )
-                    }
-                    
+                    }                    
                 </tbody>
             </table>
         </div>

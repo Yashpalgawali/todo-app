@@ -13,7 +13,7 @@ export default function EmployeeComponent() {
     const {id} = useParams()
 
     useEffect(
-        ()=>   retrieveEmployeeById() , [id]        
+        ()=>   retrieveEmployeeById        
     )
 
     function retrieveEmployeeById() {
@@ -46,9 +46,9 @@ export default function EmployeeComponent() {
                                     <ErrorMessage component="div" name="emp_name" className="alert alert-warning"/>
                                 </fieldset>
                                 <fieldset>
-                                    <label htmlFor="">Company</label> 
+                                    <label htmlFor="company">Company</label> 
                                     <Field as="select" className="form-control" name="company" onChange={handleCompanyChange}>
-                                        <option>Please select Company</option>
+                                        <option>Please Select Company</option>
                                         {
                                             compList.map(
                                                 (company) =>( 
@@ -60,7 +60,7 @@ export default function EmployeeComponent() {
                                 </fieldset>
 
                                 <fieldset>
-                                    <label htmlFor="">Department</label> 
+                                    <label htmlFor="department">Department</label> 
                                     <Field as="select" className="form-control" name="department"  >
                                         <option>Please select Department</option>
                                         {

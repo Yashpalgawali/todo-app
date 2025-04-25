@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { getAllAssets } from "../api/AssetApiService"
 import { useNavigate } from "react-router-dom"
+import EditSquareIcon from '@mui/icons-material/EditSquare';
 
 import $ from 'jquery'; // jQuery is required for DataTables to work
 import 'datatables.net-dt/css/dataTables.dataTables.css'; // DataTables CSS styles
@@ -82,7 +83,7 @@ export default function ViewAssetComponent(){
                                     <td>{asset.asset_number}</td>
                                     <td>{asset.model_number}</td>
                                     <td>{asset.quantity}</td>
-                                    <td><button type="submit" className="btn btn-success" onClick={()=>updateAsset(asset.asset_id)}>UPDATE</button></td>
+                                    <td><button type="submit" className="btn btn-success" onClick={()=>updateAsset(asset.asset_id)}><EditSquareIcon /> UPDATE</button></td>
                                 </tr>
                             )
                         )

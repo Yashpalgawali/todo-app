@@ -40,19 +40,19 @@ async function login(username, password) {
    
     if(response.status==200) { 
         const jwtToken = 'Bearer ' + response.data.token; // Important: use `.token` from response
-        console.log(jwtToken)
+       
         setAuthenticated(true);
         setUsername(username);
         setToken(jwtToken);
         localStorage.setItem('token',jwtToken)
+        
         apiClient.interceptors.request.use((config) => {
             
-          config.headers.Authorization = jwtToken;
-          return config;
-        }, (error) => {
-            
-            return Promise.reject(error);
-          });
+            config.headers.Authorization = jwtToken;
+            return config;
+            },  (error) => {
+                return Promise.reject(error);
+            });
 
         return true
      }
