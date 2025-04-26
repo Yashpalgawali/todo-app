@@ -8,5 +8,6 @@ export const viewAllAssignedAssets = ()=>apiClient.get('/employee/viewassignedas
 
 export const viewAssetAssignHistoryByEmployeeId = (id)=> apiClient.get(`/employee/viewemphistbyempid/${id}`)
 
-
 export const getEmployeeById = (empid)=> apiClient.get(`/employee/${empid}`)
+
+export const getAssignedAssetsByEmployeeId = (empid)=> apiClient.get(`/employee/getassignedassetsbyempid/${empid}`)

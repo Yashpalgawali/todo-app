@@ -38,8 +38,8 @@ export default function AssetTypeComponent() {
     function validate(values) {
         let errors = { }
         
-        if(values.type_name.length < 5) {
-            errors.type_name = 'Please Enter at least 5 Characters'
+        if(values.type_name.length < 1) {
+            errors.type_name = 'Please Enter at least 1 Character(s)'
         }
     
         return errors

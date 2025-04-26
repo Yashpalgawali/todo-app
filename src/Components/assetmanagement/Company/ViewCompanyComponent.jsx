@@ -59,9 +59,9 @@ export default function ViewCompanyComponent() {
     return(
         <div className="container">
             <h2 className="text-center m-4">View Company <button type="submit" style={ { float: 'right !important' } } className="btn btn-primary" onClick={addNewCompany} ><strong>Add Company</strong></button> </h2>
-            {successMessage && <div className="text-center alert alert-success">  {successMessage}  </div> }
-            {errorMessage && <div className="text-center alert alert-warning">  {errorMessage}  </div> }
-        {/* <DataTable 
+            {successMessage && <div className="text-center alert alert-success"> {successMessage} </div> }
+            {errorMessage && <div className="text-center alert alert-warning"> {errorMessage} </div> }
+        {/* <DataTable  
             data={complist}
             columns={[
                 {title : 'Sr' , data: 'comp_id'},
