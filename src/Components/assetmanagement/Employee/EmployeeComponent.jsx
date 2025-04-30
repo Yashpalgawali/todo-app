@@ -39,7 +39,6 @@ export default function EmployeeComponent() {
             setBtnValue('Update Employee')
             getAssignedAssetsByEmployeeId(id).then((response)=>{
                let assignedAssets = response.data
-               console.log(assignedAssets)
                setSelectedCompany(response.data[0].employee.department.company)
                const joinname= assignedAssets
                     .map(asset=> asset.asset.asset_name)
@@ -51,14 +50,13 @@ export default function EmployeeComponent() {
 
         }
     }
-
-    
-    function handleCompanyChange(event){
+   
+    function handleCompanyChange(event) {
         let comp = event.target.value
-         console.log(comp)
-        // getDepartmentByCompanyId(event.target.value).then((response) => {
-        //         setDeptList(response.data)
-        //     }) 
+         
+        getDepartmentByCompanyId(comp).then((response) => {
+                setDeptList(response.data)
+            })
     }
     return(
         <div className="container">
@@ -84,7 +82,7 @@ export default function EmployeeComponent() {
                                         {
                                             compList.map(
                                                 (company) =>( 
-                                                    <option value={company} key={company.comp_id}>{company.comp_name}</option>
+                                                    <option value={company.comp_id} key={company.comp_id}>{company.comp_name}</option>
                                                 )
                                             )
                                         } 

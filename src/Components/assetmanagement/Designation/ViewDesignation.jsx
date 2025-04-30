@@ -34,7 +34,7 @@ export default function ViewDesignation() {
                     }             
                                        
                     retrieveAllDesignations()
-                },[desiglist]) 
+                },[]) 
 
     useEffect(() => {
         // Initialize DataTable only after the component has mounted

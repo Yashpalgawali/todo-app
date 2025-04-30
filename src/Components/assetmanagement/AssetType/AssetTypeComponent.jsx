@@ -50,16 +50,22 @@ export default function AssetTypeComponent() {
         const assettype = { type_id : values.type_id, type_name : values.type_name }
         if(id == -1) {
             saveAssetType(assettype).then((response) => {
-                sessionStorage.setItem('response','Asset Type '+assetType.type_name+' is saved successfully')
+                sessionStorage.setItem('response',response.data.statusMsg)
                 navigate(`/viewassettypes`)
             })
-            .catch((error) => console.log(error))
+            .catch((error) => {
+                sessionStorage.setItem('reserr',error.data.statusMsg)
+                navigate(`/viewassettypes`)
+            })
         }
         else {
             updateAssetType(assettype)
                         .then((response) => {
-                                 sessionStorage.setItem('response',assettype.type_name+' is updated successfully') 
+                                 sessionStorage.setItem('response',response.data.statusMsg) 
                                  navigate(`/viewassettypes`)
+                            }).catch((error) => {
+                                sessionStorage.setItem('reserr',error.data.statusMsg)
+                                navigate(`/viewassettypes`)
                             })
         }
     }

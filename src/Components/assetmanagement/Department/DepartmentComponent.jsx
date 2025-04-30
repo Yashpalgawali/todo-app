@@ -56,26 +56,23 @@ export default function DepartmentComponent() {
             }
             if(id == -1) {
                 saveDepartment(dept).then((response)=> {
-                    sessionStorage.setItem('response',dept.dept_name+' is saved successfully')
+                    sessionStorage.setItem('response',response.data.statusMsg)
                     navigate(`/viewdepartments`)
                 }).catch((error) => {
-                    sessionStorage.setItem('response',dept.dept_name+' is not saved')
+                    sessionStorage.setItem('reserr',response.data.statusMsg)
                     navigate(`/viewdepartments`)
                 })
             }
             else {
                     updateDepartment(dept).then((response)=> {
-                        console.log(response)
-                        sessionStorage.setItem('response',dept.dept_name+' is updated successfully')
+                        sessionStorage.setItem('response',response.data.statusMsg)
                         navigate(`/viewdepartments`)
                     }).catch((error) => {
-                        sessionStorage.setItem('reserr',dept.dept_name+' is not updated')
+                        sessionStorage.setItem('reserr',error.data.statusMsg)
                         navigate(`/viewdepartments`)
                     })
-                }
-            
+                }            
             })
-       
     }
 
     return(

@@ -79,13 +79,17 @@ export default function AssetComponent() {
             }
          if(id == -1)
          {   saveAsset(asset).then((response) => {
-                sessionStorage.setItem('response','Asset '+asset.asset_name+' is saved successfully')
+            
+                sessionStorage.setItem('response',response.data.statusMsg)
                 navigate(`/viewassets`)
             })
         } 
         else {
             updateAsset(asset).then((response) => {
-                sessionStorage.setItem('response',asset.asset_name+' is updated successfully')
+                sessionStorage.setItem('response',response.data.statusMsg)
+                navigate(`/viewassets`)
+            }).catch((error) => {
+                sessionStorage.setItem('reserr',error.data.statusMsg)
                 navigate(`/viewassets`)
             })
         }

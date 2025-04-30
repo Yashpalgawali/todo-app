@@ -21,15 +21,16 @@ export default function CompanyComponent () {
             setBtnValue('Update Company')
          
             retrieveCompanyById(id).then((response) => {
+                alert(response.status)
                 setCompName(response.data.comp_name)
                 setCompId(response.data.comp_id)
             })
             .catch((error)=>{
+                alert(error.response)
                 sessionStorage.setItem('reserr',error.response.data.errorMessage)
                 navigate(`/viewcompanies`)
             }) 
-        }
-         
+        }         
     }
 
       function onSubmit(values) {
@@ -40,18 +41,25 @@ export default function CompanyComponent () {
             if(id== -1) {
                 createCompany(company)
                     .then((response)=> {
-                            sessionStorage.setItem('response',response.data.comp_name+' is saved successfully')
+                        console.log(response.data)
+                            sessionStorage.setItem('response',response.data.statusMsg)
                             navigate('/viewcompanies')
                         })
-                    .catch((error) => alert('error is '+error)) 
+                    .catch((error) => {
+                        sessionStorage.setItem('reserr',error.data.statusMsg)
+                        navigate('/viewcompanies')
+                    }) 
             }
             else {
                 updateCompany(company)
-                    .then((response)=> {
-                           sessionStorage.setItem('response',company.comp_name+' is UPDATED successfully')
+                    .then((response)=> {console.log(response.data.statusMsg)
+                           sessionStorage.setItem('response',response.data.statusMsg)
                            navigate('/viewcompanies')
                     })
-                    .catch((error) => alert('error is '+error))
+                    .catch((error) =>{
+                        sessionStorage.setItem('reserr',error.data.statusMsg)
+                        navigate('/viewcompanies')
+                    })
             }
          }
    

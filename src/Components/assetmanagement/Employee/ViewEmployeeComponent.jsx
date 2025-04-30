@@ -100,7 +100,7 @@ function editAssetAssigned(empid) {
                                     <td>
                                     <button type="submit" className="btn btn-primary" onClick={()=>getEmployeeAssetAssignHistory(emp.emp_id)}><VisibilityIcon /> History</button>
                                     <button type="submit" className="btn btn-primary m-2" onClick={()=>retrieveAllAssets(emp.emp_id)}><DeleteIcon /> Retrieve</button>
-                                    <button type="submit" className="btn btn-primary m-2" onClick={()=>editAssetAssigned(emp.emp_id)}><FileDownloadIcon /> Download</button>
+                                    <button type="submit" className="btn btn-primary m-2" onClick={()=>editAssetAssigned(emp.emp_id)}>Update</button>
                                     {/* <button type="submit" className="btn btn-primary m-2" onClick={()=>downloadHistory(emp.emp_id)}><FileDownloadIcon /> Download</button> */}
                                     </td>
                                 </tr>
