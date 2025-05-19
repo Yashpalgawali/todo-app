@@ -75,9 +75,9 @@ export default function ViewAssetComponent(){
                 <tbody>
                     {
                         assetlist.map(
-                            (asset) => (
+                            (asset,index) => (
                                 <tr key={asset.asset_id}>
-                                    <td>{asset.asset_id}</td>
+                                    <td>{index+1}</td>
                                     <td>{asset.asset_name}</td>
                                     <td>{asset.atype?.type_name}</td>
                                     <td>{asset.asset_number}</td>

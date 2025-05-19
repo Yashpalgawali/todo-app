@@ -25,7 +25,7 @@ export default function ViewAssignedAssetHistory() {
     ) 
 
     useEffect(
-        () => retrieveAssetAssignHistoryByEmpId
+        () => retrieveAssetAssignHistoryByEmpId , []
     )
 
     function retrieveAssetAssignHistoryByEmpId() {
@@ -62,9 +62,9 @@ export default function ViewAssignedAssetHistory() {
                 <tbody>
                     {
                         assethistory.map(
-                            (asset) => (
+                            (asset,index) => (
                                 <tr key={asset.hist_id}>
-                                    <td>{asset.hist_id}</td>
+                                    <td>{index+1}</td>
                                     <td>{asset.asset.asset_name}</td>
                                     <td>{asset.operation}</td>
                                     <td>{asset.operation_date}</td>

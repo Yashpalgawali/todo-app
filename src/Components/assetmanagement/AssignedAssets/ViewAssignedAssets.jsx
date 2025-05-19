@@ -62,9 +62,9 @@ export default function ViewAssignedAssets () {
                 <tbody>
                     {
                         assetlist.map(
-                            (asset ) => (
+                            (asset,index ) => (
                                 <tr key={asset.assigned_asset_id} >
-                                    <td>{ }</td>
+                                    <td>{index+1}</td>
                                     <td>{asset.assigned}</td>
                                     <td>{asset.employee.emp_name}</td>
                                     <td>{asset.employee.designation.desig_name}</td>

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { getAllDesignations } from "../api/DesignationApiService"
 import { useNavigate } from "react-router-dom"
+import EditSquareIcon from '@mui/icons-material/EditSquare';
 
 import $ from 'jquery'; // jQuery is required for DataTables to work
 
@@ -72,11 +73,11 @@ export default function ViewDesignation() {
                 <tbody>
                     {
                     desiglist.map(
-                        (desig) => (
+                        (desig,index) => (
                             <tr key={desig.desig_id}>
-                                <td>{desig.desig_id}</td>
+                                <td>{index+1}</td>
                                 <td>{desig.desig_name}</td>
-                                <td><button type="submit" className="btn btn-success" onClick={()=>updateDesignation(desig.desig_id)}>UPDATE</button> </td>
+                                <td><button type="submit" className="btn btn-success" onClick={()=>updateDesignation(desig.desig_id)}><EditSquareIcon /> UPDATE</button> </td>
                             </tr>
                         )
                       )

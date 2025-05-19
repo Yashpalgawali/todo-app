@@ -113,7 +113,7 @@ export default function AssetComponent() {
                         <fieldset className="form-group">
                             <label>Asset Type</label>
                             <Field className="form-control" name="assettypes" as="select"  >
-                                <option>Please Select Asset Type</option>
+                                <option> Please Select Asset Type</option>
                                 {
                                  assettypes.map(
                                     (atype) =>(
@@ -126,18 +126,18 @@ export default function AssetComponent() {
                         </fieldset>
                         <fieldset>
                             <label>Asset Name</label>
-                            <Field className="form-control" name="asset_name"  type="text"></Field>
-                            <ErrorMessage  component="div" className="alert alert-warning" name="asset_name"/>
+                            <Field className="form-control" name="asset_name"  type="text" placeholder="Please Enter Asset name" ></Field>
+                            <ErrorMessage  component="div" className="alert alert-warning"  name="asset_name"/>
                         </fieldset>
                         <fieldset>
                             <label>Asset Number</label>
-                            <Field className="form-control" name="asset_number" type="text"></Field>
-                            <ErrorMessage  component="div" className="alert alert-warning" name="asset_number"/>
+                            <Field className="form-control" name="asset_number" type="text" placeholder="Please Enter Asset Number"></Field>
+                            <ErrorMessage  component="div" className="alert alert-warning"  name="asset_number"/>
                         </fieldset>
                         <fieldset>
                             <label>Model Number</label>
-                            <Field className="form-control" name="model_number" type="text"></Field>
-                            <ErrorMessage  component="div" className="alert alert-warning" name="model_number"/>
+                            <Field className="form-control" name="model_number" type="text" placeholder="Please Enter Model Number"></Field>
+                            <ErrorMessage  component="div" className="alert alert-warning"  name="model_number"/>
                         </fieldset>
 
                         <fieldset>
@@ -151,10 +151,8 @@ export default function AssetComponent() {
                     </Form>
                 )
             }
-
             </Formik>
         </div>
-
-        </div>
+      </div>
     )
 }

@@ -91,9 +91,9 @@ function editAssetAssigned(empid) {
                 <tbody>
                     {
                         emplist.map(
-                            (emp) => (
+                            (emp,index) => (
                                 <tr key={emp.emp_id}>
-                                    <td>{emp.emp_id}</td>
+                                    <td>{index+1}</td>
                                     <td>{emp.emp_name}</td>
                                     <td>{emp.department.company.comp_name}</td>
                                     <td>{emp.department.dept_name}</td>

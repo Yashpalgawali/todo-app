@@ -93,7 +93,7 @@ export default function DepartmentComponent() {
                             <fieldset className="form-group">
                             <label>Select Company </label>
                             <Field className="form-control" name="companies" as="select" >
-                                <option>Please Select Company Name</option>
+                                <option>Please Select Company</option>
                                 {
                                  companies.map(
                                     (company) =>(
@@ -105,7 +105,7 @@ export default function DepartmentComponent() {
                             <ErrorMessage  component="div" className="alert alert-warning" name="companies"/>
                         </fieldset>
                             <fieldset>
-                            <label>Department Name</label>
+                            <label>Department</label>
                             <Field className="form-control" name="department.dept_name"  type="text"></Field>
                             <ErrorMessage  component="div" className="alert alert-warning" name="dept_name"/>
                         </fieldset>

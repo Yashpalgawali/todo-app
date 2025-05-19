@@ -74,9 +74,9 @@ export default function ViewDepartmentComponent() {
                 <tbody>
                     {
                         deptlist.map(
-                            dept=> (
+                            (dept,index)=> (
                                 <tr key={dept.dept_id}>
-                                    <td>{dept.dept_id}</td>
+                                    <td>{index+1}</td>
                                     <td>{dept.dept_name}</td>
                                     <td>{dept.company?.comp_name}</td>
                                     <td><button type="submit" className="btn btn-success" onClick={()=>updateDepartmentById(dept.dept_id)}><EditSquareIcon /> UPDATE</button> </td>

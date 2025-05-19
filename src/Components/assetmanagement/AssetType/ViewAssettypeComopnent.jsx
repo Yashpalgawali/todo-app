@@ -70,9 +70,9 @@ export default function ViewAssettypeComponent() {
                 <tbody>
                     {
                         assettypes.map(
-                            (assettype)=> (
+                            (assettype,index)=> (
                                 <tr key={assettype.type_id}>
-                                    <td>{assettype.type_id}</td>
+                                    <td>{index+1}</td>
                                     <td>{assettype.type_name}</td>
                                     <td><button type="submit" className="btn btn-success" onClick={()=> updateAssetType(assettype.type_id)} ><EditSquareIcon />  UPDATE</button> </td>
                                 </tr>

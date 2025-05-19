@@ -89,9 +89,9 @@ export default function ViewCompanyComponent() {
                      {
                         
                         complist.map(
-                            comp => (
+                            (comp,index) => (
                                 <tr key={comp.comp_id}>
-                                    <td>{comp.comp_id}</td>
+                                     <td>{index+1}</td>
                                     <td>{comp.comp_name}</td>
                                     <td> <button type="submit" className="btn btn-success" onClick= {()=>updateCompany(comp.comp_id)}><EditSquareIcon /> UPDATE</button> </td>
                                 </tr>
