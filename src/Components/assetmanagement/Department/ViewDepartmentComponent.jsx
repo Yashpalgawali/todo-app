@@ -73,6 +73,11 @@ export default function ViewDepartmentComponent() {
                 </thead>
                 <tbody>
                     {
+                        deptlist.length == 0 ? (
+                            <tr>
+                                <td colSpan="4">No Data Available</td>
+                            </tr>
+                        ): (
                         deptlist.map(
                             (dept,index)=> (
                                 <tr key={dept.dept_id}>
@@ -82,7 +87,7 @@ export default function ViewDepartmentComponent() {
                                     <td><button type="submit" className="btn btn-success" onClick={()=>updateDepartmentById(dept.dept_id)}><EditSquareIcon /> UPDATE</button> </td>
                                 </tr>
                             )
-                        )
+                        ))
                     }
                 </tbody>
             </table>

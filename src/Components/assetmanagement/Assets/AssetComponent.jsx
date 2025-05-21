@@ -3,7 +3,6 @@ import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { getAssetById, saveAsset, updateAsset } from "../api/AssetApiService"
 import { getAllAssetTypes, getAssetTypeById } from "../api/AssetTypeApiService"
-import { error } from "jquery"
 
 export default function AssetComponent() {
 
@@ -41,7 +40,6 @@ export default function AssetComponent() {
         }
     }
 
-
     function validate(values) {
         let errors={}
        
@@ -77,9 +75,8 @@ export default function AssetComponent() {
                 model_number : values.model_number,quantity : values.quantity,
                 atype : atypeObj
             }
-         if(id == -1)
-         {   saveAsset(asset).then((response) => {
-            
+         if(id == -1) {
+                saveAsset(asset).then((response) => {            
                 sessionStorage.setItem('response',response.data.statusMsg)
                 navigate(`/viewassets`)
             })
@@ -92,7 +89,7 @@ export default function AssetComponent() {
                 sessionStorage.setItem('reserr',error.data.statusMsg)
                 navigate(`/viewassets`)
             })
-        }
+          }
         })
     }
 

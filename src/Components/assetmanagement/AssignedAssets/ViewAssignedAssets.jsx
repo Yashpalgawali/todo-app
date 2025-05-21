@@ -1,13 +1,16 @@
+import $ from 'jquery'; // jQuery is required for DataTables to work
 import { useEffect, useRef, useState } from "react"
 import { viewAllAssignedAssets } from "../api/EmployeeApiService"
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 
-import $ from  'jquery';
+import DataTable from 'datatables.net-react'; // DataTables React integration
+import DT from 'datatables.net';
 import 'datatables.net-dt/css/dataTables.dataTables.css'; // DataTables CSS styles
 import 'datatables.net'; // DataTables core functionality
-import { useAuth } from "../Security/AuthContext";
+
 import { exportAssignAssets } from "../api/AssetAssignHistory";
 
+DataTable.use(DT);
 
 export default function ViewAssignedAssets () {
     const [assetlist,setAssetList] = useState([])
@@ -17,18 +20,10 @@ export default function ViewAssignedAssets () {
         () => retrieveAllAssignedAssets ,[]
     )
 
-    useEffect(() => {
-        // Initialize DataTable only after the component has mounted
-        if (tableRef.current && assetlist.length > 0 ) {
-          $(tableRef.current).DataTable(); // Initialize DataTables
-        }
-      }, [assetlist]); // Re-initialize DataTables when activities data changes
-   
-
     function  retrieveAllAssignedAssets() {       
         viewAllAssignedAssets().then((response) => {
             setAssetList(response.data)
-        })        
+        })
     }
 
     function exportAssignedAssets() { 
@@ -48,7 +43,25 @@ export default function ViewAssignedAssets () {
         <div className="container">
             <h1>View Assigned Assets <button type="submit" className="btn btn-primary m-3" onClick={exportAssignedAssets} > <FileDownloadIcon /> Export Assigned Assets</button> </h1>
 
-            <table className="table table-hover table-striped" ref={tableRef}>
+             <DataTable 
+                data={assetlist}
+                columns={[
+                    { title: 'Sr', data: 'assigned_asset_id' },
+                    { title: 'Assigned Assets', data: 'assigned' },
+                    { title: 'Employee', data: 'employee.emp_name' },
+                    { title: 'Designation', data: 'employee.designation.desig_name' },
+                    { title: 'Department', data: 'employee.department.dept_name' },
+                    { title: 'Company', data: 'employee.department.company.comp_name' }
+                ]}
+                options={{
+                    searching: true,
+                    paging: true,
+                    ordering: true,
+                    info: true,
+                    responsive: true
+                }}
+           />
+            {/* <table className="table table-hover table-striped" ref={tableRef}>
                 <thead>
                     <tr>
                         <th>Sr</th>
@@ -59,8 +72,8 @@ export default function ViewAssignedAssets () {
                         <th>Company</th>                        
                     </tr>
                 </thead>
-                <tbody>
-                    {
+                <tbody> */}
+                    {/* {
                         assetlist.map(
                             (asset,index ) => (
                                 <tr key={asset.assigned_asset_id} >
@@ -73,9 +86,9 @@ export default function ViewAssignedAssets () {
                                 </tr>
                             )
                         )
-                    }                    
-                </tbody>
-            </table>
+                    }                     */}
+                {/* </tbody>
+            </table> */}
         </div>
     )
 }

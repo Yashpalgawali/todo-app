@@ -3,81 +3,98 @@ import { getAllAssetTypes } from "../api/AssetTypeApiService"
 import { useNavigate } from "react-router-dom"
 import EditSquareIcon from '@mui/icons-material/EditSquare';
 import $ from 'jquery'; // jQuery is required for DataTables to work
+
 import 'datatables.net-dt/css/dataTables.dataTables.css'; // DataTables CSS styles
 import 'datatables.net'; // DataTables core functionality
+import { Button } from "@mui/material"
+
 
 export default function ViewAssettypeComponent() {
 
-    const [assettypes ,setAssettypes] = useState([])
-    const navigate = useNavigate()
-    const [successMessage, setSuccessMessage] = useState('')
-    const [errorMessage, setErrorMessage] = useState('')
+    const [assettypelist,setAssetTypeList] = useState([])
+    const [successMessage , setSuccessMessage] = useState('')
+    const [errorMessage , setErrorMessage] = useState('')
+
     const tableRef = useRef(null); // Ref for the table
 
-    useEffect(()=> retrieveAllAssetTypes , [])
+    const navigate = useNavigate()
+
+    useEffect(()=> refreshAssetTypes() , [] )
     
     useEffect(() => {
         // Initialize DataTable only after the component has mounted
-        if (tableRef.current && assettypes.length > 0) {
+        if (tableRef.current && assettypelist.length >0 ) {
           $(tableRef.current).DataTable(); // Initialize DataTables
         }
-      }, [assettypes]); // Re-initialize DataTables when activities data changes
-    
+      }, [assettypelist]); // Re-initialize DataTables when activities data changes
 
-    function retrieveAllAssetTypes() {
+    function refreshAssetTypes() {
         if(sessionStorage.getItem('response')!=''){
             setSuccessMessage(sessionStorage.getItem('response'))
-            setTimeout(() => {
+             setTimeout(() => {
                 sessionStorage.removeItem('response')
                 setSuccessMessage('')
-            }, 2000);
+             }, 2000);
         }
 
         if(sessionStorage.getItem('reserr')!=''){
             setErrorMessage(sessionStorage.getItem('reserr'))
-            setTimeout(() => {
+             setTimeout(() => {
                 sessionStorage.removeItem('reserr')
                 setErrorMessage('')
-            }, 2000);
+             }, 2000);
         }
-        getAllAssetTypes().then((response) => {
-           
-            setAssettypes(response.data)
+        getAllAssetTypes().then((response) => {           
+            setAssetTypeList(response.data)
         })
-    }
+    }  
 
-    function updateAssetType(id) {
-        navigate(`/assettype/${id}`)
-    }
     function addNewAssettype() {
         navigate(`/assettype/-1`)
     }
-    
+
+    function updateAssettype(id) {
+        navigate(`/assettype/${id}`)
+    }
 
     return(
         <div className="container">
-            <h2 className="text-center">View Asset Types <button type="submit" className="btn btn-primary" onClick={addNewAssettype}>Add Asset Type</button> </h2>
-            { successMessage &&  <div className="alert alert-success">{successMessage}</div> }
-            { errorMessage &&  <div className="alert alert-danger">{errorMessage}</div> }
-            <table className="table table-striped table-hover" ref={tableRef}>
+            <h2 className="text-center m-4">View Asset Types 
+                {/* <button type="submit" style={ { float: 'right !important' } } className="btn btn-primary" onClick={addNewCompany} ><strong>Add Company</strong></button>  */}
+                <Button type="submit" variant="contained" color="primary" style={ { float: 'right !important' } } className="m-2" onClick={addNewAssettype} >Add Asset type</Button>    
+            </h2>
+            {successMessage && <div className="text-center alert alert-success"> {successMessage} </div> }
+            {errorMessage && <div className="text-center alert alert-warning"> {errorMessage} </div> }
+      
+            <table ref={tableRef} className="table table-striped table-hover display">
                 <thead>
-                    <tr>
-                        <th>Sr</th>
-                        <th>Asset Type</th>
+                    <tr >
+                        <th>Sr No.</th>
+                        <th>Asset type</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {
-                        assettypes.map(
-                            (assettype,index)=> (
-                                <tr key={assettype.type_id}>
-                                    <td>{index+1}</td>
-                                    <td>{assettype.type_name}</td>
-                                    <td><button type="submit" className="btn btn-success" onClick={()=> updateAssetType(assettype.type_id)} ><EditSquareIcon />  UPDATE</button> </td>
-                                </tr>
+                  {assettypelist.length === 0 ? (
+                        <tr>
+                            <td colSpan="3" style={{ textAlign: 'center' }}>
+                                No data available
+                            </td>
+                        </tr>
+                        ) : (
+                        assettypelist.map((assettype,index) => (
+                            <tr key={assettype.type_id}>
+                            <td>{index+1}</td>
+                            <td>{assettype.type_name}</td>
+                            <td>
+                                <Button type="submit" variant="contained" color="primary" onClick={() => updateAssettype(assettype.type_id)} > <EditSquareIcon  />Update</Button>
+                                {/* <button className="btn btn-link" onClick={() => updateCompany(comp.comp_id)} >
+                               UPDATE
+                                </button> */}
+                            </td>
+                            </tr>
                         ))
-                    }
+                        )}
                 </tbody>
             </table>
         </div>

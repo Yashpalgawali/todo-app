@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { createCompany, retrieveCompanyById, updateCompany } from "../api/CompanyApiService"
 import { ErrorMessage, Field, Formik,Form } from "formik"
-import { error } from "jquery"
+import { Button } from "@mui/material"
 
 export default function CompanyComponent () {
     
@@ -15,18 +15,14 @@ export default function CompanyComponent () {
     
     useEffect(()=> getCompanyById() , [id])
    
-    function getCompanyById() {
-         
+    function getCompanyById() {         
         if(id != -1) {
-            setBtnValue('Update Company')
-         
+            setBtnValue('Update Company')         
             retrieveCompanyById(id).then((response) => {
-                alert(response.status)
                 setCompName(response.data.comp_name)
                 setCompId(response.data.comp_id)
             })
             .catch((error)=>{
-                alert(error.response)
                 sessionStorage.setItem('reserr',error.response.data.errorMessage)
                 navigate(`/viewcompanies`)
             }) 
@@ -38,7 +34,7 @@ export default function CompanyComponent () {
                 comp_id : id , comp_name: values.comp_name
             }
             
-            if(id== -1) {
+            if(id == -1) {
                 createCompany(company)
                     .then((response)=> {
                         console.log(response.data)
@@ -57,7 +53,7 @@ export default function CompanyComponent () {
                            navigate('/viewcompanies')
                     })
                     .catch((error) =>{
-                        sessionStorage.setItem('reserr',error.data.statusMsg)
+                       sessionStorage.setItem('reserr',error.data.statusMsg)
                         navigate('/viewcompanies')
                     })
             }
@@ -67,8 +63,8 @@ export default function CompanyComponent () {
    function validate(values) {
     let errors = {  }
     
-    if(values.comp_name.length<5) {
-        errors.comp_name = 'Please Enter at least 5 Characters'
+    if(values.comp_name.length<3) {
+        errors.comp_name = 'Please Enter at least 2 Characters'
     }
 
     return errors
@@ -86,16 +82,15 @@ export default function CompanyComponent () {
             >
                {
                 (props) => (
-                    <Form> 
-                       
+                    <Form>                       
                         <fieldset>
-                            <label  >Company</label>
-                            <Field type="text" name="comp_name" className="form-control"></Field>
+                            <label htmlFor="comp_name" >Company</label>
+                            <Field type="text" name="comp_name" className="form-control" placeholder="Enter Company name" ></Field>
                             <ErrorMessage  name='comp_name' component="div" className="alert alert-warning" />
                         </fieldset>
 
                         <div>
-                            <button type="submit" className="btn btn-success m-3">{btnValue}</button>
+                            <Button type="submit" variant="contained" color="primary" className="m-3">{btnValue}</Button>
                         </div>
                     </Form>
                 )

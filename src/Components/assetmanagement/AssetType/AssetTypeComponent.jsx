@@ -2,7 +2,7 @@ import { ErrorMessage, Field, Form, Formik } from "formik"
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { getAssetTypeById, saveAssetType, updateAssetType } from "../api/AssetTypeApiService"
-import { error } from "jquery"
+import { Button } from "@mui/material"
 
 export default function AssetTypeComponent() {
 
@@ -40,8 +40,7 @@ export default function AssetTypeComponent() {
         
         if(values.type_name.length < 1) {
             errors.type_name = 'Please Enter at least 1 Character(s)'
-        }
-    
+        }    
         return errors
        }
 
@@ -88,13 +87,14 @@ export default function AssetTypeComponent() {
                     {
                         (props) => (
                             <Form>
-                                <fieldset>
-                                    <label>Asset Type</label>
-                                    <Field className="form-control" id="type_name" name="type_name"></Field>
+                                <fieldset >
+                                    <label htmlFor="type_name">Asset Type</label>
+                                    <Field className="form-control" id="type_name" placeholder="Enter Asset Type" name="type_name"></Field>
                                     <ErrorMessage component="div" name="type_name" className="alert alert-warning"/>
                                 </fieldset>
                                 <div>
-                                    <button type="submit" className="btn btn-success m-3" >{btnValue}</button>
+                                    <Button type="submit" variant="contained" color="primary" className="m-1" >{btnValue}</Button>
+                                    {/* <button type="submit" className="btn btn-success m-3" >{btnValue}</button> */}
                                 </div>
                             </Form>
                         )

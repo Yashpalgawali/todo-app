@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import { getDepartmentById, saveDepartment, updateDepartment } from "../api/DepartmentApiService"
 import { ErrorMessage, Field, Form, Formik } from "formik"
 import { retrieveAllCompanies, retrieveCompanyById } from "../api/CompanyApiService"
+import { Button } from "@mui/material"
 
 export default function DepartmentComponent() {
     
@@ -38,43 +39,43 @@ export default function DepartmentComponent() {
 
     function validate(values) {
         let errors ={}
-        // if(values.dept_name.length <1) {
-        //     errors.dept_name='Department Name should be at least 2 characters'
-        // }
+        if(values.department.dept_name.length <3) {
+            errors.dept_name='Department Name should be at least 2 characters'
+        }
         return errors
     }
  
     function onSubmit(values) {
-        
-        retrieveCompanyById(values.companies).then((response) => {
-             const compObj = {
-                comp_id   : response.data.comp_id,
-                comp_name : response.data.comp_name
-             }
-            const dept = {
-                dept_id : values.department.dept_id , dept_name : values.department.dept_name , company : compObj
-            }
-            if(id == -1) {
-                saveDepartment(dept).then((response)=> {
-                    sessionStorage.setItem('response',response.data.statusMsg)
-                    navigate(`/viewdepartments`)
-                }).catch((error) => {
-                    sessionStorage.setItem('reserr',response.data.statusMsg)
-                    navigate(`/viewdepartments`)
-                })
-            }
-            else {
-                    updateDepartment(dept).then((response)=> {
-                        sessionStorage.setItem('response',response.data.statusMsg)
-                        navigate(`/viewdepartments`)
-                    }).catch((error) => {
-                        sessionStorage.setItem('reserr',error.data.statusMsg)
-                        navigate(`/viewdepartments`)
-                    })
-                }            
-            })
+        alert()
+        // retrieveCompanyById(values.companies).then((response) => {
+        //      const compObj = {
+        //         comp_id   : response.data.comp_id,
+        //         comp_name : response.data.comp_name
+        //      }
+        //     const dept = {
+        //         dept_id : values.department.dept_id , dept_name : values.department.dept_name , company : compObj
+        //     }
+        //     if(id == -1) {
+        //         saveDepartment(dept).then((response)=> {
+        //             sessionStorage.setItem('response',response.data.statusMsg)
+        //             navigate(`/viewdepartments`)
+        //         }).catch((error) => {
+        //             sessionStorage.setItem('reserr',response.data.statusMsg)
+        //             navigate(`/viewdepartments`)
+        //         })
+        //     }
+        //     else {
+        //             updateDepartment(dept).then((response)=> {
+        //                 sessionStorage.setItem('response',response.data.statusMsg)
+        //                 navigate(`/viewdepartments`)
+        //             }).catch((error) => {
+        //                 sessionStorage.setItem('reserr',error.data.statusMsg)
+        //                 navigate(`/viewdepartments`)
+        //             })
+        //         }            
+        //     })
     }
-
+ 
     return(
         <div className="container">
             <h1>{btnValue}</h1>        
@@ -91,7 +92,7 @@ export default function DepartmentComponent() {
                     (props)=> (
                         <Form>
                             <fieldset className="form-group">
-                            <label>Select Company </label>
+                            <label htmlFor="companies">Select Company </label>
                             <Field className="form-control" name="companies" as="select" >
                                 <option>Please Select Company</option>
                                 {
@@ -105,11 +106,13 @@ export default function DepartmentComponent() {
                             <ErrorMessage  component="div" className="alert alert-warning" name="companies"/>
                         </fieldset>
                             <fieldset>
-                            <label>Department</label>
+                            <label htmlFor="department.dept_name">Department</label>
                             <Field className="form-control" name="department.dept_name"  type="text"></Field>
-                            <ErrorMessage  component="div" className="alert alert-warning" name="dept_name"/>
+                            <ErrorMessage  component="div" className="alert alert-warning" name="department.dept_name"/>
                         </fieldset>
-                            <div><button type="submit" className="btn btn-primary m-3">{btnValue}</button></div>
+                            <div>
+                                <Button type="submit" variant="contained" color="primary" className="m-3">{btnValue}</Button>    
+                            </div>
                         </Form>
                     )
                 }

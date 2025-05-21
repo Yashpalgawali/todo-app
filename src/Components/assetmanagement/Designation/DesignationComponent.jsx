@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { getDesignationById, saveDesignation, updateDesignation } from "../api/DesignationApiService"
 import { saveDepartment } from "../api/DepartmentApiService"
+import { Button } from "@mui/material"
 
 export default function DesignationComponent() {
     const [btnValue,setBtnValue] = useState('Add Designtion')
@@ -83,11 +84,13 @@ export default function DesignationComponent() {
                     (props) => (
                         <Form>
                             <fieldset>
-                                <label>Designation</label>
-                                <Field type="text" name="desig_name" className="form-control" ></Field>
-                                <ErrorMessage  component="div"  name="desig_name" className="alert alert-warning"/>
+                                <label htmlFor="design_name">Designation</label>
+                                <Field type="text" name="desig_name" className="form-control" placeholder="Enter Designation" ></Field>
+                                <ErrorMessage  component="div"  name="desig_name"  className="alert alert-warning"/>
                             </fieldset>
-                            <div><button type="submit" className="btn btn-primary m-3">{btnValue}</button></div>
+                            <div>
+                                <Button type="submit" variant="contained" color="primary" className="m-3">{btnValue}</Button>
+                            </div>
                         </Form>
                     )
                 }

@@ -3,9 +3,11 @@ import { retrieveAllCompanies } from "../api/CompanyApiService"
 import { useNavigate } from "react-router-dom"
 import EditSquareIcon from '@mui/icons-material/EditSquare';
 import $ from 'jquery'; // jQuery is required for DataTables to work
- 
+  
 import 'datatables.net-dt/css/dataTables.dataTables.css'; // DataTables CSS styles
 import 'datatables.net'; // DataTables core functionality
+import { Button } from "@mui/material"
+
 
 export default function ViewCompanyComponent() {
 
@@ -58,7 +60,10 @@ export default function ViewCompanyComponent() {
 
     return(
         <div className="container">
-            <h2 className="text-center m-4">View Company <button type="submit" style={ { float: 'right !important' } } className="btn btn-primary" onClick={addNewCompany} ><strong>Add Company</strong></button> </h2>
+            <h2 className="text-center m-4">View Company 
+                {/* <button type="submit" style={ { float: 'right !important' } } className="btn btn-primary" onClick={addNewCompany} ><strong>Add Company</strong></button>  */}
+                <Button type="submit" variant="contained" color="primary" style={ { float: 'right !important' } } className="m-2" onClick={addNewCompany} >Add Company</Button>    
+            </h2>
             {successMessage && <div className="text-center alert alert-success"> {successMessage} </div> }
             {errorMessage && <div className="text-center alert alert-warning"> {errorMessage} </div> }
         {/* <DataTable  
@@ -66,7 +71,10 @@ export default function ViewCompanyComponent() {
             columns={[
                 {title : 'Sr' , data: 'comp_id'},
                 {title : 'Company Name' , data: 'comp_name'},
-                {title : 'Company Name' , data: 'comp_name'}
+                {title : 'Action' , data: 'comp_id',render : function(data,type ,row){
+                    return `<Button type="submit" variant="contained" color="primary" className="m-3" data-id="${row.id}"><EditSquareIcon /> Update</Button>`
+                    // return `<button className="btn btn-primary" data-id="${row.id}" >Update</button>`
+                } } 
             ]}
             options={{
                 searching: true,
@@ -81,23 +89,31 @@ export default function ViewCompanyComponent() {
                 <thead>
                     <tr >
                         <th>Sr No.</th>
-                        <th>Company Name</th>
-                        <th>UPDATE</th>
+                        <th>Company</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                     {
-                        
-                        complist.map(
-                            (comp,index) => (
-                                <tr key={comp.comp_id}>
-                                     <td>{index+1}</td>
-                                    <td>{comp.comp_name}</td>
-                                    <td> <button type="submit" className="btn btn-success" onClick= {()=>updateCompany(comp.comp_id)}><EditSquareIcon /> UPDATE</button> </td>
-                                </tr>
-                            )
-                        )
-                     }
+                  {complist.length === 0 ? (
+                        <tr>
+                            <td colSpan="2" style={{ textAlign: 'center' }}>
+                             No data available
+                            </td>
+                        </tr>
+                        ) : (
+                        complist.map((comp,index) => (
+                            <tr key={comp.comp_id}>
+                            <td>{index+1}</td>
+                            <td>{comp.comp_name}</td>
+                            <td>
+                                <Button type="submit" variant="contained" color="primary" onClick={() => updateCompany(comp.comp_id)} > <EditSquareIcon  />Update</Button>
+                                {/* <button className="btn btn-link" onClick={() => updateCompany(comp.comp_id)} >
+                               UPDATE
+                                </button> */}
+                            </td>
+                            </tr>
+                        ))
+                        )}
                 </tbody>
             </table>
         </div>

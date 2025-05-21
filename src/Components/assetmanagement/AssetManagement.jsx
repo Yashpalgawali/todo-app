@@ -33,7 +33,7 @@ export default function AssetManagement() {
     return(
         <div className="AssetManagement">
             <AuthProvider>
-              <BrowserRouter>
+              <BrowserRouter basename={process.env.PUBLIC_URL}>
                 <HeaderComponent />
                 <Routes>
                     <Route path="/company/:id" element={ 

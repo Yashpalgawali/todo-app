@@ -8,6 +8,7 @@ import 'datatables.net-dt/css/dataTables.dataTables.css'; // DataTables CSS styl
 import 'datatables.net'; // DataTables core functionality
 
 DataTable.use(DT);
+
 export default function Activites() {
 
     const [activities,setActivities] = useState([]);
@@ -27,7 +28,7 @@ export default function Activites() {
         <div className="container">
             <h2> View Activities </h2>
            <DataTable 
-           data={activities}
+            data={activities}
             columns={[
                 { title: 'ID', data: 'activity_id' },
                 { title: 'Activity Name', data: 'activity' },
