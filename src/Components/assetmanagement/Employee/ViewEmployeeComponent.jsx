@@ -75,10 +75,9 @@ function editAssetAssigned(empid) {
 
     return(
         <div className="container">
-         <h1>View Employees
+         <h2>View Employees
             <Button style={ { marginLeft : '10px' } } variant="contained" onClick={addNewEmployee} color="primary">Add Employee</Button>
-          {/* <button type="submit" className="btn btn-success m-3" onClick={addNewEmployee}> Add Employee</button> */}
-         </h1>
+         </h2>
 
             <table className="table table-striped table-hover" ref={tableRef}>
                 <thead>

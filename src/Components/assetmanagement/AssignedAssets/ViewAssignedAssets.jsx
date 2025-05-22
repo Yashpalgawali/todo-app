@@ -43,8 +43,7 @@ export default function ViewAssignedAssets () {
     return(
         <div className="container">
             <h2>View Assigned Assets 
-                <Button variant='contained' style={ { marginLeft : '10px' } } color='primary'><FileDownloadIcon /> Export Assigned Assets</Button>
-                {/* <button type="submit" className="btn btn-primary m-3" onClick={exportAssignedAssets} > <FileDownloadIcon /> Export Assigned Assets</button>  */}
+                <Button variant='contained' style={ { marginLeft : '10px' } } color='primary' onClick={exportAssignedAssets}><FileDownloadIcon /> Export Assigned Assets</Button>
             </h2>
 
              <DataTable 

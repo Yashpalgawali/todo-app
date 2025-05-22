@@ -63,8 +63,8 @@ export default function ViewAssettypeComponent() {
                 {/* <button type="submit" style={ { float: 'right !important' } } className="btn btn-primary" onClick={addNewCompany} ><strong>Add Company</strong></button>  */}
                 <Button type="submit" variant="contained" color="primary" style={ { float: 'right !important' } } className="m-2" onClick={addNewAssettype} >Add Asset type</Button>    
             </h2>
-            {successMessage && <div className="text-center alert alert-success"> {successMessage} </div> }
-            {errorMessage && <div className="text-center alert alert-warning"> {errorMessage} </div> }
+            {successMessage && <div className="text-center alert alert-success"><strong> {successMessage}</strong> </div> }
+            {errorMessage && <div className="text-center alert alert-warning"> <strong>{errorMessage} </strong></div> }
       
             <table ref={tableRef} className="table table-striped table-hover display">
                 <thead>

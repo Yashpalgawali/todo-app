@@ -6,6 +6,7 @@ import EditSquareIcon from '@mui/icons-material/EditSquare';
 import $ from 'jquery'; // jQuery is required for DataTables to work
 import 'datatables.net-dt/css/dataTables.dataTables.css'; // DataTables CSS styles
 import 'datatables.net'; // DataTables core functionality
+import { Button } from "@mui/material";
 
 export default function ViewAssetComponent(){
 
@@ -13,6 +14,7 @@ export default function ViewAssetComponent(){
     const [successMessage,setSuccessMessage] = useState('')
     const [errorMessage,setErrorMessage] = useState('')
     const tableRef = useRef(null); // Ref for the table
+    const [thcount,setThCount] = useState('')
 
     const navigate = useNavigate()
     useEffect(()=> retrieveAllAssets(), [])
@@ -25,7 +27,8 @@ export default function ViewAssetComponent(){
       }, [assetlist]); // Re-initialize DataTables when activities data changes
     
     function retrieveAllAssets() {
-
+        const thcount = document.querySelectorAll('#table  thead tr th').length
+        setThCount(thcount)
         if(sessionStorage.getItem('response')!= null) {
             setSuccessMessage(sessionStorage.getItem('response'))
             setErrorMessage('')
@@ -43,24 +46,25 @@ export default function ViewAssetComponent(){
                 sessionStorage.removeItem('reserr')
             }, 2000);
         }
-        getAllAssets().then( (response) =>  {setAssetList(response.data) })
+        getAllAssets().then( (response) =>  { setAssetList(response.data) })
     }
 
-    function addNewAsset()
-    {
+    function addNewAsset() {
         navigate(`/asset/-1`)
     }
 
-    function updateAsset(id){
+    function updateAsset(id) {
         navigate(`/asset/${id}`)
     }
 
     return(
         <div className="container">
-            <h1 className="text-center">View Assets <button type="submit" className="btn btn-primary" onClick={addNewAsset}>Add Asset</button> </h1>
-            {successMessage && <div className="alert alert-success">{successMessage}</div>  }
-            {errorMessage && <div className="alert alert-warning">{errorMessage}</div>  }
-            <table className="table table-hover table-striped"  ref={tableRef}>
+            <h2 className="text-center">View Assets 
+                <Button variant="contained" color="primary" onClick={addNewAsset} style={ { marginLeft : '10px' } }>Add Asset</Button>               
+            </h2>
+            {successMessage && <div className="alert alert-success"> <strong>{successMessage}</strong></div>  }
+            {errorMessage && <div className="alert alert-warning"> <strong> {errorMessage} </strong> </div>  }
+            <table className="table table-hover table-striped" id="table" ref={tableRef}>
                 <thead>
                     <tr>
                         <th>Sr</th>
@@ -74,6 +78,11 @@ export default function ViewAssetComponent(){
                 </thead>
                 <tbody>
                     {
+                        assetlist.length ==0 ? (
+                            <tr>
+                                <td colSpan={thcount}> No Data Available</td>
+                            </tr>
+                        ):(
                         assetlist.map(
                             (asset,index) => (
                                 <tr key={asset.asset_id}>
@@ -87,7 +96,7 @@ export default function ViewAssetComponent(){
                                 </tr>
                             )
                         )
-                    }
+                    )}
                 </tbody>
             </table>
         </div>

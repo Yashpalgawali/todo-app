@@ -64,8 +64,8 @@ export default function ViewDepartmentComponent() {
                 <Button variant="contained" color="primary" style={ { marginLeft : '10px'} }onClick={addNewDepartment}>Add Department</Button>
                 {/* <button type="submit" className="btn btn-primary" onClick={addNewDepartment}>Add Department</button> */}
             </h2>
-            {successMessage && <div className="alert alert-success">{successMessage}</div>  }
-            {errorMessage && <div className="alert alert-warning">{errorMessage}</div>  }
+            {successMessage && <div className="alert alert-success"><strong>{successMessage}</strong></div>  }
+            {errorMessage && <div className="alert alert-warning"><strong> {errorMessage}</strong> </div>  }
             <table className="table table-striped table-hover" ref={tableRef}>
                 <thead>
                     <tr>
