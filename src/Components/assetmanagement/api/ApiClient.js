@@ -1,9 +1,10 @@
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 
 export const apiClient = axios.create({ 
                             baseURL : 'http://localhost:8989/assetmanagementrest' , withCredentials: true
-                        })
+                        }) 
 
   // ✅ Response Interceptor (to get status)
   apiClient.interceptors.response.use(
@@ -18,8 +19,10 @@ export const apiClient = axios.create({
       if (error.response) {
         console.error('Response Error Status:', error.response.status);
         if (error.response.status === 401) {
+            //const path = require('path');
             sessionStorage.setItem('reserr','You are not Authorized. Please Login to Continue!!')
-            window.location.href = '/login';
+            window.location.href = window.location.href;
+           
           }
       } else {
         console.error('Network/Error:', error.message);

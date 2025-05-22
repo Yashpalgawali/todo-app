@@ -11,10 +11,10 @@ export default function DepartmentComponent() {
 
     const [btnValue,setBtnValue] = useState('Add Department')
  
-    const [department,setDepartment] = useState({
-        dept_id : '',
-        dept_name : ''
-    })
+    
+    const [dept_id,setDeptId] = useState('')
+    const [dept_name,setDeptName] = useState('')
+
     
     const navigate = useNavigate()
     const [companies,setCompanies] = useState([])
@@ -29,59 +29,57 @@ export default function DepartmentComponent() {
         {
            setBtnValue('Update Department')
            getDepartmentById(id).then((response) => {
-                setDepartment({
-                    dept_id : response.data.dept_id,
-                    dept_name : response.data.dept_name
-                })
+                setDeptId(response.data.dept_id)
+                setDeptName(response.data.dept_name)    
            })
         }
     }
 
     function validate(values) {
         let errors ={}
-        if(values.department.dept_name.length <3) {
+        if(values.dept_name.length <=1 ) {
             errors.dept_name='Department Name should be at least 2 characters'
         }
         return errors
     }
  
     function onSubmit(values) {
-        alert()
-        // retrieveCompanyById(values.companies).then((response) => {
-        //      const compObj = {
-        //         comp_id   : response.data.comp_id,
-        //         comp_name : response.data.comp_name
-        //      }
-        //     const dept = {
-        //         dept_id : values.department.dept_id , dept_name : values.department.dept_name , company : compObj
-        //     }
-        //     if(id == -1) {
-        //         saveDepartment(dept).then((response)=> {
-        //             sessionStorage.setItem('response',response.data.statusMsg)
-        //             navigate(`/viewdepartments`)
-        //         }).catch((error) => {
-        //             sessionStorage.setItem('reserr',response.data.statusMsg)
-        //             navigate(`/viewdepartments`)
-        //         })
-        //     }
-        //     else {
-        //             updateDepartment(dept).then((response)=> {
-        //                 sessionStorage.setItem('response',response.data.statusMsg)
-        //                 navigate(`/viewdepartments`)
-        //             }).catch((error) => {
-        //                 sessionStorage.setItem('reserr',error.data.statusMsg)
-        //                 navigate(`/viewdepartments`)
-        //             })
-        //         }            
-        //     })
+        
+        retrieveCompanyById(values.companies).then((response) => {
+             const compObj = {
+                comp_id   : response.data.comp_id,
+                comp_name : response.data.comp_name
+             }
+            const dept = {
+                dept_id : values.dept_id , dept_name : values.dept_name , company : compObj
+            }
+            if(id == -1) {
+                saveDepartment(dept).then((response)=> {
+                    sessionStorage.setItem('response',response.data.statusMsg)
+                    navigate(`/viewdepartments`)
+                }).catch((error) => {
+                    sessionStorage.setItem('reserr',response.data.statusMsg)
+                    navigate(`/viewdepartments`)
+                })
+            }
+            else {                    
+                    updateDepartment(dept).then((response)=> {
+                        sessionStorage.setItem('response',response.data.statusMsg)
+                        navigate(`/viewdepartments`)
+                    }).catch((error) => {
+                        sessionStorage.setItem('reserr',error.data.statusMsg)
+                        navigate(`/viewdepartments`)
+                    })
+                }            
+            })
     }
- 
+  
     return(
         <div className="container">
             <h1>{btnValue}</h1>        
         <div>
             <Formik
-                initialValues={ { department , companies:'' } }
+                initialValues={ { dept_id , dept_name , companies:'' } }
                 enableReinitialize={true}
                 validate={validate}
                 onSubmit={onSubmit}
@@ -106,9 +104,9 @@ export default function DepartmentComponent() {
                             <ErrorMessage  component="div" className="alert alert-warning" name="companies"/>
                         </fieldset>
                             <fieldset>
-                            <label htmlFor="department.dept_name">Department</label>
-                            <Field className="form-control" name="department.dept_name"  type="text"></Field>
-                            <ErrorMessage  component="div" className="alert alert-warning" name="department.dept_name"/>
+                            <label htmlFor="dept_name">Department</label>
+                            <Field className="form-control" name="dept_name"  type="text"></Field>
+                            <ErrorMessage  component="div" className="alert alert-warning" name="dept_name"/>
                         </fieldset>
                             <div>
                                 <Button type="submit" variant="contained" color="primary" className="m-3">{btnValue}</Button>    

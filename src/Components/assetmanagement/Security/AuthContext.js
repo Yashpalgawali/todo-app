@@ -46,14 +46,12 @@ async function login(username, password) {
         setToken(jwtToken);
         localStorage.setItem('token',jwtToken)
         
-        apiClient.interceptors.request.use((config) => {
-            
-            config.headers.Authorization = jwtToken;
-            return config;
-            },  (error) => {
-                return Promise.reject(error);
-            });
-            
+        // apiClient.interceptors.request.use((config) => {            
+        //     config.headers.Authorization = jwtToken;
+        //     return config;
+        //     },  (error) => {
+        //         return Promise.reject(error);
+        //     });            
         return true
      }
      else {       
@@ -64,11 +62,12 @@ async function login(username, password) {
 async function logout() {
     
     const response = await logoutFunction(token)
-    console.log(response.data.message)
+   
     sessionStorage.setItem('response',response.data.message)
     setAuthenticated(false)
     setUsername(null)
-    localStorage.clear()
+      // Clear storage
+    localStorage.clear();
     
     return true
 }

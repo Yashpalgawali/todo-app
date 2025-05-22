@@ -1,6 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "./Security/AuthContext"; 
 import LogoutIcon from '@mui/icons-material/Logout';
+import LoginIcon from '@mui/icons-material/Login';
+
 
 export default function HeaderComponent() {
 
@@ -13,7 +15,7 @@ export default function HeaderComponent() {
     async function logout() {        
        const res = await authContext.logout()
        if(res) {
-            navigate('/')
+            navigate(window.location.href)
        }
        else {
         alert('logout failed')
@@ -40,8 +42,8 @@ export default function HeaderComponent() {
                         </ul>
                     </div>
                     <ul className="navbar-nav">
-                         <li className="nav-item fs-5">{!isAuthenticated && <Link className="nav-link" to="/login">Login</Link> }</li> 
-                        <li className="nav-item fs-5">{isAuthenticated &&<Link className="nav-link" to="/logout" onClick={logout} ><LogoutIcon /> Logout</Link>}</li>
+                         <li className="nav-item fs-5">{!isAuthenticated && <Link className="nav-link" to="/login"><LoginIcon /> Login</Link> }</li> 
+                        <li className="nav-item fs-5">{isAuthenticated &&<Link className="nav-link"  onClick={logout} ><LogoutIcon /> Logout</Link>}</li>
                     </ul>
                 </nav>
             </div>

@@ -9,6 +9,7 @@ import 'datatables.net-dt/css/dataTables.dataTables.css'; // DataTables CSS styl
 import 'datatables.net'; // DataTables core functionality
 
 import { exportAssignAssets } from "../api/AssetAssignHistory";
+import { Button } from '@mui/material';
 
 DataTable.use(DT);
 
@@ -41,7 +42,10 @@ export default function ViewAssignedAssets () {
 
     return(
         <div className="container">
-            <h1>View Assigned Assets <button type="submit" className="btn btn-primary m-3" onClick={exportAssignedAssets} > <FileDownloadIcon /> Export Assigned Assets</button> </h1>
+            <h2>View Assigned Assets 
+                <Button variant='contained' style={ { marginLeft : '10px' } } color='primary'><FileDownloadIcon /> Export Assigned Assets</Button>
+                {/* <button type="submit" className="btn btn-primary m-3" onClick={exportAssignedAssets} > <FileDownloadIcon /> Export Assigned Assets</button>  */}
+            </h2>
 
              <DataTable 
                 data={assetlist}

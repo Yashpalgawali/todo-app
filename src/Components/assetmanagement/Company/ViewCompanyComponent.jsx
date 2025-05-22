@@ -62,10 +62,10 @@ export default function ViewCompanyComponent() {
         <div className="container">
             <h2 className="text-center m-4">View Company 
                 {/* <button type="submit" style={ { float: 'right !important' } } className="btn btn-primary" onClick={addNewCompany} ><strong>Add Company</strong></button>  */}
-                <Button type="submit" variant="contained" color="primary" style={ { float: 'right !important' } } className="m-2" onClick={addNewCompany} >Add Company</Button>    
+                <Button type="submit" variant="contained" color="primary" style={ { float: 'right' } } className="m-2" onClick={addNewCompany} >Add Company</Button>    
             </h2>
-            {successMessage && <div className="text-center alert alert-success"> {successMessage} </div> }
-            {errorMessage && <div className="text-center alert alert-warning"> {errorMessage} </div> }
+            {successMessage && <div className="text-center alert alert-success"><strong> {successMessage}</strong> </div> }
+            {errorMessage && <div className="text-center alert alert-warning"> <strong>{errorMessage} </strong></div> }
         {/* <DataTable  
             data={complist}
             columns={[
@@ -96,8 +96,8 @@ export default function ViewCompanyComponent() {
                 <tbody>
                   {complist.length === 0 ? (
                         <tr>
-                            <td colSpan="2" style={{ textAlign: 'center' }}>
-                             No data available
+                            <td colSpan="3" style={{ textAlign: 'center' }}>
+                                No data available
                             </td>
                         </tr>
                         ) : (
@@ -113,7 +113,7 @@ export default function ViewCompanyComponent() {
                             </td>
                             </tr>
                         ))
-                        )}
+                      )}
                 </tbody>
             </table>
         </div>
