@@ -1,6 +1,7 @@
 
 import { apiClient } from "./ApiClient";
 
+export const saveEmployee = (emp)=> apiClient.post('/employee/',emp)
 
 export const getAllEmployees = ()=> apiClient.get('/employee/')
 
