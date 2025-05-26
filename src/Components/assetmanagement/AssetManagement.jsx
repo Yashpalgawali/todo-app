@@ -24,16 +24,18 @@ function AuthenticatedRoute({children}){
     if(authContext.isAuthenticated)
        { return children }
     else {
-        sessionStorage.setItem('reserr','You are not logged in. Please log in to continue!!')
+        sessionStorage.setItem('reserr','You are not logged in. Please Log in to continue!!')
         return <Navigate to="/" />
     }
 }
 
 export default function AssetManagement() {
+     
     return(
         <div className="AssetManagement">
             <AuthProvider>
-              <BrowserRouter basename={process.env.PUBLIC_URL}>
+              {/* <BrowserRouter basename={process.env.PUBLIC_URL}> */}
+               <BrowserRouter  >
                 <HeaderComponent />
                 <Routes>
                     <Route path="/company/:id" element={ 
