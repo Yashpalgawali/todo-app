@@ -12,3 +12,5 @@ export const viewAssetAssignHistoryByEmployeeId = (id)=> apiClient.get(`/employe
 export const getEmployeeById = (empid)=> apiClient.get(`/employee/${empid}`)
 
 export const getAssignedAssetsByEmployeeId = (empid)=> apiClient.get(`/employee/getassignedassetsbyempid/${empid}`)
+
+export const updateEmployee = (emp)=> apiClient.put('/employee/',emp)

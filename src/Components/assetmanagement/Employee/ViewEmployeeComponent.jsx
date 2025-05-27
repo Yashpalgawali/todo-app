@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom"
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteIcon from '@mui/icons-material/Delete';
- 
 
 import $ from 'jquery'; // jQuery is required for DataTables to work
  
@@ -17,7 +16,8 @@ import { Button } from "@mui/material";
 export default function ViewEmployeeComponent() {
 
     const [emplist , setEmpList]  = useState([])
-   
+    const [successMessage,setSuccessMessage] = useState('')
+    const [errorMessage,setErrorMessage] = useState('')
     const navigate = useNavigate()
     const tableRef = useRef(null)
 
@@ -29,10 +29,26 @@ export default function ViewEmployeeComponent() {
         } ,[emplist]
     )
     useEffect(
-        () => retrieveAllEmployees() , []
+        () => { 
+            retrieveAllEmployees()
+         if(sessionStorage.getItem('response')!='') {
+            setSuccessMessage(sessionStorage.getItem('response'))
+             setTimeout(() => {
+                sessionStorage.removeItem('response')
+                setSuccessMessage('')
+             }, 2000);
+        }
+        if(sessionStorage.getItem('reserr')!=''){
+            setErrorMessage(sessionStorage.getItem('reserr'))
+             setTimeout(() => {
+                sessionStorage.removeItem('reserr')
+                setErrorMessage('')
+             }, 2000);
+        }
+        } , []
     )
 function retrieveAllEmployees() {
-        getAllEmployees().then((response)=>{
+        getAllEmployees().then((response)=> {
              setEmpList(response.data)
         })
 }
@@ -53,7 +69,7 @@ async function downloadHistory(empid)
 {
     let emp_name = null
     await getEmployeeById(empid).then((response)=> {
-       emp_name =response.data.emp_name
+       emp_name = response.data.emp_name
     })
     
     await exportAssignAssetsByEmpId(empid).then((response)=>{
@@ -78,7 +94,10 @@ function editAssetAssigned(empid) {
          <h2>View Employees
             <Button style={ { marginLeft : '10px' } } variant="contained" onClick={addNewEmployee} color="primary">Add Employee</Button>
          </h2>
-
+            <>
+            {successMessage && <div className="text-center alert alert-success"> <strong>{successMessage} </strong></div> }
+            {errorMessage && <div className="text-center alert alert-warning"> <strong>{errorMessage} </strong></div> }
+            </>
             <table className="table table-striped table-hover" ref={tableRef}>
                 <thead>
                     <tr> 

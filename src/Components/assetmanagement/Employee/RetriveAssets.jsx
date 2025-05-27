@@ -2,6 +2,7 @@ import { Field, Form, Formik } from "formik"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { getAssignedAssetsByEmployeeId } from "../api/EmployeeApiService"
+import { Button } from "@mui/material"
 
 export default function RetriveAssets() {
 
@@ -10,11 +11,33 @@ export default function RetriveAssets() {
         assigned_assets : ''
     })
 
+    const [assigned_assets,setAssignedAssets] = useState('')
+
     const {id} = useParams()
     useEffect(
         () => {
               getAssignedAssetsByEmployeeId(id).then((response)=>{
                 let data = response.data
+                console.log(data)
+                let assets = ''
+                for(let i=0;i<data.length;i++) {
+                    if(i==0) {
+                        assets += data[i].asset.asset_name +', '
+                    }
+                    else {
+                        if(i == (data.length-1))
+                         {
+                            assets += data[i].asset.asset_name+' ( '+data[i].asset.atype.type_name+' )'
+                         }
+                         else { 
+                            assets += data[i].asset.asset_name+' ( '+data[i].asset.atype.type_name+' )'+', '
+                         }
+                    }                     
+                }
+                setAssignedAssets(assets)
+                setEmployee({
+                    emp_name : response.data[0].employee.emp_name
+                })
                 console.log(data)
               })
 
@@ -22,7 +45,10 @@ export default function RetriveAssets() {
     )
 
     function onSubmit(values) {
-        console.log(values)
+        const emp = {
+            emp_id : id,
+            emp_name : employee.emp_name,
+        }
     }
 
     return(
@@ -31,7 +57,7 @@ export default function RetriveAssets() {
             <div>
                 <Formik
                     enableReinitialize={true}
-                    initialValues={ { employee } }
+                    initialValues={ { employee ,assigned_assets} }
                     onSubmit={onSubmit}
                     validateOnBlur={true}
                     validateOnChange={true}
@@ -41,20 +67,21 @@ export default function RetriveAssets() {
                         <Form>
                             <fieldset>
                                 <label htmlFor="emp_name">Employee</label>
-                                <Field type="text" name="emp_name" className="form-control"   />
+                                <Field type="text" readOnly disabled name="employee.emp_name" className="form-control"   />
                             </fieldset>
                             <fieldset>
                                 <label htmlFor="assigned_assets">Assigned Assets</label>
-                                <Field as="select" name="assigned_assets" className="form-control">
+                                <Field type='text' readOnly disabled name="assigned_assets" className="form-control">
                                     
                                 </Field>
                             </fieldset>
                             <fieldset>
                                 <label htmlFor="comments">Comments</label>
-                                <Field as="textarea" rows="5" className="form-control">
+                                <Field as="textarea" name='comments' rows="5" className="form-control">
 
                                 </Field>
                             </fieldset>
+                            <Button type="submit" variant="contained" color="primary" className="mt-3">Retrieve Assets</Button>
                         </Form>
                     )
                 }

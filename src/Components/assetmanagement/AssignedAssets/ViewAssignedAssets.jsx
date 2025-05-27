@@ -23,6 +23,8 @@ export default function ViewAssignedAssets () {
 
     function  retrieveAllAssignedAssets() {       
         viewAllAssignedAssets().then((response) => {
+            console.log(response.data)
+
             setAssetList(response.data)
         })
     }
@@ -49,8 +51,10 @@ export default function ViewAssignedAssets () {
              <DataTable 
                 data={assetlist}
                 columns={[
-                    { title: 'Sr', data: 'assigned_asset_id' },
+                    // { title: 'Sr', data: 'assigned_asset_id' },
+                    { title: 'Sr', data: null , render: function(data,type,row,meta){ return meta.row+1} },
                     { title: 'Assigned Assets', data: 'assigned' },
+                    { title: 'Asset types', data: 'assigned_types' },
                     { title: 'Employee', data: 'employee.emp_name' },
                     { title: 'Designation', data: 'employee.designation.desig_name' },
                     { title: 'Department', data: 'employee.department.dept_name' },

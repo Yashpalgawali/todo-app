@@ -6,7 +6,7 @@ import {
   useFormikContext,
 } from "formik";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { retrieveAllCompanies } from "../api/CompanyApiService";
 import {
   getAllDepartments,
@@ -15,7 +15,7 @@ import {
 import { Button } from "@mui/material";
 import { getAllDesignations } from "../api/DesignationApiService";
 import { getAllAssets } from "../api/AssetApiService";
-import { getAssignedAssetsByEmployeeId, saveEmployee } from "../api/EmployeeApiService";
+import { getAssignedAssetsByEmployeeId, getEmployeeById, saveEmployee, updateEmployee } from "../api/EmployeeApiService";
 import Select from "react-select";
 
 function AssetMultiSelect({ options }) {
@@ -45,6 +45,9 @@ export default function EmployeeComponent() {
   const [desigList, setDesigList] = useState([]);
   const [assetList, setAssetList] = useState([]);
   const [empName, setEmpName] = useState("");
+  const [empEmail,setEmpEmail] = useState('')
+  const [empContact,setEmpContact] = useState('')
+
   const [assignedAssets, setAssignedAssets] = useState("");
   const [company, setCompany] = useState(null);
   const [designation, setSelectedDesignation] = useState(null);
@@ -52,8 +55,10 @@ export default function EmployeeComponent() {
   const [department, setSelectedDepartment] = useState(null);
 
   const { id } = useParams();
+  const navigate = useNavigate()
 
   useEffect(() => {
+    
     retrieveAllCompanies().then((response) => {
       setCompList(response.data);
     });
@@ -67,12 +72,20 @@ export default function EmployeeComponent() {
     if (id !== "-1" && id !== -1) {
       setBtnValue("Update Employee");
       setIsAssigned(true);
+      getEmployeeById(id).then((response)=>{
+         setEmpName(response.data.emp_name)
+         setEmpEmail(response.data.emp_email)
+         setEmpContact(response.data.emp_contact)
+         
+      })
 
       getAssignedAssetsByEmployeeId(id).then((response) => {
         const assignedAssetsData = response.data;
 
         if (assignedAssetsData.length > 0) {
           setEmpName(assignedAssetsData[0].employee.emp_name);
+          setEmpContact(assignedAssetsData[0].employee.emp_contact)
+          setEmpEmail(assignedAssetsData[0].employee.emp_email)
           setSelectedDesignation(assignedAssetsData[0].employee.designation);
           setSelectedDepartment(assignedAssetsData[0].employee.department);
           setCompany(assignedAssetsData[0].employee.department.company);
@@ -82,13 +95,18 @@ export default function EmployeeComponent() {
           });
 
           const assignedNames = assignedAssetsData
-            .map((a) => a.asset.asset_name)
+            .map((a) => a.asset.asset_name+'('+a.asset.model_number+')')
             .join(", ");
           setAssignedAssets(assignedNames);
         }
-      });
+      }).catch((error)=>{
+         
+      }) 
+      ;
     }
   }, [id]);
+
+   
 
   const handleCompanyChange = async (event, setFieldValue) => {
     const compId = event.target.value;
@@ -104,11 +122,42 @@ export default function EmployeeComponent() {
     }
   };
 
+  function onSubmit(values)
+  {
+    let designation = {desig_id : values.designation , desig_name : ''} 
+    let department = {dept_id : values.department , dept_name : ''}
+    values.department = department
+    values.designation = designation
+     
+    // values.emp_id = id
+    console.log("emp Object is ",values)
+    if(id== -1)
+    {
+      saveEmployee(values).then((response)=>{
+        sessionStorage.setItem('response','Employee '+values.emp_name+' is saved successfully')
+        navigate('/viewemployees')
+      }).catch((error)=>{
+        sessionStorage.setItem('reserr','Employee '+values.emp_name+' is not saved ')
+        navigate('/viewemployees')
+      })
+    }
+    else {
+     
+      updateEmployee(values).then((response)=>{
+        sessionStorage.setItem('response','Employee '+values.emp_name+' is saved successfully')
+        navigate('/viewemployees')
+      }).catch((error)=>{
+        sessionStorage.setItem('reserr','Employee '+values.emp_name+' is not saved ')
+        navigate('/viewemployees')
+      })
+    }
+  }
+
   const options = assetList
     .filter((asset_ids) => asset_ids.quantity > 0)
     .map((asset_ids) => ({
       value: asset_ids.asset_id,
-      label: `${asset_ids.asset_name} (${asset_ids.atype.type_name})`,
+      label: `${asset_ids.asset_name} - ${asset_ids.model_number} (${asset_ids.atype.type_name}) `,
     }));
 
   return (
@@ -118,16 +167,15 @@ export default function EmployeeComponent() {
         enableReinitialize
         initialValues={{
           emp_name: empName,
+          emp_email:empEmail,
+          emp_contact:empContact,
           assigned_assets: assignedAssets,
           company: company?.comp_id?.toString() || "",
           department: department?.dept_id?.toString() || "",
           designation: designation?.desig_id?.toString() || "",
           asset_ids: [],
         }}
-        onSubmit={(values) => {
-          console.log("Submitted values:", values);
-          
-        }}
+        onSubmit={ onSubmit}
       >
         {({ setFieldValue, values }) => (
           <Form>
@@ -143,6 +191,38 @@ export default function EmployeeComponent() {
               <ErrorMessage
                 component="div"
                 name="emp_name"
+                className="alert alert-warning"
+              />
+            </fieldset>
+
+             <fieldset>
+              <label htmlFor="emp_email">Employee Email</label>
+              <Field
+                type="text"
+                placeholder="Enter Employee Email"
+                name="emp_email"
+                className="form-control"
+                value={values.emp_email}
+              />
+              <ErrorMessage
+                component="div"
+                name="emp_email"
+                className="alert alert-warning"
+              />
+            </fieldset>
+
+            <fieldset>
+              <label htmlFor="emp_contact">Employee Contact</label>
+              <Field
+                type="text"
+                placeholder="Enter Employee Contact"
+                name="emp_contact"
+                className="form-control"
+                value={values.emp_contact}
+              />
+              <ErrorMessage
+                component="div"
+                name="emp_contact"
                 className="alert alert-warning"
               />
             </fieldset>
