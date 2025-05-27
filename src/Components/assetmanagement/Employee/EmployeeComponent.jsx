@@ -76,7 +76,7 @@ export default function EmployeeComponent() {
          setEmpName(response.data.emp_name)
          setEmpEmail(response.data.emp_email)
          setEmpContact(response.data.emp_contact)
-         
+
       })
 
       getAssignedAssetsByEmployeeId(id).then((response) => {
@@ -128,26 +128,36 @@ export default function EmployeeComponent() {
     let department = {dept_id : values.department , dept_name : ''}
     values.department = department
     values.designation = designation
-     
+    
+    let employee = {
+      emp_id : id,
+      emp_name : values.emp_name,
+      emp_email : values.emp_email,
+      emp_contact : values.emp_contact,
+      department : department,
+      designation : designation,
+      asset_ids : values.asset_ids
+    }
+
     // values.emp_id = id
     console.log("emp Object is ",values)
     if(id== -1)
     {
-      saveEmployee(values).then((response)=>{
-        sessionStorage.setItem('response','Employee '+values.emp_name+' is saved successfully')
+      saveEmployee(employee).then((response)=>{
+        sessionStorage.setItem('response','Employee '+employee.emp_name+' is saved successfully')
         navigate('/viewemployees')
       }).catch((error)=>{
-        sessionStorage.setItem('reserr','Employee '+values.emp_name+' is not saved ')
+        sessionStorage.setItem('reserr','Employee '+employee.emp_name+' is not saved ')
         navigate('/viewemployees')
       })
     }
     else {
      
-      updateEmployee(values).then((response)=>{
-        sessionStorage.setItem('response','Employee '+values.emp_name+' is saved successfully')
+      updateEmployee(employee).then((response)=>{
+        sessionStorage.setItem('response','Employee '+employee.emp_name+' is saved successfully')
         navigate('/viewemployees')
       }).catch((error)=>{
-        sessionStorage.setItem('reserr','Employee '+values.emp_name+' is not saved ')
+        sessionStorage.setItem('reserr','Employee '+employee.emp_name+' is not saved ')
         navigate('/viewemployees')
       })
     }
