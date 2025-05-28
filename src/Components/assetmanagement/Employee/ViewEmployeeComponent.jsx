@@ -50,6 +50,8 @@ export default function ViewEmployeeComponent() {
 function retrieveAllEmployees() {
         getAllEmployees().then((response)=> {
              setEmpList(response.data)
+             console.log(response.data)
+
         })
 }
 
@@ -117,7 +119,7 @@ function editAssetAssigned(empid) {
                                     <td>{emp.emp_name}</td>
                                     <td>{emp.department.company.comp_name}</td>
                                     <td>{emp.department.dept_name}</td>
-                                    <td>
+                                     <td>
                                     <button type="submit" className="btn btn-primary" onClick={()=>getEmployeeAssetAssignHistory(emp.emp_id)}><VisibilityIcon /> History</button>
                                     <button type="submit" className="btn btn-primary m-2" onClick={()=>retrieveAllAssets(emp.emp_id)}><DeleteIcon /> Retrieve</button>
                                     <button type="submit" className="btn btn-primary m-2" onClick={()=>editAssetAssigned(emp.emp_id)}>Update</button>

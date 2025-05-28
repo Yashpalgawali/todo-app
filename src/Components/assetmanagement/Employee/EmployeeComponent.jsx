@@ -68,20 +68,14 @@ export default function EmployeeComponent() {
     getAllAssets().then((response) => {
       setAssetList(response.data);
     });
-
-    if (id !== "-1" && id !== -1) {
+  
+    if (id !== "-1" && id !== -1) { alert('id is '+id)
       setBtnValue("Update Employee");
       setIsAssigned(true);
-      getEmployeeById(id).then((response)=>{
-         setEmpName(response.data.emp_name)
-         setEmpEmail(response.data.emp_email)
-         setEmpContact(response.data.emp_contact)
-
-      })
-
-      getAssignedAssetsByEmployeeId(id).then((response) => {
+      
+     getAssignedAssetsByEmployeeId(id).then((response) => {
         const assignedAssetsData = response.data;
-
+       
         if (assignedAssetsData.length > 0) {
           setEmpName(assignedAssetsData[0].employee.emp_name);
           setEmpContact(assignedAssetsData[0].employee.emp_contact)
@@ -90,21 +84,34 @@ export default function EmployeeComponent() {
           setSelectedDepartment(assignedAssetsData[0].employee.department);
           setCompany(assignedAssetsData[0].employee.department.company);
 
+          setIsAssigned(true)
+
           getAllDepartments().then((resp) => {
             setDeptList(resp.data);
           });
 
           const assignedNames = assignedAssetsData
-            .map((a) => a.asset.asset_name+'('+a.asset.model_number+')')
+            .map((a) => a.asset.asset_name+'('+a.asset.model_number+')'+'('+a.asset.asset_number+' )')
             .join(", ");
           setAssignedAssets(assignedNames);
         }
       }).catch((error)=>{
+         setIsAssigned(false)
+      });
+      
+      getEmployeeById(id).then((response)=>{
+        console.log(response.data)
          
-      }) 
-      ;
+        setEmpName(response.data.emp_name)
+        setEmpEmail(response.data.emp_email)
+        setEmpContact(response.data.emp_contact)
+        setSelectedDesignation(response.data.designation);
+        setSelectedDepartment(response.data.department);
+        setCompany(response.data.department.company);
+
+      })
     }
-  }, [id]);
+  }, [id]); 
 
    
 
@@ -137,12 +144,11 @@ export default function EmployeeComponent() {
       department : department,
       designation : designation,
       asset_ids : values.asset_ids
-    }
-
-    // values.emp_id = id
-    console.log("emp Object is ",values)
-    if(id== -1)
+   }
+     
+    if(id == -1)
     {
+      console.log(employee)
       saveEmployee(employee).then((response)=>{
         sessionStorage.setItem('response','Employee '+employee.emp_name+' is saved successfully')
         navigate('/viewemployees')
@@ -152,27 +158,125 @@ export default function EmployeeComponent() {
       })
     }
     else {
-     
-      updateEmployee(employee).then((response)=>{
-        sessionStorage.setItem('response','Employee '+employee.emp_name+' is saved successfully')
-        navigate('/viewemployees')
-      }).catch((error)=>{
-        sessionStorage.setItem('reserr','Employee '+employee.emp_name+' is not saved ')
-        navigate('/viewemployees')
-      })
+        alert('Updating employee')
+        var assigned_asset_length = 0
+        var asset_ids = ''
+
+        console.log(employee)
+        getAssignedAssetsByEmployeeId(id).then((response)=> {
+          alert('assets found ')
+          assigned_asset_length = response.data.length
+          console.log('getassetsByempID ',response.data)
+          var result = response.data.length
+
+          if(employee.asset_ids== '') {
+            let text='No assets are Selected to Assign. This will remove all assigned assets. Do you want to continue?';
+            if(window.confirm(text) == true) {
+              
+              updateEmployee(employee).then((response)=>{
+                sessionStorage.setItem('response','Employee '+employee.emp_name+' is updated successfully')
+                navigate('/viewemployees')
+              }).catch((error)=>{
+                sessionStorage.setItem('reserr','Employee '+employee.emp_name+' is not updated ')
+                navigate('/viewemployees')
+              })
+            }
+            else {
+                    if(result.length==1) {
+                      asset_ids += result.asset.asset_id
+                    }
+                    else {
+                      for(let i=0;i<result.length;i++) {
+                        if(i==0) {
+                          asset_ids += result[i].asset.asset_id
+                        }
+                        else {
+                          if( i <= result.length-1){
+                            asset_ids = asset_ids+","+result[i].asset.asset_id
+                          }
+                        }                
+                      }
+                    }
+                    employee.asset_ids = asset_ids.split(",")
+                  }
+                  console.log('Updated employye obj ',employee)
+         } 
+        }).catch((error) => {
+           
+          alert('error')
+        })
+
+      // if(employee.asset_ids == '')
+      // {
+      //   alert('No assigned assets')
+      //   let text='No assets are selected to Assign. This will remove all assigned assets. Do you want to continue?';
+      //   if(window.confirm(text) == true) {
+           
+      //     updateEmployee(employee).then((response)=>{
+      //       sessionStorage.setItem('response','Employee '+employee.emp_name+' is updated successfully')
+      //       navigate('/viewemployees')
+      //     }).catch((error)=>{
+      //       sessionStorage.setItem('reserr','Employee '+employee.emp_name+' is not updated ')
+      //       navigate('/viewemployees')
+      //     })
+      //   } 
+      //   else {
+      //     alert()
+      //     var asset_ids = ''
+      //     getAssignedAssetsByEmployeeId(id).then((response)=>{
+      //       let result = response.data
+            
+      //       if(result.length==1) {
+      //         asset_ids += result.asset.asset_id
+      //       }
+      //       else {
+      //         for(let i=0;i<result.length;i++) {
+      //           if(i==0) {
+      //             asset_ids += result[i].asset.asset_id
+      //           }
+      //           else {
+      //             if( i <= result.length-1){
+      //               asset_ids = asset_ids+","+result[i].asset.asset_id
+      //             }
+      //           }               
+      //         }
+      //       }
+      //        employee.asset_ids = asset_ids.split(",")
+      //     })
+      //      console.log('New employee Object is ',employee)
+      //     updateEmployee(employee).then((response)=>{
+      //       sessionStorage.setItem('response','Employee '+employee.emp_name+' is saved successfully')
+      //       navigate('/viewemployees')
+      //     }).catch((error)=>{
+      //       sessionStorage.setItem('reserr','Employee '+employee.emp_name+' is not saved ')
+      //       navigate('/viewemployees')
+      //     })
+      //   }
+      // }
+      
     }
   }
-
-  const options = assetList
-    .filter((asset_ids) => asset_ids.quantity > 0)
-    .map((asset_ids) => ({
-      value: asset_ids.asset_id,
-      label: `${asset_ids.asset_name} - ${asset_ids.model_number} (${asset_ids.atype.type_name}) `,
-    }));
+  var options =''
+   if(id != -1 ) {
+    options =  assetList      
+      .map((asset_ids) => ({
+        value: asset_ids.asset_id,
+        label: `${asset_ids.asset_name} - ${asset_ids.model_number} (${asset_ids.atype.type_name}) `,
+      }));
+   }
+   else {
+    options =  assetList
+      .filter((asset_ids) => asset_ids.quantity > 0)
+      .map((asset_ids) => ({
+        value: asset_ids.asset_id,
+        label: `${asset_ids.asset_name} - ${asset_ids.model_number} (${asset_ids.atype.type_name}) `,
+      }));
+   }
+  
 
   return (
     <div className="container">
-      <h1>{btnValue}</h1>
+      <h2>{btnValue}</h2>
       <Formik
         enableReinitialize
         initialValues={{
