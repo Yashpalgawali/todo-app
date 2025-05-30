@@ -15,7 +15,8 @@ export default function CompanyComponent () {
     
     useEffect(()=> getCompanyById() , [id])
    
-    function getCompanyById() {         
+    function getCompanyById() {
+                 
         if(id != -1) {
             setBtnValue('Update Company')         
             retrieveCompanyById(id).then((response) => {

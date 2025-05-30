@@ -1,57 +1,83 @@
 import { Field, Form, Formik } from "formik"
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
-import { getAssignedAssetsByEmployeeId } from "../api/EmployeeApiService"
+import { useNavigate, useParams } from "react-router-dom"
+import { getAssignedAssetsByEmployeeId, retrieveAllAssetsByEmpId } from "../api/EmployeeApiService"
 import { Button } from "@mui/material"
 
 export default function RetriveAssets() {
 
     const [employee,setEmployee] = useState({
         emp_name : '',
-        assigned_assets : ''
+        assigned_assets : '',
+        comments : '',
+        emp_id : ''
     })
 
     const [assigned_assets,setAssignedAssets] = useState('')
 
     const {id} = useParams()
+
     useEffect(
         () => {
-              getAssignedAssetsByEmployeeId(id).then((response)=>{
+             
+            getAssignedAssetsByEmployeeId(id).then((response)=>{
+               
                 let data = response.data
-                console.log(data)
+                
                 let assets = ''
-                for(let i=0;i<data.length;i++) {
-                    if(i==0) {
-                        assets += data[i].asset.asset_name +', '
-                    }
-                    else {
-                        if(i == (data.length-1))
-                         {
-                            assets += data[i].asset.asset_name+' ( '+data[i].asset.atype.type_name+' )'
-                         }
-                         else { 
-                            assets += data[i].asset.asset_name+' ( '+data[i].asset.atype.type_name+' )'+', '
-                         }
-                    }                     
+                var result_length = data.length
+
+                if(result_length == 1){
+                    assets += data[0].asset.asset_name
+                     
                 }
+                else {
+                    for(let i=0;i<result_length;i++) {
+                        if(i==0) {
+                            assets +=  data[i].asset.asset_name+','
+                            
+                        } else {
+                            if(i == result_length-1) {
+                                assets += data[i].asset.asset_name
+                            }
+                            else {
+                                assets = assets + data[i].asset.asset_name +','
+                            }                            
+                        }                        
+                   }
+                }                
+                 
                 setAssignedAssets(assets)
                 setEmployee({
-                    emp_name : response.data[0].employee.emp_name
+                    emp_name : data[0].employee.emp_name
                 })
-                console.log(data)
-              })
-
+                 
+            }).catch((error)=>{
+                sessionStorage.setItem('reserr','No Assets are assigned to the Employee')
+                navigate('/viewemployees') 
+            })             
         }, [id]
     )
+    
+    const navigate = useNavigate()
 
     function onSubmit(values) {
+
         const emp = {
             emp_id : id,
-            emp_name : employee.emp_name,
+            comments : values.comments
         }
+        console.log(emp)
+        retrieveAllAssetsByEmpId(emp).then((response)=> {
+            sessionStorage.setItem('response','All assets are retrived from '+employee.emp_name)
+            navigate(`/viewassignedassets`)
+        }).catch((error)=> {
+            sessionStorage.setItem('reserr','Assets are NOT retrived from '+employee.emp_name)
+            navigate(`/viewassignedassets`)
+        })
     }
 
-    return(
+    return (
         <div className="container">
             <h2 className="text-center">Retrieve All Assets</h2>
             <div>

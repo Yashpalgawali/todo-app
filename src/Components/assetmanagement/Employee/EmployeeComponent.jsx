@@ -69,7 +69,7 @@ export default function EmployeeComponent() {
       setAssetList(response.data);
     });
   
-    if (id !== "-1" && id !== -1) { alert('id is '+id)
+    if (id !== "-1" && id !== -1) {  
       setBtnValue("Update Employee");
       setIsAssigned(true);
       
@@ -169,10 +169,10 @@ export default function EmployeeComponent() {
           console.log('getassetsByempID ',response.data)
           var result = response.data.length
 
-          if(employee.asset_ids== '') {
+          if(employee.asset_ids == '') {
             let text='No assets are Selected to Assign. This will remove all assigned assets. Do you want to continue?';
             if(window.confirm(text) == true) {
-              
+
               updateEmployee(employee).then((response)=>{
                 sessionStorage.setItem('response','Employee '+employee.emp_name+' is updated successfully')
                 navigate('/viewemployees')
@@ -182,28 +182,43 @@ export default function EmployeeComponent() {
               })
             }
             else {
-                    if(result.length==1) {
-                      asset_ids += result.asset.asset_id
+              alert('else part \n Lenght is '+result)
+                    if(result==1) {
+                      asset_ids += response.data.asset.asset_id
                     }
                     else {
-                      for(let i=0;i<result.length;i++) {
+                      for(let i=0;i<result;i++) {
                         if(i==0) {
-                          asset_ids += result[i].asset.asset_id
+                          asset_ids += response.data[i].asset.asset_id
                         }
                         else {
-                          if( i <= result.length-1){
-                            asset_ids = asset_ids+","+result[i].asset.asset_id
+                          if( i <= result-1){
+                            asset_ids = asset_ids+","+response.data[i].asset.asset_id                            
                           }
                         }                
                       }
+                      console.log('Asset ID \'s are',asset_ids)
                     }
                     employee.asset_ids = asset_ids.split(",")
                   }
                   console.log('Updated employye obj ',employee)
+                  updateEmployee(employee).then((response)=>{
+                    sessionStorage.setItem('response','Employee '+employee.emp_name+' is updated successfully')
+                    navigate('/viewemployees')
+                  }).catch((error)=>{
+                    sessionStorage.setItem('reserr','Employee '+employee.emp_name+' is not updated ')
+                    navigate('/viewemployees')
+                  })
          } 
         }).catch((error) => {
            
-          alert('error')
+          updateEmployee(employee).then((response)=>{
+                    sessionStorage.setItem('response','Employee '+employee.emp_name+' is updated successfully')
+                    navigate('/viewemployees')
+                  }).catch((error)=>{
+                    sessionStorage.setItem('reserr','Employee '+employee.emp_name+' is not updated ')
+                    navigate('/viewemployees')
+                  })
         })
 
       // if(employee.asset_ids == '')

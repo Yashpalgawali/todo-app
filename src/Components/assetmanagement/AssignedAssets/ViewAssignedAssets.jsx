@@ -16,15 +16,35 @@ DataTable.use(DT);
 export default function ViewAssignedAssets () {
     const [assetlist,setAssetList] = useState([])
     const tableRef = useRef(null); // Ref for the table
+    const [successMessage,setSuccessMessage] = useState('')
+    const [errorMessage,setErrorMessage] = useState('')
 
     useEffect(
-        () => retrieveAllAssignedAssets ,[]
+        () => {
+                retrieveAllAssignedAssets() 
+                if(sessionStorage.getItem('response')!='') {
+                    setSuccessMessage(sessionStorage.getItem('response'))
+                    setErrorMessage('')
+                    setTimeout(() => {
+                        sessionStorage.removeItem('response')
+                        setSuccessMessage('')
+                    }, 3000);
+                }
+
+                if(sessionStorage.getItem('reserr')!='') {
+                    setErrorMessage(sessionStorage.getItem('reserr'))
+                    setSuccessMessage('')
+                    setTimeout(() => {
+                        sessionStorage.removeItem('reserr')
+                        setErrorMessage('')
+                    }, 3000);
+                }
+                
+            },[]
     )
 
-    function  retrieveAllAssignedAssets() {       
+    function retrieveAllAssignedAssets() {       
         viewAllAssignedAssets().then((response) => {
-            console.log(response.data)
-
             setAssetList(response.data)
         })
     }
@@ -47,7 +67,9 @@ export default function ViewAssignedAssets () {
             <h2>View Assigned Assets 
                 <Button variant='contained' style={ { marginLeft : '10px' } } color='primary' onClick={exportAssignedAssets}><FileDownloadIcon /> Export Assigned Assets</Button>
             </h2>
-
+            <>
+            {successMessage && <div className="alert alert-success">{successMessage}</div> }
+            </>
              <DataTable 
                 data={assetlist}
                 columns={[

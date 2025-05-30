@@ -14,3 +14,6 @@ export const getEmployeeById = (empid)=> apiClient.get(`/employee/${empid}`)
 export const getAssignedAssetsByEmployeeId = (empid)=> apiClient.get(`/employee/getassignedassetsbyempid/${empid}`)
 
 export const updateEmployee = (emp)=> apiClient.put('/employee/',emp)
+ 
+// export const retrieveAllAssetsByEmpId = (empid) =>apiClient.delete(`/employee/delete/${empid}`)
+ export const retrieveAllAssetsByEmpId = (emp) =>apiClient.post(`/employee/delete`,emp)
