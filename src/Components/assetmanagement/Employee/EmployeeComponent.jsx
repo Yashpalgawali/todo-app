@@ -220,55 +220,6 @@ export default function EmployeeComponent() {
                     navigate('/viewemployees')
                   })
         })
-
-      // if(employee.asset_ids == '')
-      // {
-      //   alert('No assigned assets')
-      //   let text='No assets are selected to Assign. This will remove all assigned assets. Do you want to continue?';
-      //   if(window.confirm(text) == true) {
-           
-      //     updateEmployee(employee).then((response)=>{
-      //       sessionStorage.setItem('response','Employee '+employee.emp_name+' is updated successfully')
-      //       navigate('/viewemployees')
-      //     }).catch((error)=>{
-      //       sessionStorage.setItem('reserr','Employee '+employee.emp_name+' is not updated ')
-      //       navigate('/viewemployees')
-      //     })
-      //   } 
-      //   else {
-      //     alert()
-      //     var asset_ids = ''
-      //     getAssignedAssetsByEmployeeId(id).then((response)=>{
-      //       let result = response.data
-            
-      //       if(result.length==1) {
-      //         asset_ids += result.asset.asset_id
-      //       }
-      //       else {
-      //         for(let i=0;i<result.length;i++) {
-      //           if(i==0) {
-      //             asset_ids += result[i].asset.asset_id
-      //           }
-      //           else {
-      //             if( i <= result.length-1){
-      //               asset_ids = asset_ids+","+result[i].asset.asset_id
-      //             }
-      //           }               
-      //         }
-      //       }
-      //        employee.asset_ids = asset_ids.split(",")
-      //     })
-      //      console.log('New employee Object is ',employee)
-      //     updateEmployee(employee).then((response)=>{
-      //       sessionStorage.setItem('response','Employee '+employee.emp_name+' is saved successfully')
-      //       navigate('/viewemployees')
-      //     }).catch((error)=>{
-      //       sessionStorage.setItem('reserr','Employee '+employee.emp_name+' is not saved ')
-      //       navigate('/viewemployees')
-      //     })
-      //   }
-      // }
-      
     }
   }
   var options =''

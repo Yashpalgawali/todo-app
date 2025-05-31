@@ -67,12 +67,12 @@ export default function RetriveAssets() {
             emp_id : id,
             comments : values.comments
         }
-        console.log(emp)
+        
         retrieveAllAssetsByEmpId(emp).then((response)=> {
-            sessionStorage.setItem('response','All assets are retrived from '+employee.emp_name)
+            sessionStorage.setItem('response','All assets are retrieved from '+employee.emp_name)
             navigate(`/viewassignedassets`)
         }).catch((error)=> {
-            sessionStorage.setItem('reserr','Assets are NOT retrived from '+employee.emp_name)
+            sessionStorage.setItem('reserr','Assets are NOT retrieved from '+employee.emp_name)
             navigate(`/viewassignedassets`)
         })
     }

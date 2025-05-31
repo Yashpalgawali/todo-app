@@ -1,4 +1,3 @@
-import $ from 'jquery'; // jQuery is required for DataTables to work
 import { useEffect, useRef, useState } from "react"
 import { viewAllAssignedAssets } from "../api/EmployeeApiService"
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
@@ -22,7 +21,8 @@ export default function ViewAssignedAssets () {
     useEffect(
         () => {
                 retrieveAllAssignedAssets() 
-                if(sessionStorage.getItem('response')!='') {
+                if(sessionStorage.getItem('response')!='' && sessionStorage.getItem('response')!=null) {
+                     
                     setSuccessMessage(sessionStorage.getItem('response'))
                     setErrorMessage('')
                     setTimeout(() => {
@@ -31,7 +31,8 @@ export default function ViewAssignedAssets () {
                     }, 3000);
                 }
 
-                if(sessionStorage.getItem('reserr')!='') {
+                if(sessionStorage.getItem('reserr')!='' && sessionStorage.getItem('reserr')!=null) {
+                    
                     setErrorMessage(sessionStorage.getItem('reserr'))
                     setSuccessMessage('')
                     setTimeout(() => {
@@ -69,15 +70,16 @@ export default function ViewAssignedAssets () {
             </h2>
             <>
             {successMessage && <div className="alert alert-success">{successMessage}</div> }
+            {errorMessage && <div className="alert alert-warning">{errorMessage}</div> }
             </>
              <DataTable 
                 data={assetlist}
                 columns={[
                     // { title: 'Sr', data: 'assigned_asset_id' },
                     { title: 'Sr', data: null , render: function(data,type,row,meta){ return meta.row+1} },
-                    { title: 'Assigned Assets', data: 'assigned' },
-                    { title: 'Asset types', data: 'assigned_types' },
                     { title: 'Employee', data: 'employee.emp_name' },
+                    { title: 'Assigned Assets', data: 'assigned' },
+                    { title: 'Asset types', data: 'assigned_types' },                    
                     { title: 'Designation', data: 'employee.designation.desig_name' },
                     { title: 'Department', data: 'employee.department.dept_name' },
                     { title: 'Company', data: 'employee.department.company.comp_name' }

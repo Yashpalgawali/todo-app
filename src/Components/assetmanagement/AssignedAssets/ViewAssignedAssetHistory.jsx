@@ -5,6 +5,8 @@ import $ from 'jquery'; // jQuery is required for DataTables to work
  
 import 'datatables.net-dt/css/dataTables.dataTables.css'; // DataTables CSS styles
 import 'datatables.net'; // DataTables core functionality
+import { Button } from "@mui/material";
+import { exportAssignAssetsByEmpId } from "../api/AssetAssignHistory";
 
 export default function ViewAssignedAssetHistory() {
     const [assethistory,setAssetAssignHistory] = useState([])
@@ -28,6 +30,19 @@ export default function ViewAssignedAssetHistory() {
         () => retrieveAssetAssignHistoryByEmpId , []
     )
 
+    function downloadAssetAssignHistory() { 
+               exportAssignAssetsByEmpId(id).then((response)=>{
+                 // Convert the array buffer to a Blob
+                 const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+   
+                 // Create a link element to trigger download
+                 const link = document.createElement('a');
+                 link.href = URL.createObjectURL(blob);
+                 link.download = 'Assets Assign History - '+emp_name+'.xlsx';
+                 link.click();
+           })
+       }
+
     function retrieveAssetAssignHistoryByEmpId() {
         viewAssetAssignHistoryByEmployeeId(id).then((response) => {
            
@@ -41,13 +56,14 @@ export default function ViewAssignedAssetHistory() {
 
     return(
         <div className="container">
-            <h1>View Asset Assign History</h1>
+            <h2>View Asset Assign History</h2>
             <div className="form-group">
-							
-                <span style={ { float : 'left'}}><label><strong>Employee : </strong></label>&nbsp;{emp_name}</span> <span style={{float: "right"}}><label><strong>Designation: </strong></label>&nbsp;{designation}</span>
-                <br />
-                <span style={ { float : 'left',clear : 'right'}}><label><strong>Company : </strong>&nbsp;</label>{company}</span>
-                
+				<div className="mb-1">
+                    <span  style={ { float : 'left'}}><label><strong>Employee : </strong></label>&nbsp;{emp_name}</span> <span style={{float: "right"}}><label><strong>Designation: </strong></label>&nbsp;{designation}</span>
+                </div>
+                <div>
+                    <span style={ { float : 'left',clear : 'right'}}><label><strong>Company : </strong>&nbsp;</label>{company}</span> <span style={{float: "right"}}><Button variant="contained" color="primary" onClick={downloadAssetAssignHistory} >Donwload Assign History</Button> </span>
+                </div>
             </div>
             <table className="table table-hover table-striped" ref={tableRef}>
                 <thead>
