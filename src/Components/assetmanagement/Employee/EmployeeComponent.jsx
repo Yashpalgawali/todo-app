@@ -147,8 +147,7 @@ export default function EmployeeComponent() {
    }
      
     if(id == -1)
-    {
-      console.log(employee)
+    {      
       saveEmployee(employee).then((response)=>{
         sessionStorage.setItem('response','Employee '+employee.emp_name+' is saved successfully')
         navigate('/viewemployees')
@@ -158,15 +157,14 @@ export default function EmployeeComponent() {
       })
     }
     else {
-        alert('Updating employee')
+        
         var assigned_asset_length = 0
         var asset_ids = ''
 
-        console.log(employee)
+        
         getAssignedAssetsByEmployeeId(id).then((response)=> {
-          alert('assets found ')
+          
           assigned_asset_length = response.data.length
-          console.log('getassetsByempID ',response.data)
           var result = response.data.length
 
           if(employee.asset_ids == '') {
