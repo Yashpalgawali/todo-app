@@ -35,7 +35,7 @@ export default function CompanyComponent () {
                 comp_id : id , comp_name: values.comp_name
             }
             
-            if(id == -1) {
+            if(id == -1) {  
                 createCompany(company)
                     .then((response)=> {
                         console.log(response.data)
@@ -43,6 +43,7 @@ export default function CompanyComponent () {
                             navigate('/viewcompanies')
                         })
                     .catch((error) => {
+                        console.log(error)
                         sessionStorage.setItem('reserr',error.data.statusMsg)
                         navigate('/viewcompanies')
                     }) 
@@ -77,7 +78,7 @@ export default function CompanyComponent () {
             <Formik initialValues={ { comp_id,comp_name} }
                 enableReinitialize={true}
                 onSubmit={onSubmit}
-                validate={validate}
+                // validate={validate}
                 validateOnBlur={false}
                 validateOnChange={false}
             >
@@ -95,8 +96,7 @@ export default function CompanyComponent () {
                         </div>
                     </Form>
                 )
-               } 
-
+               }
             </Formik>
         </div>
     ); 

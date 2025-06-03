@@ -66,7 +66,7 @@ export default function ViewAssignedAssets () {
     return(
         <div className="container">
             <h2>View Assigned Assets 
-                <Button variant='contained' style={ { marginLeft : '10px' } } color='primary' onClick={exportAssignedAssets}><FileDownloadIcon /> Export Assigned Assets</Button>
+                <Button variant='contained' style={ { marginLeft : '10px' } } color='primary' onClick={exportAssignedAssets}> <FileDownloadIcon /> Export Assigned Assets</Button>
             </h2>
             <>
             {successMessage && <div className="alert alert-success">{successMessage}</div> }

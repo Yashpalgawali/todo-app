@@ -12,7 +12,7 @@ import {
   getAllDepartments,
   getDepartmentByCompanyId,
 } from "../api/DepartmentApiService";
-import { Button } from "@mui/material";
+import { alertTitleClasses, Button } from "@mui/material";
 import { getAllDesignations } from "../api/DesignationApiService";
 import { getAllAssets } from "../api/AssetApiService";
 import { getAssignedAssetsByEmployeeId, getEmployeeById, saveEmployee, updateEmployee } from "../api/EmployeeApiService";
@@ -48,12 +48,15 @@ export default function EmployeeComponent() {
   const [empEmail,setEmpEmail] = useState('')
   const [empContact,setEmpContact] = useState('')
 
-  const [assignedAssets, setAssignedAssets] = useState("");
+  const [assignedAssets, setAssignedAssets] = useState('');
+  const [already_assigned_assets,setAlreadyAssignedAssets] = useState('')
+
   const [company, setCompany] = useState(null);
   const [designation, setSelectedDesignation] = useState(null);
   const [isAssigned, setIsAssigned] = useState(false);
   const [department, setSelectedDepartment] = useState(null);
 
+   
   const { id } = useParams();
   const navigate = useNavigate()
 
@@ -72,8 +75,8 @@ export default function EmployeeComponent() {
     if (id !== "-1" && id !== -1) {  
       setBtnValue("Update Employee");
       setIsAssigned(true);
-      
-     getAssignedAssetsByEmployeeId(id).then((response) => {
+     
+       getAssignedAssetsByEmployeeId(id).then((response) => {
         const assignedAssetsData = response.data;
        
         if (assignedAssetsData.length > 0) {
@@ -94,7 +97,13 @@ export default function EmployeeComponent() {
             .map((a) => a.asset.asset_name+'('+a.asset.model_number+')'+'('+a.asset.asset_number+' )')
             .join(", ");
           setAssignedAssets(assignedNames);
+          
+          const already_assigned = assignedAssetsData
+            .map((a) => a.asset.asset_id)
+            .join(", ");
+          setAlreadyAssignedAssets(already_assigned);
         }
+
       }).catch((error)=>{
          setIsAssigned(false)
       });
@@ -110,10 +119,11 @@ export default function EmployeeComponent() {
         setCompany(response.data.department.company);
 
       })
+    // getOnlyAssignedAssets()
     }
-  }, [id]); 
 
-   
+  }, [id]); 
+ 
 
   const handleCompanyChange = async (event, setFieldValue) => {
     const compId = event.target.value;
@@ -145,10 +155,10 @@ export default function EmployeeComponent() {
       designation : designation,
       asset_ids : values.asset_ids
    }
-     
-    if(id == -1)
+
+   if(id == -1)
     {      
-      saveEmployee(employee).then((response)=>{
+      saveEmployee(employee).then((response)=> {
         sessionStorage.setItem('response','Employee '+employee.emp_name+' is saved successfully')
         navigate('/viewemployees')
       }).catch((error)=>{
@@ -157,18 +167,15 @@ export default function EmployeeComponent() {
       })
     }
     else {
-        
-        var assigned_asset_length = 0
+
         var asset_ids = ''
 
-        
         getAssignedAssetsByEmployeeId(id).then((response)=> {
-          
-          assigned_asset_length = response.data.length
-          var result = response.data.length
+
+          var result_length = response.data.length
 
           if(employee.asset_ids == '') {
-            let text='No assets are Selected to Assign. This will remove all assigned assets. Do you want to continue?';
+            let text='No Assets are Selected to Assign. This will remove all assigned assets. Do you want to continue?';
             if(window.confirm(text) == true) {
 
               updateEmployee(employee).then((response)=>{
@@ -180,26 +187,40 @@ export default function EmployeeComponent() {
               })
             }
             else {
-              alert('else part \n Lenght is '+result)
-                    if(result==1) {
+              alert('else part \n Lenght is '+result_length)
+              
+                    if(result_length == 1) {
                       asset_ids += response.data.asset.asset_id
                     }
                     else {
-                      for(let i=0;i<result;i++) {
+                      for(let i=0;i<result_length;i++) {
+                        
                         if(i==0) {
-                          asset_ids += response.data[i].asset.asset_id
+                          asset_ids = response.data[i].asset.asset_id                           
                         }
                         else {
-                          if( i <= result-1){
-                            asset_ids = asset_ids+","+response.data[i].asset.asset_id                            
+                          if( i <= result_length-1) {
+                            asset_ids = asset_ids+","+response.data[i].asset.asset_id
+                          }
+                          else {
+                            asset_ids += response.data[i].asset.asset_id+","
                           }
                         }                
-                      }
-                      console.log('Asset ID \'s are',asset_ids)
+                      }                      
                     }
+                    setAlreadyAssignedAssets(asset_ids.split(","))
                     employee.asset_ids = asset_ids.split(",")
+                    updateEmployee(employee).then((response)=> {
+                      sessionStorage.setItem('response','Employee '+employee.emp_name+' is updated successfully')
+                      navigate('/viewemployees')
+                    }).catch((error)=>{
+                      sessionStorage.setItem('reserr','Employee '+employee.emp_name+' is not updated ')
+                      navigate('/viewemployees')
+                    })
                   }
-                  console.log('Updated employye obj ',employee)
+          }
+          else {                              
+                  console.log('Updated Employee Obj ',employee)
                   updateEmployee(employee).then((response)=>{
                     sessionStorage.setItem('response','Employee '+employee.emp_name+' is updated successfully')
                     navigate('/viewemployees')
@@ -207,36 +228,47 @@ export default function EmployeeComponent() {
                     sessionStorage.setItem('reserr','Employee '+employee.emp_name+' is not updated ')
                     navigate('/viewemployees')
                   })
-         } 
+          }
         }).catch((error) => {
-           
-          updateEmployee(employee).then((response)=>{
+ 
+          updateEmployee(employee).then((response) => {
                     sessionStorage.setItem('response','Employee '+employee.emp_name+' is updated successfully')
                     navigate('/viewemployees')
-                  }).catch((error)=>{
+                  }).catch((error)=> {
                     sessionStorage.setItem('reserr','Employee '+employee.emp_name+' is not updated ')
                     navigate('/viewemployees')
                   })
         })
     }
   }
+
+  function getOnlyAssignedAssets(){
+    assetList.map(asset => {
+      
+    })
+  }
+
   var options =''
    if(id != -1 ) {
-    options =  assetList      
-      .map((asset_ids) => ({
-        value: asset_ids.asset_id,
-        label: `${asset_ids.asset_name} - ${asset_ids.model_number} (${asset_ids.atype.type_name}) `,
-      }));
+    options =  assetList
+    .filter(asset=> {
+      //alert(""+asset.asset_id)
+      alert('already '+already_assigned_assets.includes(""+asset.asset_id))
+    })
+     .map((asset) =>  
+        ({ 
+        value: asset.asset_id,
+        label: `${asset.asset_name} - ${asset.model_number} (${asset.atype.type_name}) `,
+      })   );
    }
    else {
     options =  assetList
-      .filter((asset_ids) => asset_ids.quantity > 0)
+      .filter((asset) => asset.quantity > 0)
       .map((asset_ids) => ({
         value: asset_ids.asset_id,
         label: `${asset_ids.asset_name} - ${asset_ids.model_number} (${asset_ids.atype.type_name}) `,
       }));
    }
-  
 
   return (
     <div className="container">

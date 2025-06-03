@@ -55,7 +55,7 @@ export default function AssetComponent() {
             errors.model_number='Please provide Model number at least 5 characters'
         }
 
-        if(values.quantity==''){
+        if(values.quantity=='' && values.quantity==null){
             errors.quantity='Please Provide some Quantity'
         }
 
