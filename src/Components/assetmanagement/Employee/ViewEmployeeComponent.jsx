@@ -119,19 +119,20 @@ function editAssetAssigned(empid) {
                                     <td>{emp.emp_name}</td>
                                     <td>{emp.department.company.comp_name}</td>
                                     <td>{emp.department.dept_name}</td>
-                                     <td>
-                                    <button type="submit" className="btn btn-primary" onClick={()=>getEmployeeAssetAssignHistory(emp.emp_id)}><VisibilityIcon /> History</button>
-                                    <button type="submit" className="btn btn-primary m-2" onClick={()=>retrieveAllAssets(emp.emp_id)}><DeleteIcon /> Retrieve</button>
-                                    <button type="submit" className="btn btn-primary m-2" onClick={()=>editAssetAssigned(emp.emp_id)}>Update</button>
+                                    <td>
+                                    <Button type="submit" variant="contained" className="m-1" color="primary" onClick={()=>getEmployeeAssetAssignHistory(emp.emp_id)}><VisibilityIcon />History</Button>
+                                    
+                                    <Button type="submit" variant="contained" color="secondary" onClick={()=>retrieveAllAssets(emp.emp_id)}><VisibilityIcon />    Retrieve</Button>
+                                    
+                                    <Button type="submit" variant="contained" className="m-1" color="info" onClick={()=>editAssetAssigned(emp.emp_id)}> <VisibilityIcon />Update</Button>
+                                    
                                     {/* <button type="submit" className="btn btn-primary m-2" onClick={()=>downloadHistory(emp.emp_id)}><FileDownloadIcon /> Download</button> */}
                                     </td>
                                 </tr>
                             )
                         )
-                    }
-                   
+                    }                   
                 </tbody>
-
             </table>
         </div>
     )

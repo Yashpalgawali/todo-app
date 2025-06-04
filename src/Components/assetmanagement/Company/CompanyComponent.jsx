@@ -38,24 +38,25 @@ export default function CompanyComponent () {
             if(id == -1) {  
                 createCompany(company)
                     .then((response)=> {
-                        console.log(response.data)
+                         console.log(response)
                             sessionStorage.setItem('response',response.data.statusMsg)
                             navigate('/viewcompanies')
                         })
-                    .catch((error) => {
-                        console.log(error)
-                        sessionStorage.setItem('reserr',error.data.statusMsg)
+                    .catch((error) => {   
+                         console.log(error)                   
+                        sessionStorage.setItem('reserr',error.response.data.comp_name)
                         navigate('/viewcompanies')
                     }) 
             }
             else {
                 updateCompany(company)
-                    .then((response)=> {console.log(response.data.statusMsg)
+                    .then((response)=> { 
                            sessionStorage.setItem('response',response.data.statusMsg)
                            navigate('/viewcompanies')
                     })
                     .catch((error) =>{
-                       sessionStorage.setItem('reserr',error.data.statusMsg)
+                       console.log(error)
+                       sessionStorage.setItem('reserr',error.response.data.statusMsg)
                         navigate('/viewcompanies')
                     })
             }
@@ -74,7 +75,7 @@ export default function CompanyComponent () {
 
      return (
         <div className="container">
-          <h1>{btnValue}</h1>
+          <h2>{btnValue}</h2>
             <Formik initialValues={ { comp_id,comp_name} }
                 enableReinitialize={true}
                 onSubmit={onSubmit}
@@ -90,7 +91,7 @@ export default function CompanyComponent () {
                             <Field type="text" name="comp_name" className="form-control" placeholder="Enter Company name" ></Field>
                             <ErrorMessage  name='comp_name' component="div" className="alert alert-warning" />
                         </fieldset>
-
+ 
                         <div>
                             <Button type="submit" variant="contained" color="primary" className="m-3">{btnValue}</Button>
                         </div>

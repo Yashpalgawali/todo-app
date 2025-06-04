@@ -56,6 +56,7 @@ export default function EmployeeComponent() {
   const [isAssigned, setIsAssigned] = useState(false);
   const [department, setSelectedDepartment] = useState(null);
 
+  const [assignedAssetsList,setAssignedAssetsList] = useState([])
    
   const { id } = useParams();
   const navigate = useNavigate()
@@ -76,9 +77,12 @@ export default function EmployeeComponent() {
       setBtnValue("Update Employee");
       setIsAssigned(true);
      
-       getAssignedAssetsByEmployeeId(id).then((response) => {
+       getAssignedAssetsByEmployeeId(id).then((response) => { alert('data found')
         const assignedAssetsData = response.data;
-       
+        response.data.map((response)=>{
+          setAssignedAssetsList(response.asset)
+        })
+       console.log('Response is ',assignedAssetsData)
         if (assignedAssetsData.length > 0) {
           setEmpName(assignedAssetsData[0].employee.emp_name);
           setEmpContact(assignedAssetsData[0].employee.emp_contact)
@@ -250,16 +254,13 @@ export default function EmployeeComponent() {
 
   var options =''
    if(id != -1 ) {
-    options =  assetList
-    .filter(asset=> {
-      //alert(""+asset.asset_id)
-      alert('already '+already_assigned_assets.includes(""+asset.asset_id))
-    })
+     
+    options =  assetList    
      .map((asset) =>  
-        ({ 
-        value: asset.asset_id,
-        label: `${asset.asset_name} - ${asset.model_number} (${asset.atype.type_name}) `,
-      })   );
+        ({
+          value: asset.asset_id,
+          label: `${asset.asset_name} - ${asset.model_number} (${asset.atype.type_name}) `
+        }) );
    }
    else {
     options =  assetList
