@@ -56,6 +56,8 @@ export default function EmployeeComponent() {
   const [isAssigned, setIsAssigned] = useState(false);
   const [department, setSelectedDepartment] = useState(null);
 
+  const [isDisabled, setIsDisabled] = useState(false);
+
   const [assignedAssetsList,setAssignedAssetsList] = useState([])
    
   const { id } = useParams();
@@ -145,11 +147,16 @@ export default function EmployeeComponent() {
 
   function onSubmit(values)
   {
+    setIsDisabled(true);
+    setTimeout(() => {
+      setIsDisabled(false);
+    }, 5000); // 5000 milliseconds = 5 seconds
+
     let designation = {desig_id : values.designation , desig_name : ''} 
     let department = {dept_id : values.department , dept_name : ''}
     values.department = department
     values.designation = designation
-    
+
     let employee = {
       emp_id : id,
       emp_name : values.emp_name,
@@ -160,8 +167,8 @@ export default function EmployeeComponent() {
       asset_ids : values.asset_ids
    }
 
-   if(id == -1)
-    {      
+  if(id == -1)
+  {      
       saveEmployee(employee).then((response)=> {
         sessionStorage.setItem('response','Employee '+employee.emp_name+' is saved successfully')
         navigate('/viewemployees')
@@ -169,15 +176,12 @@ export default function EmployeeComponent() {
         sessionStorage.setItem('reserr','Employee '+employee.emp_name+' is not saved ')
         navigate('/viewemployees')
       })
-    }
-    else {
+  }
+  else {
 
         var asset_ids = ''
-
         getAssignedAssetsByEmployeeId(id).then((response)=> {
-
           var result_length = response.data.length
-
           if(employee.asset_ids == '') {
             let text='No Assets are Selected to Assign. This will remove all assigned assets. Do you want to continue?';
             if(window.confirm(text) == true) {
@@ -223,8 +227,7 @@ export default function EmployeeComponent() {
                     })
                   }
           }
-          else {                              
-                  console.log('Updated Employee Obj ',employee)
+          else { 
                   updateEmployee(employee).then((response)=>{
                     sessionStorage.setItem('response','Employee '+employee.emp_name+' is updated successfully')
                     navigate('/viewemployees')
@@ -419,6 +422,7 @@ export default function EmployeeComponent() {
               variant="contained"
               color="primary"
               className="m-3"
+              disabled={isDisabled}
             >
               Submit
             </Button>
