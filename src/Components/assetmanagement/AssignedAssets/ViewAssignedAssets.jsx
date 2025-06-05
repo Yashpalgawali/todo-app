@@ -8,7 +8,7 @@ import 'datatables.net-dt/css/dataTables.dataTables.css'; // DataTables CSS styl
 import 'datatables.net'; // DataTables core functionality
 
 import { exportAssignAssets } from "../api/AssetAssignHistory";
-import { Button } from '@mui/material';
+import { Button, Tooltip } from '@mui/material';
 
 DataTable.use(DT);
 
@@ -51,7 +51,7 @@ export default function ViewAssignedAssets () {
     }
 
     function exportAssignedAssets() { 
-            exportAssignAssets().then((response)=>{
+            exportAssignAssets().then((response)=> {
               // Convert the array buffer to a Blob
               const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
 
@@ -66,7 +66,7 @@ export default function ViewAssignedAssets () {
     return(
         <div className="container">
             <h2>View Assigned Assets 
-                <Button variant='contained' style={ { marginLeft : '10px' } } color='primary' onClick={exportAssignedAssets}> <FileDownloadIcon /> Export Assigned Assets</Button>
+                <Button variant='contained' style={ { float : 'right' } } color='primary' onClick={exportAssignedAssets}><Tooltip title="Download Assigned Assets" arrow placement="bottom" enterDelay={10} leaveDelay={300}><FileDownloadIcon /> Export </Tooltip> </Button>
             </h2>
             <>
             {successMessage && <div className="alert alert-success">{successMessage}</div> }

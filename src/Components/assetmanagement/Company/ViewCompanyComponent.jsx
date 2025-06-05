@@ -6,7 +6,7 @@ import $ from 'jquery'; // jQuery is required for DataTables to work
   
 import 'datatables.net-dt/css/dataTables.dataTables.css'; // DataTables CSS styles
 import 'datatables.net'; // DataTables core functionality
-import { Button } from "@mui/material"
+import { Button, Tooltip } from "@mui/material"
 
 
 export default function ViewCompanyComponent() {
@@ -61,8 +61,7 @@ export default function ViewCompanyComponent() {
     return(
         <div className="container">
             <h2 className="text-center m-4">View Company 
-                {/* <button type="submit" style={ { float: 'right !important' } } className="btn btn-primary" onClick={addNewCompany} ><strong>Add Company</strong></button>  */}
-                <Button type="submit" variant="contained" color="primary" style={ { float: 'right' } } className="m-2" onClick={addNewCompany} >Add Company</Button>    
+                <Button type="submit" variant="contained" color="primary" style={ { float: 'right' } } className="m-2" onClick={addNewCompany} > <Tooltip title="Add Company" arrow> Add Company</Tooltip></Button>    
             </h2>
             {successMessage && <div className="text-center alert alert-success"><strong> {successMessage}</strong> </div> }
             {errorMessage && <div className="text-center alert alert-warning"> <strong>{errorMessage} </strong></div> }
@@ -106,10 +105,7 @@ export default function ViewCompanyComponent() {
                             <td>{index+1}</td>
                             <td>{comp.comp_name}</td>
                             <td>
-                                <Button type="submit" variant="contained" color="primary" onClick={() => updateCompany(comp.comp_id)} > <EditSquareIcon  />Update</Button>
-                                {/* <button className="btn btn-link" onClick={() => updateCompany(comp.comp_id)} >
-                               UPDATE
-                                </button> */}
+                                <Button type="submit" variant="contained" color="primary" onClick={() => updateCompany(comp.comp_id)} > <Tooltip title="Update Company" placement="left" arrow><EditSquareIcon  />&nbsp;Update</Tooltip></Button>
                             </td>
                             </tr>
                         ))

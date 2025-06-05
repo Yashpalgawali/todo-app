@@ -1,13 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { viewAssetAssignHistoryByEmployeeId } from "../api/EmployeeApiService";
-import $ from 'jquery'; // jQuery is required for DataTables to work
- 
-import 'datatables.net-dt/css/dataTables.dataTables.css'; // DataTables CSS styles
-import 'datatables.net'; // DataTables core functionality
-import { Button } from "@mui/material";
 import { exportAssignAssetsByEmpId } from "../api/AssetAssignHistory";
 
+import $ from 'jquery'; // jQuery is required for DataTables to work
+import 'datatables.net-dt/css/dataTables.dataTables.css'; // DataTables CSS styles
+import 'datatables.net'; // DataTables core functionality
+
+import { Button, Tooltip } from "@mui/material";
+import DownloadForOfflineIcon from '@mui/icons-material/DownloadForOffline';
+
+ 
+ 
 export default function ViewAssignedAssetHistory() {
     const [assethistory,setAssetAssignHistory] = useState([])
     const [emp_name,setEmpName] = useState('')
@@ -42,7 +46,7 @@ export default function ViewAssignedAssetHistory() {
                  link.click();
            })
        }
-
+    
     function retrieveAssetAssignHistoryByEmpId() {
         viewAssetAssignHistoryByEmployeeId(id).then((response) => {
            
@@ -62,7 +66,7 @@ export default function ViewAssignedAssetHistory() {
                     <span  style={ { float : 'left'}}><label><strong>Employee : </strong></label>&nbsp;{emp_name}</span> <span style={{float: "right"}}><label><strong>Designation: </strong></label>&nbsp;{designation}</span>
                 </div>
                 <div>
-                    <span style={ { float : 'left',clear : 'right'}}><label><strong>Company : </strong>&nbsp;</label>{company}</span> <span style={{float: "right"}}><Button variant="contained" color="primary" onClick={downloadAssetAssignHistory} >Donwload Assign History</Button> </span>
+                    <span style={ { float : 'left',clear : 'right'}}><label><strong>Company : </strong>&nbsp;</label>{company}</span> <span style={{float: "right"}}><Button variant="contained" color="success" id="downloadBtn" onClick={downloadAssetAssignHistory} > <Tooltip title="Download Asset Assign History" placement="left" enterDelay={10} leaveDelay={600}  arrow>  <DownloadForOfflineIcon /> &nbsp;Donwload</Tooltip></Button> </span>
                 </div>
             </div>
             <table className="table table-hover table-striped" ref={tableRef}>
