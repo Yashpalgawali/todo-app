@@ -60,8 +60,8 @@ export default function LoginComponent() {
     return(
         <div className="container">
             <h1 className="text-center">Time To Login</h1>
-            { errorMessage && <div className="alert alert-warning">{errorMessage}</div> }
-            { successMessage && <div className="alert alert-success">{successMessage}</div> }
+            { errorMessage && <div className="alert alert-warning"><strong>{errorMessage}</strong></div> }
+            { successMessage && <div className="alert alert-success"><strong>{successMessage}</strong></div> }
 
              <Box
                 component="form"

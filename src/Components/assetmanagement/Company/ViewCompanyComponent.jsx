@@ -105,7 +105,7 @@ export default function ViewCompanyComponent() {
                             <td>{index+1}</td>
                             <td>{comp.comp_name}</td>
                             <td>
-                                <Button type="submit" variant="contained" color="primary" onClick={() => updateCompany(comp.comp_id)} > <Tooltip title="Update Company" placement="left" arrow><EditSquareIcon  />&nbsp;Update</Tooltip></Button>
+                                <Button type="submit" variant="contained" color="success" onClick={() => updateCompany(comp.comp_id)} > <Tooltip title="Update Company" placement="left" arrow><EditSquareIcon  />&nbsp;Update</Tooltip></Button>
                             </td>
                             </tr>
                         ))

@@ -88,7 +88,7 @@ export default function ViewDepartmentComponent() {
                                     <td>{dept.dept_name}</td>
                                     <td>{dept.company?.comp_name}</td>
                                     <td>
-                                        <Button variant="contained" color="primary" onClick={()=>updateDepartmentById(dept.dept_id)}> <Tooltip title={`Update Department ${dept.dept_name}`} arrow placement="left"> <EditSquareIcon />&nbsp;UPDATE</Tooltip></Button>                                       
+                                        <Button variant="contained" color="success" onClick={()=>updateDepartmentById(dept.dept_id)}> <Tooltip title={`Update Department ${dept.dept_name}`} arrow placement="left"> <EditSquareIcon />&nbsp;UPDATE</Tooltip></Button>                                       
                                     </td>
                                 </tr>
                             )

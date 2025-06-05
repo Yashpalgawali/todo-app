@@ -18,7 +18,7 @@ export default function HeaderComponent() {
             navigate(window.location.href)
        }
        else {
-        alert('logout failed')
+            alert('logout failed')
        }
     }
     return(
@@ -43,7 +43,7 @@ export default function HeaderComponent() {
                     </div>
                     <ul className="navbar-nav">
                          <li className="nav-item fs-5">{!isAuthenticated && <Link className="nav-link" to="/login"><LoginIcon /> Login</Link> }</li> 
-                        <li className="nav-item fs-5">{isAuthenticated &&<Link className="nav-link"  onClick={logout} ><LogoutIcon /> Logout</Link>}</li>
+                        <li  className="nav-item fs-5">{isAuthenticated &&<Link className="nav-link"  onClick={logout} ><LogoutIcon  /> Logout</Link>}</li>
                     </ul>
                 </nav>
             </div>

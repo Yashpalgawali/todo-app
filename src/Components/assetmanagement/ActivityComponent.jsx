@@ -1,4 +1,3 @@
-import $ from 'jquery'; // jQuery is required for DataTables to work
 import { useEffect, useState } from "react"
 import { getAllActivities } from "./api/ActivitApiService";
 
@@ -26,7 +25,7 @@ export default function Activites() {
  
     return(
         <div className="container">
-            <h2> View Activities </h2>
+           <h2> View Activities </h2>
            <DataTable 
             data={activities}
             columns={[
