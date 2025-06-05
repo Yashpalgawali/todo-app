@@ -31,7 +31,7 @@ export default function Activites() {
             data={activities}
             columns={[
                 { title: 'ID', data: 'activity_id' },
-                { title: 'Activity Name', data: 'activity' },
+                { title: 'Activity', data: 'activity' },
                 { title: 'Date', data: 'operation_date' },
                 { title: 'Time', data: 'operation_time' }
             ]}

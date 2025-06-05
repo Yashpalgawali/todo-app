@@ -6,7 +6,7 @@ import $ from 'jquery'; // jQuery is required for DataTables to work
 
 import 'datatables.net-dt/css/dataTables.dataTables.css'; // DataTables CSS styles
 import 'datatables.net'; // DataTables core functionality
-import { Button } from "@mui/material"
+import { Button, Tooltip } from "@mui/material"
 
 
 export default function ViewAssettypeComponent() {
@@ -60,8 +60,7 @@ export default function ViewAssettypeComponent() {
     return(
         <div className="container">
             <h2 className="text-center m-4">View Asset Types 
-                {/* <button type="submit" style={ { float: 'right !important' } } className="btn btn-primary" onClick={addNewCompany} ><strong>Add Company</strong></button>  */}
-                <Button type="submit" variant="contained" color="primary" style={ { float: 'right !important' } } className="m-2" onClick={addNewAssettype} >Add Asset type</Button>    
+                <Button type="submit" variant="contained" color="primary" style={ { float: 'right  ' } } className="m-2" onClick={addNewAssettype} >Add Asset type</Button>    
             </h2>
             {successMessage && <div className="text-center alert alert-success"><strong> {successMessage}</strong> </div> }
             {errorMessage && <div className="text-center alert alert-warning"> <strong>{errorMessage} </strong></div> }
@@ -87,11 +86,12 @@ export default function ViewAssettypeComponent() {
                             <td>{index+1}</td>
                             <td>{assettype.type_name}</td>
                             <td>
-                                <Button type="submit" variant="contained" color="primary" onClick={() => updateAssettype(assettype.type_id)} > <EditSquareIcon  />Update</Button>
-                                {/* <button className="btn btn-link" onClick={() => updateCompany(comp.comp_id)} >
-                               UPDATE
-                                </button> */}
-                            </td>
+                                <Button type="submit" variant="contained" color="success" onClick={() => updateAssettype(assettype.type_id)} > 
+                                    <Tooltip arrow placement="left" title={`Update  ${assettype.type_name}`}> 
+                                        <EditSquareIcon  />&nbsp;Update
+                                    </Tooltip>
+                                </Button> 
+                             </td>
                             </tr>
                         ))
                         )}

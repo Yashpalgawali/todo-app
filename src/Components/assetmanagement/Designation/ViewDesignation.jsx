@@ -8,7 +8,7 @@ import DataTable from 'datatables.net-react'; // DataTables React integration
 import DT from 'datatables.net';
 import 'datatables.net-dt/css/dataTables.dataTables.css'; // DataTables CSS styles
 import 'datatables.net'; // DataTables core functionality
-import { Button } from "@mui/material"
+import { Button, Tooltip } from "@mui/material"
 
 
 
@@ -64,7 +64,7 @@ export default function ViewDesignation() {
    return(
         <div className="container">
             <h2 className="text-center m-4">View Designation 
-                <Button type="submit" variant="contained" color="primary" style={ { float: 'right !important' } } className="m-2" onClick={addNewDesignation} >Add Designation</Button>    
+                <Button type="submit" variant="contained" color="primary" style={ { float: 'right  ' } } className="m-2" onClick={addNewDesignation} >Add Designation</Button>    
             </h2>
             {successMessage && <div className="text-center alert alert-success"><strong> {successMessage} </strong></div> }
             {errorMessage && <div className="text-center alert alert-warning"> <strong>{errorMessage} </strong></div> }
@@ -99,7 +99,7 @@ export default function ViewDesignation() {
                   {desiglist.length === 0 ? (
                         <tr>
                             <td colSpan="3" style={{ textAlign: 'center' }}>
-                             No data available
+                                No data available
                             </td>
                         </tr>
                         ) : (
@@ -108,10 +108,7 @@ export default function ViewDesignation() {
                             <td>{index+1}</td>
                             <td>{desig.desig_name}</td>
                             <td>
-                                <Button type="submit" variant="contained" color="primary" onClick={() => updateDesignation(desig.desig_id)} > <EditSquareIcon  />Update</Button>
-                                {/* <button className="btn btn-link" onClick={() => updateCompany(desig.comp_id)} >
-                               UPDATE
-                                </button> */}
+                                <Button type="submit" variant="contained" color="primary" onClick={() => updateDesignation(desig.desig_id)} > <Tooltip arrow placement="left" title={`Update ${desig.desig_name}`}> <EditSquareIcon />&nbsp;Update</Tooltip></Button>
                             </td>
                             </tr>
                         ))

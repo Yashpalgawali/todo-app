@@ -5,7 +5,7 @@ import EditSquareIcon from '@mui/icons-material/EditSquare';
 import $ from 'jquery'; // jQuery is required for DataTables to work
 import 'datatables.net-dt/css/dataTables.dataTables.css'; // DataTables CSS styles
 import 'datatables.net'; // DataTables core functionality
-import { Button } from "@mui/material";
+import { Button, Tooltip } from "@mui/material";
 
 export default function ViewDepartmentComponent() {
 
@@ -61,8 +61,7 @@ export default function ViewDepartmentComponent() {
     return(
         <div className="container">
             <h2>View Departments 
-                <Button variant="contained" color="primary" style={ { marginLeft : '10px'} }onClick={addNewDepartment}>Add Department</Button>
-                {/* <button type="submit" className="btn btn-primary" onClick={addNewDepartment}>Add Department</button> */}
+                <Button variant="contained" color="primary" style={ { float : 'right'} }onClick={addNewDepartment}>Add Department</Button>
             </h2>
             {successMessage && <div className="alert alert-success"><strong>{successMessage}</strong></div>  }
             {errorMessage && <div className="alert alert-warning"><strong> {errorMessage}</strong> </div>  }
@@ -89,8 +88,7 @@ export default function ViewDepartmentComponent() {
                                     <td>{dept.dept_name}</td>
                                     <td>{dept.company?.comp_name}</td>
                                     <td>
-                                        <Button variant="contained" color="primary" onClick={()=>updateDepartmentById(dept.dept_id)}><EditSquareIcon />UPDATE</Button>
-                                        {/* <button type="submit" className="btn btn-success" onClick={()=>updateDepartmentById(dept.dept_id)}><EditSquareIcon /> UPDATE</button>  */}
+                                        <Button variant="contained" color="primary" onClick={()=>updateDepartmentById(dept.dept_id)}> <Tooltip title={`Update Department ${dept.dept_name}`} arrow placement="left"> <EditSquareIcon />&nbsp;UPDATE</Tooltip></Button>                                       
                                     </td>
                                 </tr>
                             )

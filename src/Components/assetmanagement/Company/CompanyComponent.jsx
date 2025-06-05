@@ -24,6 +24,7 @@ export default function CompanyComponent () {
                 setCompId(response.data.comp_id)
             })
             .catch((error)=>{
+                alert(error.response.data.errorMessage)
                 sessionStorage.setItem('reserr',error.response.data.errorMessage)
                 navigate(`/viewcompanies`)
             }) 
@@ -38,12 +39,10 @@ export default function CompanyComponent () {
             if(id == -1) {  
                 createCompany(company)
                     .then((response)=> {
-                         console.log(response)
-                            sessionStorage.setItem('response',response.data.statusMsg)
-                            navigate('/viewcompanies')
+                        sessionStorage.setItem('response',response.data.statusMsg)
+                        navigate('/viewcompanies')
                         })
                     .catch((error) => {   
-                         console.log(error)                   
                         sessionStorage.setItem('reserr',error.response.data.comp_name)
                         navigate('/viewcompanies')
                     }) 
@@ -51,12 +50,11 @@ export default function CompanyComponent () {
             else {
                 updateCompany(company)
                     .then((response)=> { 
-                           sessionStorage.setItem('response',response.data.statusMsg)
-                           navigate('/viewcompanies')
+                        sessionStorage.setItem('response',response.data.statusMsg)
+                        navigate('/viewcompanies')
                     })
-                    .catch((error) =>{
-                       console.log(error)
-                       sessionStorage.setItem('reserr',error.response.data.statusMsg)
+                    .catch((error) => {                      
+                        sessionStorage.setItem('reserr',error.response.data.comp_name)
                         navigate('/viewcompanies')
                     })
             }
@@ -66,7 +64,7 @@ export default function CompanyComponent () {
    function validate(values) {
     let errors = {  }
     
-    if(values.comp_name.length<3) {
+    if(values.comp_name.length<=3) {
         errors.comp_name = 'Please Enter at least 2 Characters'
     }
 

@@ -58,7 +58,6 @@ export default function DepartmentComponent() {
                     sessionStorage.setItem('response',response.data.statusMsg)
                     navigate(`/viewdepartments`)
                 }).catch((error) => {
-
                     sessionStorage.setItem('reserr',error.response.data.dept_name)
                     navigate(`/viewdepartments`)
                 })
@@ -82,7 +81,7 @@ export default function DepartmentComponent() {
             <Formik
                 initialValues={ { dept_id , dept_name , companies:'' } }
                 enableReinitialize={true}
-                // validate={validate}
+                validate={validate}
                 onSubmit={onSubmit}
                 validateOnBlur={false}
                 validateOnChange={false}

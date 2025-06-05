@@ -6,7 +6,7 @@ import EditSquareIcon from '@mui/icons-material/EditSquare';
 import $ from 'jquery'; // jQuery is required for DataTables to work
 import 'datatables.net-dt/css/dataTables.dataTables.css'; // DataTables CSS styles
 import 'datatables.net'; // DataTables core functionality
-import { Button } from "@mui/material";
+import { Button, Tooltip } from "@mui/material";
 
 export default function ViewAssetComponent(){
 
@@ -59,8 +59,8 @@ export default function ViewAssetComponent(){
 
     return(
         <div className="container">
-            <h2 className="text-center">View Assets 
-                <Button variant="contained" color="primary" onClick={addNewAsset} style={ { marginLeft : '10px' } }>Add Asset</Button>               
+            <h2 className="">View Assets 
+                <Button variant="contained" color="primary" onClick={addNewAsset} style={ { float : 'right' } }>Add Asset</Button>               
             </h2>
             {successMessage && <div className="alert alert-success"> <strong>{successMessage}</strong></div>  }
             {errorMessage && <div className="alert alert-warning"> <strong> {errorMessage} </strong> </div>  }
@@ -92,7 +92,13 @@ export default function ViewAssetComponent(){
                                     <td>{asset.asset_number}</td>
                                     <td>{asset.model_number}</td>
                                     <td>{asset.quantity}</td>
-                                    <td><button type="submit" className="btn btn-success" onClick={()=>updateAsset(asset.asset_id)}><EditSquareIcon /> UPDATE</button></td>
+                                    <td>
+                                        <button type="submit" className="btn btn-success" onClick={()=>updateAsset(asset.asset_id)}> 
+                                            <Tooltip arrow placement="left" title={`Update ${asset.asset_name}`}> 
+                                                <EditSquareIcon />&nbsp;UPDATE
+                                            </Tooltip>
+                                        </button>
+                                    </td>
                                 </tr>
                             )
                         )

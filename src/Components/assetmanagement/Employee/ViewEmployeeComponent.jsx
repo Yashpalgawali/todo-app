@@ -94,7 +94,7 @@ function editAssetAssigned(empid) {
     return(
         <div className="container">
          <h2>View Employees
-            <Button style={ { marginLeft : '10px' } } variant="contained" onClick={addNewEmployee} color="primary">Add Employee</Button>
+            <Button style={ { float : 'right' } } variant="contained" onClick={addNewEmployee} color="primary">Add Employee</Button>
          </h2>
             <>
             {successMessage && <div className="text-center alert alert-success"> <strong>{successMessage} </strong></div> }
@@ -120,13 +120,9 @@ function editAssetAssigned(empid) {
                                     <td>{emp.department.company.comp_name}</td>
                                     <td>{emp.department.dept_name}</td>
                                     <td>
-                                    <Button type="submit" variant="contained" className="m-1" color="primary" onClick={()=>getEmployeeAssetAssignHistory(emp.emp_id)}><VisibilityIcon />History</Button>
-                                    
-                                    <Button type="submit" variant="contained" color="secondary" onClick={()=>retrieveAllAssets(emp.emp_id)}><VisibilityIcon />    Retrieve</Button>
-                                    
-                                    <Button type="submit" variant="contained" className="m-1" color="info" onClick={()=>editAssetAssigned(emp.emp_id)}> <VisibilityIcon />Update</Button>
-                                    
-                                    {/* <button type="submit" className="btn btn-primary m-2" onClick={()=>downloadHistory(emp.emp_id)}><FileDownloadIcon /> Download</button> */}
+                                        <Button type="submit" variant="contained" className="m-1" color="primary" onClick={()=>getEmployeeAssetAssignHistory(emp.emp_id)}><VisibilityIcon />&nbsp; History</Button>
+                                        <Button type="submit" variant="contained" color="secondary" onClick={()=>retrieveAllAssets(emp.emp_id)}><VisibilityIcon />&nbsp; Retrieve</Button>
+                                        <Button type="submit" variant="contained" className="m-1" color="info" onClick={()=>editAssetAssigned(emp.emp_id)}> <VisibilityIcon />&nbsp;Update</Button>
                                     </td>
                                 </tr>
                             )
