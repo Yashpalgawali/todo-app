@@ -2,7 +2,6 @@ import { ErrorMessage, Field, Form, Formik } from "formik"
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { getDesignationById, saveDesignation, updateDesignation } from "../api/DesignationApiService"
-import { saveDepartment } from "../api/DepartmentApiService"
 import { Button } from "@mui/material"
 
 export default function DesignationComponent() {
@@ -13,11 +12,13 @@ export default function DesignationComponent() {
     const navigate = useNavigate()
     const {id} = useParams()
 
-    useEffect(
-        () => retrieveDesignationById() , [id]
+    useEffect( 
+        () => {
+            retrieveDesignationById()
+        } , 
     )
 
-    function retrieveDesignationById() {
+    function retrieveDesignationById ()  {
         if(id != -1) {
             setBtnValue('Update Designation')
             getDesignationById(id).then((response) => {

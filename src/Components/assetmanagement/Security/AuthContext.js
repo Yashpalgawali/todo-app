@@ -5,6 +5,7 @@
 import { createContext, useContext, useState } from "react";
 import { executeJwtAuthentication, logoutFunction } from "../api/LoginApiService";
 import { apiClient } from "../api/ApiClient";
+import { toast } from "react-toastify";
 
 export const AuthContext = createContext()
 
@@ -36,6 +37,9 @@ async function login(username, password) {
 
     let basicToken = 'Basic '+btoa(username+':'+password)
   
+    try{
+
+     
     const response = await executeJwtAuthentication(basicToken)
     
     if(response.status==200) { 
@@ -45,16 +49,17 @@ async function login(username, password) {
         setUsername(username);
         setToken(jwtToken);
         localStorage.setItem('token',jwtToken)
-        
-        // apiClient.interceptors.request.use((config) => {            
-        //     config.headers.Authorization = jwtToken;
-        //     return config;
-        //     },  (error) => {
-        //         return Promise.reject(error);
-        //     });            
+             
         return true
      }
-     else {       
+    }
+     catch (error) {
+        // toast.error('Server not reachable. Redirecting...', {
+        //         onClose: () => {
+        //           sessionStorage.setItem('reserr', 'Backend is unreachable. Please try again later.');
+        //           window.location.href = '/login';
+        //         },
+        //       });    
         return false
      }
 }

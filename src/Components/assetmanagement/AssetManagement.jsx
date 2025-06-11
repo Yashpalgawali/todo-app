@@ -18,7 +18,10 @@ import EmployeeComponent from "./Employee/EmployeeComponent";
 import LoginComponent from "./LoginComponent";
 import AuthProvider, { useAuth } from "./Security/AuthContext";
 import RetriveAssets from "./Employee/RetriveAssets";
-  
+
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 function AuthenticatedRoute({children}){
     const authContext = useAuth()
     if(authContext.isAuthenticated)
@@ -37,6 +40,7 @@ export default function AssetManagement() {
               {/* <BrowserRouter basename={process.env.PUBLIC_URL}> */}
                <BrowserRouter  >
                 <HeaderComponent />
+                 <ToastContainer position="top-center" autoClose={2000} />
                 <Routes>
                     <Route path="/company/:id" element={ 
                        <AuthenticatedRoute>

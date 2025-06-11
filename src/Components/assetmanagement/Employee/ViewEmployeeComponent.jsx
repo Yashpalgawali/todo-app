@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react"
 import {  getAllEmployees, getEmployeeById } from "../api/EmployeeApiService"
 import { useNavigate } from "react-router-dom"
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import DeleteIcon from '@mui/icons-material/Delete';
+import HistoryIcon from '@mui/icons-material/History';
+import UpgradeIcon from '@mui/icons-material/Upgrade';
 
 import $ from 'jquery'; // jQuery is required for DataTables to work
  
@@ -120,9 +120,9 @@ function editAssetAssigned(empid) {
                                     <td>{emp.department.company.comp_name}</td>
                                     <td>{emp.department.dept_name}</td>
                                     <td>
-                                        <Button type="submit" variant="contained" className="m-1" color="primary" onClick={()=>getEmployeeAssetAssignHistory(emp.emp_id)}><VisibilityIcon />&nbsp; History</Button>
+                                        <Button type="submit" variant="contained" className="m-1" color="primary" onClick={()=>getEmployeeAssetAssignHistory(emp.emp_id)}><HistoryIcon />&nbsp; History</Button>
                                         <Button type="submit" variant="contained" color="secondary" onClick={()=>retrieveAllAssets(emp.emp_id)}><VisibilityIcon />&nbsp; Retrieve</Button>
-                                        <Button type="submit" variant="contained" className="m-1" color="info" onClick={()=>editAssetAssigned(emp.emp_id)}> <VisibilityIcon />&nbsp;Update</Button>
+                                        <Button type="submit" variant="contained" className="m-1" color="info" onClick={()=>editAssetAssigned(emp.emp_id)}> <UpgradeIcon /> Update</Button>
                                     </td>
                                 </tr>
                             )

@@ -253,11 +253,11 @@ export default function EmployeeComponent() {
     assetList.map(asset => {
       
     })
-  }
+  }   
 
   var options =''
    if(id != -1 ) {
-     
+
     options =  assetList    
      .map((asset) =>  
         ({

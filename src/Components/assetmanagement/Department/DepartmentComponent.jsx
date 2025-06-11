@@ -10,19 +10,16 @@ export default function DepartmentComponent() {
     const {id} = useParams()
 
     const [btnValue,setBtnValue] = useState('Add Department')
- 
-    
+     
     const [dept_id,setDeptId] = useState('')
     const [dept_name,setDeptName] = useState('')
-
     
     const navigate = useNavigate()
     const [companies,setCompanies] = useState([])
 
-    useEffect(() => retrieveDepartmentById() ,[id] )
-    
-    function retrieveDepartmentById() { 
-        retrieveAllCompanies().then((response)=>{
+    useEffect(() => {
+     const retrieveDepartmentById = async() =>{
+        retrieveAllCompanies().then((response)=> {
             setCompanies(response.data)            
         })
         if(id != -1)
@@ -33,7 +30,26 @@ export default function DepartmentComponent() {
                 setDeptName(response.data.dept_name)    
            })
         }
+
+     } 
+    if(id) {
+        retrieveDepartmentById()
     }
+    }, [id])
+    
+    // function retrieveDepartmentById() { 
+    //     retrieveAllCompanies().then((response)=> {
+    //         setCompanies(response.data)            
+    //     })
+    //     if(id != -1)
+    //     {
+    //        setBtnValue('Update Department')
+    //        getDepartmentById(id).then((response) => {
+    //             setDeptId(response.data.dept_id)
+    //             setDeptName(response.data.dept_name)    
+    //        })
+    //     }
+    // }
 
     function validate(values) {
         let errors ={}

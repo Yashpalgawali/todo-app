@@ -18,28 +18,31 @@ export default function AssetComponent() {
     const navigate = useNavigate()
 
     useEffect(
-        ()=> retrieveAssetById() ,[id]
-    )
+        ()=> {
+            const retrieveAssetById = async ()=> {
+                getAllAssetTypes().then((response)=> setAssetTypes(response.data))
 
-    function retrieveAssetById() {
+                if(id != -1) {
+                    setBtnValue('Update Asset')
+                    getAssetById(id).then((response) => {
+                        setAssetName(response.data.asset_name)
+                        setAssetNumber(response.data.asset_number)
+                        setModelNumber(response.data.model_number)
+                        setQuantity(response.data.quantity)                 
+                    })
+                    .catch((error) => {
+                        sessionStorage.setItem('reserr' , error.response.data.errorMessage)
+                        navigate(`/viewassets`)
+                    })
+                 }
+            }
+            if(id) {
+                retrieveAssetById()
+            }
+        } , [id]
+    ) 
 
-        getAllAssetTypes().then((response)=> setAssetTypes(response.data))
-
-        if(id != -1) {
-            setBtnValue('Update Asset')
-            getAssetById(id).then((response) => {
-                setAssetName(response.data.asset_name)
-                setAssetNumber(response.data.asset_number)
-                setModelNumber(response.data.model_number)
-                setQuantity(response.data.quantity)                 
-            })
-            .catch((error) => {
-                sessionStorage.setItem('reserr' , error.response.data.errorMessage)
-                navigate(`/viewassets`)
-            })
-        }
-    }
-
+    
     function validate(values) {
         let errors={}
        

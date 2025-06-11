@@ -17,23 +17,27 @@ export default function AssetTypeComponent() {
     const navigate = useNavigate() 
 
     useEffect(
-        () => retrieveAssetTypes() , [id]
-    )
-
-    function retrieveAssetTypes() {
-        if(id != -1) {
-            setBtnValue('Update Asset Type')
-            getAssetTypeById(id).then((response)=> {
-                setAssetType({
-                    type_id : response.data.type_id,
-                    type_name : response.data.type_name
-                })
-            }).catch((error)=> {
-               sessionStorage.setItem('reserr',error.response.data.errorMessage)
-                navigate(`/viewassettypes`)
-            })
-        }
-    }
+        () => {
+            const retrieveAssetTypes = async () => {
+            if(id != -1) {
+                        setBtnValue('Update Asset Type')
+                        getAssetTypeById(id).then((response)=> {
+                            setAssetType({
+                                type_id : response.data.type_id,
+                                type_name : response.data.type_name
+                            })
+                        }).catch((error)=> {
+                        sessionStorage.setItem('reserr',error.response.data.errorMessage)
+                            navigate(`/viewassettypes`)
+                        })
+                    }
+            }
+            if(id) {
+                retrieveAssetTypes()
+            }
+    }, [id] )
+ 
+   
 
     function validate(values) {
         let errors = { }

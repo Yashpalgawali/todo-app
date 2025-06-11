@@ -5,37 +5,57 @@ import { ErrorMessage, Field, Formik,Form } from "formik"
 import { Button } from "@mui/material"
 
 export default function CompanyComponent () {
-    
+
     const {id} =  useParams()
     const [comp_name , setCompName] = useState('')
     const [comp_id ,setCompId] = useState('')
     const navigate = useNavigate()
-    
+
     const [btnValue, setBtnValue] = useState('Add Company')
-    
-    useEffect(()=> getCompanyById() , [id])
-   
-    function getCompanyById() {
-                 
-        if(id != -1) {
+
+    useEffect(()=> {
+        const getCompanyById = async() => {
+
+            if(id != -1) {
             setBtnValue('Update Company')         
             retrieveCompanyById(id).then((response) => {
                 setCompName(response.data.comp_name)
                 setCompId(response.data.comp_id)
             })
-            .catch((error)=>{
-                alert(error.response.data.errorMessage)
+            .catch((error)=> {
+ 
                 sessionStorage.setItem('reserr',error.response.data.errorMessage)
                 navigate(`/viewcompanies`)
-            }) 
-        }         
-    }
+            })
+        }
+        };
 
-      function onSubmit(values) {
+        if(id){
+            getCompanyById()
+        }
+    }, [id] ) 
+   
+    // function getCompanyById() {
+
+    //     if(id != -1) {
+    //         setBtnValue('Update Company')         
+    //         retrieveCompanyById(id).then((response) => {
+    //             setCompName(response.data.comp_name)
+    //             setCompId(response.data.comp_id)
+    //         })
+    //         .catch((error)=> {
+ 
+    //             sessionStorage.setItem('reserr',error.response.data.errorMessage)
+    //             navigate(`/viewcompanies`)
+    //         })
+    //     }         
+    // }
+
+    function onSubmit(values) {
             const company = {
                 comp_id : id , comp_name: values.comp_name
             }
-            
+
             if(id == -1) {  
                 createCompany(company)
                     .then((response)=> {
@@ -49,21 +69,20 @@ export default function CompanyComponent () {
             }
             else {
                 updateCompany(company)
-                    .then((response)=> { 
+                    .then((response)=> {
                         sessionStorage.setItem('response',response.data.statusMsg)
                         navigate('/viewcompanies')
                     })
-                    .catch((error) => {                      
+                    .catch((error) => {
                         sessionStorage.setItem('reserr',error.response.data.comp_name)
                         navigate('/viewcompanies')
                     })
             }
          }
-   
- 
+  
    function validate(values) {
-    let errors = {  }
-    
+    let errors = { }
+  
     if(values.comp_name.length<=3) {
         errors.comp_name = 'Please Enter at least 2 Characters'
     }
@@ -77,7 +96,7 @@ export default function CompanyComponent () {
             <Formik initialValues={ { comp_id,comp_name} }
                 enableReinitialize={true}
                 onSubmit={onSubmit}
-                // validate={validate}
+                validate={validate}
                 validateOnBlur={false}
                 validateOnChange={false}
             >

@@ -37,7 +37,7 @@ export default function LoginComponent() {
                         sessionStorage.clear()
                     }, 3000);
                 }
-        }
+        },[]
     )
 
     function handleUsernameChange(event) {
@@ -60,8 +60,8 @@ export default function LoginComponent() {
     return(
         <div className="container">
             <h1 className="text-center">Time To Login</h1>
-            { errorMessage && <div className="alert alert-warning"><strong>{errorMessage}</strong></div> }
-            { successMessage && <div className="alert alert-success"><strong>{successMessage}</strong></div> }
+            { errorMessage && <div className="alert alert-warning"   ><strong>{errorMessage}</strong></div> }
+            { successMessage && <div className="alert alert-success" style={{ width: '50ch' , margin: '0 auto' } } ><strong>{successMessage}</strong></div> }
 
              <Box
                 component="form"
@@ -76,8 +76,7 @@ export default function LoginComponent() {
                 component="form"
                 sx={{ '& > :not(style)': { m: 1, width: '50ch' } }}
                 noValidate
-                autoComplete="off"
-                
+                autoComplete="off"                
             >
                  <TextField id="outlined-basic" type="password" onChange={handlePasswordChange} label="Password" variant="outlined" />
             </Box>
