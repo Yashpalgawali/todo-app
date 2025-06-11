@@ -54,13 +54,7 @@ async function login(username, password) {
      }
     }
      catch (error) {
-        // toast.error('Server not reachable. Redirecting...', {
-        //         onClose: () => {
-        //           sessionStorage.setItem('reserr', 'Backend is unreachable. Please try again later.');
-        //           window.location.href = '/login';
-        //         },
-        //       });    
-        return false
+            return false
      }
 }
 
