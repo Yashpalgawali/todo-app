@@ -9,14 +9,18 @@ export default function DepartmentComponent() {
     
     const {id} = useParams()
 
-    const [btnValue,setBtnValue] = useState('Add Department')
-     
+    
+    const [btnValue,setBtnValue] = useState('Add Department')    
+    const [companies,setCompanies] = useState([])
     const [dept_id,setDeptId] = useState('')
     const [dept_name,setDeptName] = useState('')
-    
+    const [isDisabled, setIsDisabled] =  useState(false)
+    const [company,setCompany] = useState({
+        comp_id : '',
+        comp_name : ''
+    })
     const navigate = useNavigate()
-    const [companies,setCompanies] = useState([])
-
+    
     useEffect(() => {
      const retrieveDepartmentById = async() =>{
         retrieveAllCompanies().then((response)=> {
@@ -26,6 +30,8 @@ export default function DepartmentComponent() {
         {
            setBtnValue('Update Department')
            getDepartmentById(id).then((response) => {
+            console.log('Dept Obj ',response.data)
+                setCompany(response.data.company)
                 setDeptId(response.data.dept_id)
                 setDeptName(response.data.dept_name)    
            })
@@ -37,20 +43,7 @@ export default function DepartmentComponent() {
     }
     }, [id])
     
-    // function retrieveDepartmentById() { 
-    //     retrieveAllCompanies().then((response)=> {
-    //         setCompanies(response.data)            
-    //     })
-    //     if(id != -1)
-    //     {
-    //        setBtnValue('Update Department')
-    //        getDepartmentById(id).then((response) => {
-    //             setDeptId(response.data.dept_id)
-    //             setDeptName(response.data.dept_name)    
-    //        })
-    //     }
-    // }
-
+     
     function validate(values) {
         let errors ={}
         if(values.dept_name.length <=1 ) {
@@ -60,8 +53,13 @@ export default function DepartmentComponent() {
     }
  
     function onSubmit(values) {
-        
+        setIsDisabled(true)
+        setTimeout(() => {
+            setIsDisabled(false)
+        }, 2000);
+
         retrieveCompanyById(values.companies).then((response) => {
+            
              const compObj = {
                 comp_id   : response.data.comp_id,
                 comp_name : response.data.comp_name
@@ -78,7 +76,11 @@ export default function DepartmentComponent() {
                     navigate(`/viewdepartments`)
                 })
             }
-            else {                    
+            else { 
+                    if(dept.company.comp_id==null || dept.company.comp_id=='') {
+                        dept.company = company
+                    }
+                    
                     updateDepartment(dept).then((response)=> {
                         sessionStorage.setItem('response',response.data.statusMsg)
                         navigate(`/viewdepartments`)
@@ -125,7 +127,7 @@ export default function DepartmentComponent() {
                             <ErrorMessage  component="div" className="alert alert-warning" name="dept_name"/>
                         </fieldset>
                             <div>
-                                <Button type="submit" variant="contained" color="primary" className="m-3">{btnValue}</Button>    
+                                <Button type="submit" disabled={isDisabled} id="submit" variant="contained" color="primary" className="m-3">{btnValue}</Button>    
                             </div>
                         </Form>
                     )

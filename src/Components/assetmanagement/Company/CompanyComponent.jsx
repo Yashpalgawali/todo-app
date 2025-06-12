@@ -10,20 +10,19 @@ export default function CompanyComponent () {
     const [comp_name , setCompName] = useState('')
     const [comp_id ,setCompId] = useState('')
     const navigate = useNavigate()
-
+    const [isDisabled, setIsDisabled] = useState(false)
     const [btnValue, setBtnValue] = useState('Add Company')
 
     useEffect(()=> {
         const getCompanyById = async() => {
-
+             
             if(id != -1) {
             setBtnValue('Update Company')         
             retrieveCompanyById(id).then((response) => {
                 setCompName(response.data.comp_name)
                 setCompId(response.data.comp_id)
             })
-            .catch((error)=> {
- 
+            .catch((error)=> { 
                 sessionStorage.setItem('reserr',error.response.data.errorMessage)
                 navigate(`/viewcompanies`)
             })
@@ -34,29 +33,19 @@ export default function CompanyComponent () {
             getCompanyById()
         }
     }, [id] ) 
-   
-    // function getCompanyById() {
-
-    //     if(id != -1) {
-    //         setBtnValue('Update Company')         
-    //         retrieveCompanyById(id).then((response) => {
-    //             setCompName(response.data.comp_name)
-    //             setCompId(response.data.comp_id)
-    //         })
-    //         .catch((error)=> {
- 
-    //             sessionStorage.setItem('reserr',error.response.data.errorMessage)
-    //             navigate(`/viewcompanies`)
-    //         })
-    //     }         
-    // }
+       
 
     function onSubmit(values) {
+        setIsDisabled(true)
             const company = {
                 comp_id : id , comp_name: values.comp_name
             }
 
-            if(id == -1) {  
+            setTimeout(() => {
+                setIsDisabled(false)
+            }, 1000);
+
+            if(id == -1) {
                 createCompany(company)
                     .then((response)=> {
                         sessionStorage.setItem('response',response.data.statusMsg)
@@ -81,13 +70,13 @@ export default function CompanyComponent () {
          }
   
    function validate(values) {
-    let errors = { }
+        let errors = { }
   
-    if(values.comp_name.length<=3) {
-        errors.comp_name = 'Please Enter at least 2 Characters'
-    }
+        if(values.comp_name.length<=3) {
+            errors.comp_name = 'Please Enter at least 2 Characters'
+        }
 
-    return errors
+        return errors
    }
 
      return (
@@ -110,7 +99,7 @@ export default function CompanyComponent () {
                         </fieldset>
  
                         <div>
-                            <Button type="submit" variant="contained" color="primary" className="m-3">{btnValue}</Button>
+                            <Button type="submit" disabled={isDisabled} variant="contained" color="primary" className="m-3">{btnValue}</Button>
                         </div>
                     </Form>
                 )

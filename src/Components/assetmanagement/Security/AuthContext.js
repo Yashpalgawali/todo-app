@@ -67,7 +67,7 @@ async function logout() {
     setUsername(null)
       // Clear storage
     localStorage.clear();
-    
+ 
     return true
 }
 

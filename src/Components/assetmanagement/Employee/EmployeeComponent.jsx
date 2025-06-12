@@ -60,7 +60,7 @@ export default function EmployeeComponent() {
 
   const [assignedAssetsList,setAssignedAssetsList] = useState([])
    
-  const { id } = useParams();
+  const { id } = useParams()
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -81,10 +81,13 @@ export default function EmployeeComponent() {
      
        getAssignedAssetsByEmployeeId(id).then((response) => { alert('data found')
         const assignedAssetsData = response.data;
+        console.log('Assigned data found',assignedAssetsData)
+        var assetids =''
         response.data.map((response)=>{
+          
           setAssignedAssetsList(response.asset)
         })
-       console.log('Response is ',assignedAssetsData)
+        
         if (assignedAssetsData.length > 0) {
           setEmpName(assignedAssetsData[0].employee.emp_name);
           setEmpContact(assignedAssetsData[0].employee.emp_contact)
@@ -152,9 +155,9 @@ export default function EmployeeComponent() {
       setIsDisabled(false);
     }, 5000); // 5000 milliseconds = 5 seconds
 
-    let designation = {desig_id : values.designation , desig_name : ''} 
-    let department = {dept_id : values.department , dept_name : ''}
-    values.department = department
+    let designation = { desig_id : values.designation , desig_name : '' } 
+    let department = { dept_id : values.department , dept_name : '' }
+    values.department  = department
     values.designation = designation
 
     let employee = {
@@ -170,7 +173,7 @@ export default function EmployeeComponent() {
   if(id == -1)
   {      
       saveEmployee(employee).then((response)=> {
-        sessionStorage.setItem('response','Employee '+employee.emp_name+' is saved successfully')
+        sessionStorage.setItem('response','Employee '+employee.emp_name+' is Saved Successfully')
         navigate('/viewemployees')
       }).catch((error)=>{
         sessionStorage.setItem('reserr','Employee '+employee.emp_name+' is not saved ')

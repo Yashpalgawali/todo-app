@@ -1,7 +1,6 @@
 import { Link, useParams } from "react-router-dom"
-import axios from 'axios'
 import { useState } from "react"
-import { retrieveHelloWorldBean ,retrieveHelloWorldBeanPathVariable} from "./api/HelloWorldApiService"
+import { retrieveHelloWorldBeanPathVariable} from "./api/HelloWorldApiService"
 import { useAuth } from "./Security/AuthContext"
 
 export default function WelcomeComponent() {

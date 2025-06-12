@@ -69,8 +69,8 @@ export default function ViewAssignedAssets () {
                 <Button variant='contained' style={ { float : 'right' } } color='primary' onClick={exportAssignedAssets}><Tooltip title="Download Assigned Assets" arrow placement="bottom" enterDelay={10} leaveDelay={300}><FileDownloadIcon /> Export </Tooltip> </Button>
             </h2>
             <>
-            {successMessage && <div className="alert alert-success">{successMessage}</div> }
-            {errorMessage && <div className="alert alert-warning">{errorMessage}</div> }
+            {successMessage && <div className="alert alert-success"><strong> {successMessage} </strong></div> }
+            {errorMessage && <div className="alert alert-warning"><strong>{errorMessage}</strong> </div> }
             </>
              <DataTable 
                 data={assetlist}
